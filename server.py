@@ -4,11 +4,15 @@ import connection
 app = Flask(__name__)
 
 
+@app.route("/add-question")
+def add_question():
+    return render_template('add-question.html')
 
 
 @app.route("/question/<question_id>")
 def question(question_id):
     return render_template('question.html')
+
 
 @app.route("/list")
 @app.route("/")
