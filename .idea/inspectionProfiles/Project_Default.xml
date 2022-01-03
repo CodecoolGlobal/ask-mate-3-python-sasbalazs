@@ -5,6 +5,7 @@
       <option name="ignoredPackages">
         <value>
 <<<<<<< HEAD
+<<<<<<< HEAD
           <list size="6">
             <item index="0" class="java.lang.String" itemvalue="Werkzeug" />
             <item index="1" class="java.lang.String" itemvalue="MarkupSafe" />
@@ -13,10 +14,15 @@
             <item index="4" class="java.lang.String" itemvalue="Jinja2" />
             <item index="5" class="java.lang.String" itemvalue="Flask" />
 =======
+=======
+>>>>>>> 19e20813c1c94091229e7744467f813718221679
           <list size="3">
             <item index="0" class="java.lang.String" itemvalue="requests" />
             <item index="1" class="java.lang.String" itemvalue="urllib3" />
             <item index="2" class="java.lang.String" itemvalue="idna" />
+<<<<<<< HEAD
+>>>>>>> 19e20813c1c94091229e7744467f813718221679
+=======
 >>>>>>> 19e20813c1c94091229e7744467f813718221679
           </list>
         </value>
