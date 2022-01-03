@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Question list</title>
+</head>
+<body>
+    <h1>Question list</h1>
+        <p>
+        <a href="/add-question">Add question</a>
+    </p>
+    <p>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Submission time</th>
+                <th>View number</th>
+                <th>Vote number</th>
+                <th>Title</th>
+                <th>Message</th>
+                <th>Image</th>
+            </tr>
+            {% for line in questions %}
+                <tr>
+                    <td>{{ line['id'] }}</td>
+                    <td>{{ line['submission_time'] }}</td>
+                    <td>{{ line['view_number'] }}</td>
+                    <td>{{ line['vote_number'] }} points</td>
+                    <td>  <a href= 'questions/{{line['id'] }}'</a> {{line['title']}}</td>
+                    <td>{{ line['message'] }}</td>
+                    <td>{{ line['image'] }}</td>
+                 </tr>
+            {% endfor %}
+        </table>
+    </p>
+
+
+</body>
+</html>
