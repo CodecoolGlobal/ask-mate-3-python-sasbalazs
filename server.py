@@ -4,9 +4,15 @@ import connection
 app = Flask(__name__)
 
 
+
+
+@app.route("/question/<question_id>")
+def question(question_id):
+    return render_template('question.html')
+
 @app.route("/list")
 @app.route("/")
-def list():
+def list_page():
     questions = connection.import_data("sample_data/question.csv")
     answers = connection.import_data("sample_data/answer.csv")
     return render_template('list.html', questions=questions, answers=answers)
