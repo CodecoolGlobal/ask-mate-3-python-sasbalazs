@@ -8,9 +8,14 @@
     <h1>Question</h1>
     <h2>{% if question_to_render['id'] %}<div>{{ question_to_render['title'] }}</div>{% endif %}</h2>
     <h3>{% if question_to_render['id'] %}<div>{{ question_to_render['message'] }}</div>{% endif %}</h3>
-        {% if answers_to_render['question_id'] %}<div>{{ answers_to_render['message'] }}</div>{% endif %}
-
-
+        {% for answer in answers_to_render %}
+        {% if answer['question_id'] %}<div>{{ answer['message'] }}</div>{% endif %}
+        {% endfor %}
+    <br>
+    <div> <a href="{{route}}"</a>Post new answer</div>
+    <br>
+    <div> <a href="/list"</a>Back</div>
+    <br>
 
 </body>
 </html>

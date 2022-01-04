@@ -34,6 +34,7 @@ def add_question():
 @app.route("/question/<question_id>")
 def question(question_id):
     route = url_for("post_new_answer", question_id=question_id)
+    answers = connection.import_data("sample_data/answer.csv")
     question_to_render, answers_to_render = data_manager.get_answer_questions(question_id)
     return render_template('question.html', question_to_render=question_to_render,
                            answers_to_render=answers_to_render, route=route)

@@ -27,12 +27,12 @@ def sorting_by_time(data):
 def get_answer_questions(question_id):
     questions = connection.import_data("sample_data/question.csv")
     answers = connection.import_data("sample_data/answer.csv")
-    question_to_render = {}
-    answers_to_render = {}
+    question_to_render = []
+    answers_to_render = []
     for line in questions:
         if question_id == line['id']:
             question_to_render = line
-            for answer in answers:
-                if question_id == answer['question_id']:
-                    answers_to_render = answer
+    for answer in answers:
+        if question_id == answer['question_id']:
+            answers_to_render.append(answer)
     return question_to_render, answers_to_render
