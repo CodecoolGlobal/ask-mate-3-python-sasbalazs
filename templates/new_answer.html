@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Post answer</title>
+</head>
+<body>
+     <h1>{{question_to_render["title"]}}</h1>
+    <form action="{{route}}" method='POST'>
+        <p>
+            <label for="new_answer-input">Your answer:</label>
+            <br>
+            <textarea id="new_answer-input" name="new_answer" rows="4" cols="60">Type your answer here...</textarea>
+            <br>
+        </p>
+
+        <button type="submit">Add new answer</button>
+    </form>
+</body>
+</html>
