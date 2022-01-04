@@ -48,7 +48,6 @@ def list_page():
     if request.method == 'POST':
         order_by = request.form.get('order_by')
         order_direction = request.form.get('order_direction')
-        print(order_by)
         if order_by == 'Title' and order_direction == 'ascending':
             questions = sorted(questions, key=lambda questions: questions['title'])
         if order_by == 'Title' and order_direction == 'descending':
