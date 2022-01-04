@@ -20,7 +20,7 @@ def post_new_answer(question_id):
         new_answer['vote_number'] = 0
         new_answer['question_id'] = question_id
         new_answer['message'] = request.form['new_answer']
-        new_answer['image'] = 0
+        new_answer['image'] = None
         answers.append(new_answer)
         connection.export_data(answers, 'sample_data/answer.csv')
         return redirect(url_for("question", question_id=question_id))

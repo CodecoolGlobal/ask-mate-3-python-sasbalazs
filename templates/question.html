@@ -6,41 +6,21 @@
 </head>
 <body>
     <h1>Question</h1>
-<<<<<<< HEAD
-        <br>
-    <h3>{% if question_to_render['id'] %}<div>{{ question_to_render['title'] }}</div>{% endif %}</h3>
-    <p>{% if question_to_render['id'] %}<div>{{ question_to_render['message'] }}</div>{% endif %}</p>
-    {% if question_to_render['image'] %}
-    <img src="question_to_render['image']" alt="Question_image" width="500" height="600">
-    {% endif %}
-    <br>
-    {% if answers_to_render %}
-    <h2>Answer</h2>
-    {% endif %}
-    {% for answer in answers %}
-
-        {% if answer['question_id'] == question_to_render['id']%}
-
-
-                <div>{{ answer['message'] }}</div>
-        {% endif %}
-    {% endfor %}
-
-
-
-
-=======
     <h2>{% if question_to_render['id'] %}<div>{{ question_to_render['title'] }}</div>{% endif %}</h2>
-    <h3>{% if question_to_render['id'] %}<div>{{ question_to_render['message'] }}</div>{% endif %}</h3>
+    <p>{% if question_to_render['id'] %}<div>{{ question_to_render['message'] }}</div>{% endif %}</p>
+        {% if question_to_render['image'] %}
+        <img src="question_to_render['image']" alt="Question_image" width="500" height="600">
+        {% endif %}
+        {% if answers_to_render %}
+        <h2>Answers</h2>
+        {% endif %}
         {% for answer in answers_to_render %}
         {% if answer['question_id'] %}<div>{{ answer['message'] }}</div>{% endif %}
         {% endfor %}
     <br>
     <div> <a href="{{route}}"</a>Post new answer</div>
     <br>
-    <div> <a href="/list"</a>Back</div>
+    <div> <a href="/list"</a>Back to the main page</div>
     <br>
->>>>>>> d38567eb648c2c98d5540913b5793e5a825605a1
-
 </body>
 </html>
