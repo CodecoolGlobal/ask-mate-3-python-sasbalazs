@@ -4,6 +4,7 @@ DATA_HEADER_QUESTION = ["id","submission_time","view_number","vote_number","titl
 DATA_HEADER_ANSWER = ["id","submission_time","vote_number","question_id","message","image"]
 
 
+<<<<<<< HEAD
 def import_data(filename):
     with open(filename, 'r', encoding='utf-8') as file:
         reader = csv.DictReader(file)
@@ -11,6 +12,8 @@ def import_data(filename):
     return data
 
 
+=======
+>>>>>>> d38567eb648c2c98d5540913b5793e5a825605a1
 def export_data(data, filename):
     if filename == 'sample_data/answer.csv':
         data_header = DATA_HEADER_ANSWER
