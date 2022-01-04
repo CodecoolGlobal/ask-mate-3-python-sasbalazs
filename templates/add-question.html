@@ -6,22 +6,17 @@
 </head>
 <body>
     <h1>Add question</h1><br>
-    <form action="add_question" method="post">
-        <label>Submission_time:<br>
-            <input type="text" minlength="5" name="submission_time" required>
-        </label>
-        <br><br>
-        <label>Vote number:<br>
-            <textarea rows="4" cols="50" name="vote_number" required></textarea>
+    <form action="/display_question" method="post">
+        <label>Title:<br>
+            <input type="text" minlength="5" name="title" required>
         </label>
         <br><br>
         <label>Message:<br>
             <textarea rows="4" cols="50" name="message" required></textarea>
         </label>
         <br><br>
-        <label>Image:<br>
-            <input type="text" minlength="5" name="storytitle" required>
-        </label>
+        <input type="file" name="image" accept="image/png, image/jpeg">
+
         <br><br>
         <input type="submit" value="Add new Question">
     </form>

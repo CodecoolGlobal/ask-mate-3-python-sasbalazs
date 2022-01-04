@@ -26,8 +26,8 @@
                     <td>{{ line['submission_time'] }}</td>
                     <td>{{ line['view_number'] }}</td>
                     <td>{{ line['vote_number'] }} points</td>
-                    <td> <a href="/question/{{ line['id'] }}"</a>{{line['title']}}</td>
-                    <td>{{ line['message'] }}</td>
+                    <td><a href="/question/{{ line['id'] }}">{{line['title']}}</a></td>
+                    <td  style="width:500px">{{ line['message'] }}</td>
                     <td>{{ line['image'] }}</td>
                  </tr>
             {% endfor %}

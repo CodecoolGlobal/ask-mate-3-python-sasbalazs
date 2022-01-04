@@ -6,9 +6,26 @@
 </head>
 <body>
     <h1>Question</h1>
-    <h2>{% if question_to_render['id'] %}<div>{{ question_to_render['title'] }}</div>{% endif %}</h2>
-    <h3>{% if question_to_render['id'] %}<div>{{ question_to_render['message'] }}</div>{% endif %}</h3>
-        {% if answers_to_render['question_id'] %}<div>{{ answers_to_render['message'] }}</div>{% endif %}
+        <br>
+    <h3>{% if question_to_render['id'] %}<div>{{ question_to_render['title'] }}</div>{% endif %}</h3>
+    <p>{% if question_to_render['id'] %}<div>{{ question_to_render['message'] }}</div>{% endif %}</p>
+    {% if question_to_render['image'] %}
+    <img src="question_to_render['image']" alt="Question_image" width="500" height="600">
+    {% endif %}
+    <br>
+    {% if answers_to_render %}
+    <h2>Answer</h2>
+    {% endif %}
+    {% for answer in answers %}
+
+        {% if answer['question_id'] == question_to_render['id']%}
+
+
+                <div>{{ answer['message'] }}</div>
+        {% endif %}
+    {% endfor %}
+
+
 
 
 

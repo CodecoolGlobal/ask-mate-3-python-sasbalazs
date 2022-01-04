@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Question</title>
+</head>
+<body>
+    <h1>Question</h1>
+    <h3>{{ new_question['title'] }}</h3>
+    <p>{{ new_question['message'] }}</p>
+    {% if new_question['image'] %}
+    <img src="question_to_render['image']" alt="Question_image" width="500" height="600">
+    {% endif %}
+    <a href="/list">Back to the main page</a>
+
+
+</body>
+</html>
