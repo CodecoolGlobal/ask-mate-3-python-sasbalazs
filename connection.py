@@ -1,6 +1,8 @@
 import csv
 
-DATA_HEADER = ["id","submission_time","view_number","vote_number","title","message","image"]
+DATA_HEADER_QUESTION = ["id","submission_time","view_number","vote_number","title","message","image"]
+DATA_HEADER_ANSWER = ["id","submission_time","vote_number","question_id","message","image"]
+
 
 
 def export_data(data, filename):
@@ -17,4 +19,6 @@ def import_data(filename):
         reader = csv.DictReader(file)
         data = [row for row in reader]
     return data
+
+
 

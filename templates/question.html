@@ -6,6 +6,11 @@
 </head>
 <body>
     <h1>Question</h1>
+    <h2>{% if question_to_render['id'] %}<div>{{ question_to_render['title'] }}</div>{% endif %}</h2>
+    <h3>{% if question_to_render['id'] %}<div>{{ question_to_render['message'] }}</div>{% endif %}</h3>
+        {% if answers_to_render['question_id'] %}<div>{{ answers_to_render['message'] }}</div>{% endif %}
+
+
 
 </body>
 </html>
