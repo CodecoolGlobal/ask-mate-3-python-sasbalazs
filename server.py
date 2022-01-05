@@ -5,34 +5,6 @@ import data_manager
 app = Flask(__name__)
 
 
-@app.route("/answer/<answer_id>/vote_up", methods=["GET"])
-def vote_up(answer_id):
-    if request.method == 'GET':
-        answers = connection.import_data("sample_data/answer.csv")
-        for answer in answers:
-            if answer["id"] == answer_id:
-                vote_up = int(answer["vote_number"])
-                vote_up += 1
-                answer["vote_number"] = vote_up
-                question_id = answer["question_id"]
-        connection.export_data(answers, 'sample_data/answer.csv')
-        return redirect(url_for("question", question_id=question_id))
-
-
-@app.route("/answer/<answer_id>/vote_down", methods=["GET"])
-def vote_down(answer_id):
-    if request.method == 'GET':
-        answers = connection.import_data("sample_data/answer.csv")
-        for answer in answers:
-            if answer["id"] == answer_id:
-                vote_down = int(answer["vote_number"])
-                vote_down -= 1
-                answer["vote_number"] = vote_down
-                question_id = answer["question_id"]
-        connection.export_data(answers, 'sample_data/answer.csv')
-        return redirect(url_for("question", question_id=question_id))
-
-
 @app.route("/question/<question_id>/new-answer", methods= ['GET', 'POST'])
 def post_new_answer(question_id):
     if request.method == 'GET':
@@ -128,9 +100,6 @@ def display_question():
         return render_template('/display_added_question.html', new_question=new_question)
 
 
-
-
-
 @app.route("/rewrite_one_question", methods=['GET', 'POST'])
 def rewrite_one_question():
     edited_question = {}
@@ -167,8 +136,6 @@ def rewrite_one_question():
         connection.export_data(questions, 'sample_data/question.csv')
         questions = connection.import_data('sample_data/question.csv')
         return render_template('list.html', questions=questions)
-
-
 
 
 @app.route("/list", methods=['GET', 'POST'])
