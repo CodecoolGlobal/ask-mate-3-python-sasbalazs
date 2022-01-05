@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Question</title>
+</head>
+<body>
+    <h1>Edit question</h1><br>
+    <form action="/rewrite_one_question" method="post">
+        <input type="hidden" id="postId" name="id" value={{ question_to_edit.id }}>
+        <input type="hidden" id="submission" name="submission_time" value="{{ question_to_edit.submission_time }}">
+        <input type="hidden" id="view" name="view_number" value="{{ question_to_edit.view_number }}">
+        <input type="hidden" id="vote" name="vote_number" value="{{ question_to_edit.vote }}">
+        <label for="input-title">Title:</label><br>
+        <input id="input-title" type="text" minlength="5" name="title" value="{{ question_to_edit.title }}" required>
+        <br><br>
+        <label for="message">Message:</label><br>
+        <textarea id="message" rows="4" cols="50" name="message" required>{{ question_to_edit.message }}</textarea>
+        <br><br>
+        <label for="image">Edit with click on image</label><br>
+        <input id="image" type="file" name="image" accept="image/png, image/jpeg">
+        <br><br>
+        <input type="submit" value="Edit Question">
+    </form>
+
+    <a href="/list">Back to the main page</a>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

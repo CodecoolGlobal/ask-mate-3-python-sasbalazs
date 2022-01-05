@@ -5,10 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8726d10c-82b6-4cad-acb9-d9d6ea726a3d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/display_question_to_edit.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/connection.py" beforeDir="false" afterPath="$PROJECT_DIR$/connection.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sample_data/answer.csv" beforeDir="false" afterPath="$PROJECT_DIR$/sample_data/answer.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sample_data/question.csv" beforeDir="false" afterPath="$PROJECT_DIR$/sample_data/question.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/server.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/add-question.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/add-question.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/new_answer.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/new_answer.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/question.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/question.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

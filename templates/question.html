@@ -11,16 +11,19 @@
         {% if question_to_render['image'] %}
         <img src="question_to_render['image']" alt="Question_image" width="500" height="600">
         {% endif %}
+    <div> <a href="/edit_question/{{ question_to_render['id'] }}">Edit a question</a></div>
+    <br>
         {% if answers_to_render %}
         <h2>Answers</h2>
         {% endif %}
         {% for answer in answers_to_render %}
         {% if answer['question_id'] %}<div>{{ answer['message'] }}</div>{% endif %}
         {% endfor %}
+
     <br>
-    <div> <a href="{{route}}"</a>Post new answer</div>
+    <div> <a href="{{route}}">Post new answer</a></div>
     <br>
-    <div> <a href="/list"</a>Back to the main page</div>
+    <div> <a href="/list">Back to the main page</a></div>
     <br>
 </body>
 </html>
