@@ -5,6 +5,44 @@ import data_manager
 app = Flask(__name__)
 
 
+@app.route("/question/<question_id>/delete")
+def delete_question(question_id):
+    answers = connection.import_data("sample_data/answer.csv")
+    questions = connection.import_data("sample_data/question.csv")
+    res_answers = [answer for answer in answers if answer["question_id"] != question_id ]
+    print(questions)
+    res_questions = [question for question in questions if question["id"] != question_id]
+    connection.export_data(res_answers, 'sample_data/answer.csv')
+    connection.export_data(res_questions, 'sample_data/question.csv')
+    return redirect("/")
+
+
+@app.route("/answer/<answer_id>/vote_up")
+def vote_up_answer(answer_id):
+    answers = connection.import_data("sample_data/answer.csv")
+    for answer in answers:
+        if answer["id"] == answer_id:
+            vote_up = int(answer["vote_number"])
+            vote_up += 1
+            answer["vote_number"] = vote_up
+            question_id = answer["question_id"]
+    connection.export_data(answers, 'sample_data/answer.csv')
+    return redirect(url_for("question", question_id=question_id))
+
+
+@app.route("/answer/<answer_id>/vote_down")
+def vote_down_answer(answer_id):
+    answers = connection.import_data("sample_data/answer.csv")
+    for answer in answers:
+        if answer["id"] == answer_id:
+            vote_down = int(answer["vote_number"])
+            vote_down -= 1
+            answer["vote_number"] = vote_down
+            question_id = answer["question_id"]
+    connection.export_data(answers, 'sample_data/answer.csv')
+    return redirect(url_for("question", question_id=question_id))
+
+
 @app.route("/question/<question_id>/new-answer", methods= ['GET', 'POST'])
 def post_new_answer(question_id):
     if request.method == 'GET':
@@ -33,6 +71,7 @@ def post_new_answer(question_id):
 def add_question():
     return render_template('add-question.html')
 
+<<<<<<< HEAD
 @app.route("/delete_answer/<answer_id>")
 def delete_answer(answer_id):
     answers = connection.import_data("sample_data/answer.csv")
@@ -48,6 +87,8 @@ def delete_answer(answer_id):
     question_to_render, answers_to_render = data_manager.get_answer_questions(question_id)
     return render_template('question.html', question_to_render=question_to_render,
                            answers_to_render=answers_to_render, route=route)
+=======
+>>>>>>> 9d046a327d5dd646f1b6c89b9707107a833dbbaf
 
 @app.route("/question/<question_id>")
 def question(question_id):
@@ -93,9 +134,6 @@ def display_question():
         return render_template('/display_added_question.html', new_question=new_question)
 
 
-
-
-
 @app.route("/rewrite_one_question", methods=['GET', 'POST'])
 def rewrite_one_question():
     edited_question = {}
@@ -134,8 +172,6 @@ def rewrite_one_question():
         return render_template('list.html', questions=questions)
 
 
-
-
 @app.route("/list", methods=['GET', 'POST'])
 @app.route("/")
 def list_page():
@@ -166,6 +202,33 @@ def list_page():
             questions = sorted(questions, key=lambda questions: int(questions['vote_number']), reverse=True)
     return render_template('list.html', questions=questions, answers=answers)
 
+
+@app.route("/question/<question_id>/vote_up", methods=['GET'])
+def vote_up(question_id):
+    questions = connection.import_data("sample_data/question.csv")
+    route = url_for("post_new_answer", question_id=question_id)
+    if request.method == 'GET':
+        index = int(question_id) - 1
+        line = questions[index]
+        change = int(line['vote_number']) + 1
+        questions[index]['vote_number'] = str(change)
+        connection.export_data(questions, 'sample_data/question.csv')
+        return redirect('/list')
+    return render_template('vote_up.html', route=route)
+
+
+@app.route("/question/<question_id>/vote_down", methods=['GET'])
+def vote_down(question_id):
+    questions = connection.import_data("sample_data/question.csv")
+    route = url_for("post_new_answer", question_id=question_id)
+    if request.method == 'GET':
+        index = int(question_id) - 1
+        line = questions[index]
+        change = int(line['vote_number']) - 1
+        questions[index]['vote_number'] = str(change)
+        connection.export_data(questions, 'sample_data/question.csv')
+        return redirect('/list')
+    return render_template('vote_down.html', route=route)
 
 
 if __name__ == "__main__":

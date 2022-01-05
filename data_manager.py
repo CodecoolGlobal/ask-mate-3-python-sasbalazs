@@ -20,10 +20,6 @@ def convert_to_date(timestamp):
     return data
 
 
-def sorting_by_time(data):
-    pass
-
-
 def get_answer_questions(question_id):
     questions = connection.import_data("sample_data/question.csv")
     answers = connection.import_data("sample_data/answer.csv")
