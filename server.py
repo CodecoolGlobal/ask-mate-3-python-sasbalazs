@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 
 @app.route("/answer/<answer_id>/vote_up", methods=["GET"])
-def vote_up(answer_id):
+def vote_up_answer(answer_id):
     if request.method == 'GET':
         answers = connection.import_data("sample_data/answer.csv")
         for answer in answers:
@@ -20,7 +20,7 @@ def vote_up(answer_id):
 
 
 @app.route("/answer/<answer_id>/vote_down", methods=["GET"])
-def vote_down(answer_id):
+def vote_down_answer(answer_id):
     if request.method == 'GET':
         answers = connection.import_data("sample_data/answer.csv")
         for answer in answers:
@@ -57,31 +57,6 @@ def post_new_answer(question_id):
 @app.route("/add-question")
 def add_question():
     return render_template('add-question.html')
-
-# @app.route('/display_question', methods=['POST'])
-# def display_question():
-#     new_question = {}
-#     counter = len(connection.import_data('sample_data/question.csv'))+1
-#     if request.method == 'POST':
-#         id = counter
-#         new_question['id'] = str(id)
-#         submission_time = data_manager.get_unixtime()
-#         new_question['submission_time'] = submission_time
-#         new_question['view_number'] = 0
-#         new_question['vote_number'] = 0
-#         title = request.form['title']
-#         new_question['title'] = title
-#         message = request.form['message']
-#         new_question['message'] = message
-#         image = request.form['image']
-#         if image:
-#             new_question['image'] = image
-#         new_question['image'] = None
-#
-#         questions = connection.import_data('sample_data/question.csv')
-#         questions.append(new_question)
-#         connection.export_data(questions, 'sample_data/question.csv')
-#         return render_template('/display_added_question.html', new_question=new_question)
 
 
 @app.route("/question/<question_id>")
@@ -128,9 +103,6 @@ def display_question():
         return render_template('/display_added_question.html', new_question=new_question)
 
 
-
-
-
 @app.route("/rewrite_one_question", methods=['GET', 'POST'])
 def rewrite_one_question():
     edited_question = {}
@@ -167,8 +139,6 @@ def rewrite_one_question():
         connection.export_data(questions, 'sample_data/question.csv')
         questions = connection.import_data('sample_data/question.csv')
         return render_template('list.html', questions=questions)
-
-
 
 
 @app.route("/list", methods=['GET', 'POST'])
