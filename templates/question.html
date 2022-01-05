@@ -12,6 +12,7 @@
         <img src="question_to_render['image']" alt="Question_image" width="500" height="600">
         {% endif %}
     <div> <a href="/edit_question/{{ question_to_render['id'] }}">Edit a question</a></div>
+    <div> <a href="/question/{{ question_to_render['id'] }}/delete">Delete a question</a></div>
     <br>
         {% if answers_to_render %}
         <h2>Answers</h2>
@@ -21,10 +22,10 @@
         <div>
             <table >
                  <tr>
-                     <td style="width:50px">{{ answer['vote_number'] }}</td>
+                     <td style="width:80px">Vote: {{ answer['vote_number'] }}</td>
                      <td style="width:600px">{{ answer['message'] }}</td>
-                     <td style="width:100px">  <a href= '/answer/{{answer['id']}}/vote_up'</a> Vote Up </td>
-                     <td style="width:100px">  <a href= '/answer/{{answer['id']}}/vote_down'</a> Vote Down </td>
+                     <td style="width:100px">  <a href= '/answer/{{answer["id"]}}/vote_up'></a> Vote Up </td>
+                     <td style="width:100px">  <a href= '/answer/{{answer["id"]}}/vote_down'></a> Vote Down </td>
                  </tr>
             </table>
         </div>
