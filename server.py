@@ -74,9 +74,9 @@ def list_page():
         order_by = request.form.get('order_by')
         order_direction = request.form.get('order_direction')
         if order_by == 'Title' and order_direction == 'ascending':
-            questions = sorted(questions, key=lambda questions: questions['title'])
+            questions = sorted(questions, key=lambda questions: questions['title'].upper())
         if order_by == 'Title' and order_direction == 'descending':
-            questions = sorted(questions, key=lambda questions: questions['title'], reverse=True)
+            questions = sorted(questions, key=lambda questions: questions['title'].upper(), reverse=True)
         if order_by == 'Number of views' and order_direction == 'ascending':
             questions = sorted(questions, key=lambda questions: int(questions['view_number']))
         if order_by == 'Number of views' and order_direction == 'descending':
