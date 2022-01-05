@@ -32,3 +32,5 @@ def get_answer_questions(question_id):
         if question_id == answer['question_id']:
             answers_to_render.append(answer)
     return question_to_render, answers_to_render
+
+

@@ -9,12 +9,28 @@ app = Flask(__name__)
 def delete_question(question_id):
     answers = connection.import_data("sample_data/answer.csv")
     questions = connection.import_data("sample_data/question.csv")
-    res_answers = [answer for answer in answers if answer["question_id"] != question_id ]
-    print(questions)
+    res_answers = [answer for answer in answers if answer["question_id"] != question_id]
     res_questions = [question for question in questions if question["id"] != question_id]
     connection.export_data(res_answers, 'sample_data/answer.csv')
     connection.export_data(res_questions, 'sample_data/question.csv')
     return redirect("/")
+
+
+@app.route("/answer/<answer_id>/delete")
+def delete_answer(answer_id):
+    answers_without_deleted = []
+    answers = connection.import_data("sample_data/answer.csv")
+    for answer in answers:
+        if answer['id'] != answer_id:
+            answers_without_deleted.append(answer)
+        else:
+            question_id = answer['question_id']
+    connection.export_data(answers_without_deleted, "sample_data/answer.csv")
+    route = url_for("post_new_answer", question_id=question_id)
+    question_to_render, answers_to_render = data_manager.get_answer_questions(question_id)
+    return render_template('question.html', question_to_render=question_to_render,
+                           answers_to_render=answers_to_render, route=route)
+
 
 
 @app.route("/answer/<answer_id>/vote_up")
@@ -53,7 +69,6 @@ def post_new_answer(question_id):
     elif request.method == 'POST':
         answers = connection.import_data("sample_data/answer.csv")
         new_answer = {}
-        #new_answer['id'] = data_manager.get_id(answers)
         last_element = answers[-1]
         id = int(last_element['id']) + 1
         new_answer['id'] = id
@@ -71,25 +86,6 @@ def post_new_answer(question_id):
 def add_question():
     return render_template('add-question.html')
 
-<<<<<<< HEAD
-@app.route("/delete_answer/<answer_id>")
-def delete_answer(answer_id):
-    answers = connection.import_data("sample_data/answer.csv")
-    for number in answer_id:
-        if number.isnumeric():
-            answer_id = number
-    answer_id = int(answer_id)
-    line_to_delete = answers[answer_id]
-    question_id = line_to_delete['question_id']
-    answers.pop(answer_id)
-    connection.export_data(answers, "sample_data/answer.csv")
-    route = url_for("post_new_answer", question_id=question_id)
-    question_to_render, answers_to_render = data_manager.get_answer_questions(question_id)
-    return render_template('question.html', question_to_render=question_to_render,
-                           answers_to_render=answers_to_render, route=route)
-=======
->>>>>>> 9d046a327d5dd646f1b6c89b9707107a833dbbaf
-
 @app.route("/question/<question_id>")
 def question(question_id):
     route = url_for("post_new_answer", question_id=question_id)
@@ -98,7 +94,7 @@ def question(question_id):
     return render_template('question.html', question_to_render=question_to_render,
                            answers_to_render=answers_to_render, route=route)
 
-@app.route("/edit_question/<question_id>")
+@app.route("/question/<question_id>/edit")
 def edit_question(question_id):
     questions = connection.import_data("sample_data/question.csv")
     question_to_edit = {}
