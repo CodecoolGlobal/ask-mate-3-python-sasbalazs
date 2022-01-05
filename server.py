@@ -5,32 +5,42 @@ import data_manager
 app = Flask(__name__)
 
 
-@app.route("/answer/<answer_id>/vote_up", methods=["GET"])
+@app.route("/question/<question_id>/delete")
+def delete_question(question_id):
+    answers = connection.import_data("sample_data/answer.csv")
+    questions = connection.import_data("sample_data/question.csv")
+    res_answers = [answer for answer in answers if answer["question_id"] != question_id ]
+    print(questions)
+    res_questions = [question for question in questions if question["id"] != question_id]
+    connection.export_data(res_answers, 'sample_data/answer.csv')
+    connection.export_data(res_questions, 'sample_data/question.csv')
+    return redirect("/")
+
+
+@app.route("/answer/<answer_id>/vote_up")
 def vote_up_answer(answer_id):
-    if request.method == 'GET':
-        answers = connection.import_data("sample_data/answer.csv")
-        for answer in answers:
-            if answer["id"] == answer_id:
-                vote_up = int(answer["vote_number"])
-                vote_up += 1
-                answer["vote_number"] = vote_up
-                question_id = answer["question_id"]
-        connection.export_data(answers, 'sample_data/answer.csv')
-        return redirect(url_for("question", question_id=question_id))
+    answers = connection.import_data("sample_data/answer.csv")
+    for answer in answers:
+        if answer["id"] == answer_id:
+            vote_up = int(answer["vote_number"])
+            vote_up += 1
+            answer["vote_number"] = vote_up
+            question_id = answer["question_id"]
+    connection.export_data(answers, 'sample_data/answer.csv')
+    return redirect(url_for("question", question_id=question_id))
 
 
-@app.route("/answer/<answer_id>/vote_down", methods=["GET"])
+@app.route("/answer/<answer_id>/vote_down")
 def vote_down_answer(answer_id):
-    if request.method == 'GET':
-        answers = connection.import_data("sample_data/answer.csv")
-        for answer in answers:
-            if answer["id"] == answer_id:
-                vote_down = int(answer["vote_number"])
-                vote_down -= 1
-                answer["vote_number"] = vote_down
-                question_id = answer["question_id"]
-        connection.export_data(answers, 'sample_data/answer.csv')
-        return redirect(url_for("question", question_id=question_id))
+    answers = connection.import_data("sample_data/answer.csv")
+    for answer in answers:
+        if answer["id"] == answer_id:
+            vote_down = int(answer["vote_number"])
+            vote_down -= 1
+            answer["vote_number"] = vote_down
+            question_id = answer["question_id"]
+    connection.export_data(answers, 'sample_data/answer.csv')
+    return redirect(url_for("question", question_id=question_id))
 
 
 @app.route("/question/<question_id>/new-answer", methods= ['GET', 'POST'])
@@ -203,6 +213,6 @@ def vote_down(question_id):
 if __name__ == "__main__":
     app.run(
         host='0.0.0.0',
-        port=8000,
+        port=5000,
         debug=True,
     )
