@@ -15,7 +15,18 @@
         <h2>Answers</h2>
         {% endif %}
         {% for answer in answers_to_render %}
-        {% if answer['question_id'] %}<div>{{ answer['message'] }}</div>{% endif %}
+        {% if answer['question_id'] %}
+        <div>
+            <table >
+                 <tr>
+                     <td style="width:50px">{{ answer['vote_number'] }}</td>
+                     <td style="width:600px">{{ answer['message'] }}</td>
+                     <td style="width:100px">  <a href= '/answer/{{answer['id']}}/vote_up'</a> Vote Up </td>
+                     <td style="width:100px">  <a href= '/answer/{{answer['id']}}/vote_down'</a> Vote Down </td>
+                 </tr>
+            </table>
+        </div>
+        {% endif %}
         {% endfor %}
     <br>
     <div> <a href="{{route}}"</a>Post new answer</div>
