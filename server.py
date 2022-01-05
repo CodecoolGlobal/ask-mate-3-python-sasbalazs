@@ -86,6 +86,27 @@ def post_new_answer(question_id):
 def add_question():
     return render_template('add-question.html')
 
+<<<<<<< HEAD
+=======
+
+@app.route("/delete_answer/<answer_id>")
+def delete_answer(answer_id):
+    answers = connection.import_data("sample_data/answer.csv")
+    for number in answer_id:
+        if number.isnumeric():
+            answer_id = number
+    answer_id = int(answer_id)
+    line_to_delete = answers[answer_id]
+    question_id = line_to_delete['question_id']
+    answers.pop(answer_id)
+    connection.export_data(answers, "sample_data/answer.csv")
+    route = url_for("post_new_answer", question_id=question_id)
+    question_to_render, answers_to_render = data_manager.get_answer_questions(question_id)
+    return render_template('question.html', question_to_render=question_to_render,
+                           answers_to_render=answers_to_render, route=route)
+
+
+>>>>>>> d1b82193999b0e84b3767b3945b972231a1ca61f
 @app.route("/question/<question_id>")
 def question(question_id):
     route = url_for("post_new_answer", question_id=question_id)
@@ -94,7 +115,12 @@ def question(question_id):
     return render_template('question.html', question_to_render=question_to_render,
                            answers_to_render=answers_to_render, route=route)
 
+<<<<<<< HEAD
 @app.route("/question/<question_id>/edit")
+=======
+
+@app.route("/edit_question/<question_id>")
+>>>>>>> d1b82193999b0e84b3767b3945b972231a1ca61f
 def edit_question(question_id):
     questions = connection.import_data("sample_data/question.csv")
     question_to_edit = {}
@@ -168,14 +194,14 @@ def rewrite_one_question():
         return render_template('list.html', questions=questions)
 
 
-@app.route("/list", methods=['GET', 'POST'])
+@app.route("/list")
 @app.route("/")
 def list_page():
     questions = connection.import_data("sample_data/question.csv")
     answers = connection.import_data("sample_data/answer.csv")
-    if request.method == 'POST':
-        order_by = request.form.get('order_by')
-        order_direction = request.form.get('order_direction')
+    if request.method == 'GET':
+        order_by = request.args.get('order_by')
+        order_direction = request.args.get('order_direction')
         if order_by == 'Title' and order_direction == 'ascending':
             questions = sorted(questions, key=lambda questions: questions['title'].upper())
         if order_by == 'Title' and order_direction == 'descending':

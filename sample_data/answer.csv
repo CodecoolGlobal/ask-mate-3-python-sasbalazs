@@ -1,8 +1,19 @@
 id,submission_time,vote_number,question_id,message,image
 1,1493398154,8,1,You need to use brackets: my_list = [],
 2,1493088154,35,1,Look it up in the Python docs,
+<<<<<<< HEAD
 4,1641422052,0,4,bézs függöny,
 5,1641422081,0,4,bogenlampe,
 8,1641422274,0,6,újra megcsináltatnám,
 9,1641422439,0,5,ötödik kérdés válasza,
 10,1641422466,0,5,ötödik kérdés második válasza,
+=======
+3,1641300250,0,3,M,0
+4,1641300259,0,1,g,0
+<<<<<<< HEAD,,,,,
+7,1641336548,0,6,Type your answer here... without image,
+8,1641392101,0,6,Barbiiiiiiiiiiiiiiiiiiiiiiiiii,
+=======,,,,,
+5,1641303703,0,2,hello,0
+>>>>>>> 9d046a327d5dd646f1b6c89b9707107a833dbbaf,,,,,
+>>>>>>> d1b82193999b0e84b3767b3945b972231a1ca61f
