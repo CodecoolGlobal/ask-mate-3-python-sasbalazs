@@ -178,7 +178,6 @@ def list_page():
     questions = connection.import_data("sample_data/question.csv")
     answers = connection.import_data("sample_data/answer.csv")
     if request.method == 'GET':
-        print(questions[0]['title'])
         order_by = request.args.get('order_by')
         order_direction = request.args.get('order_direction')
         if order_by == 'Title' and order_direction == 'ascending':
