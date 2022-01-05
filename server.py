@@ -96,6 +96,34 @@ def list_page():
     return render_template('list.html', questions=questions, answers=answers)
 
 
+@app.route("/question/<question_id>/vote_up", methods=['GET'])
+def vote_up(question_id):
+    questions = connection.import_data("sample_data/question.csv")
+    route = url_for("post_new_answer", question_id=question_id)
+    if request.method == 'GET':
+        index = int(question_id) - 1
+        line = questions[index]
+        change = int(line['vote_number']) + 1
+        questions[index]['vote_number'] = str(change)
+        connection.export_data(questions, 'sample_data/question.csv')
+        return redirect('/list')
+    return render_template('vote_up.html', route=route)
+
+
+@app.route("/question/<question_id>/vote_down", methods=['GET'])
+def vote_down(question_id):
+    questions = connection.import_data("sample_data/question.csv")
+    route = url_for("post_new_answer", question_id=question_id)
+    if request.method == 'GET':
+        index = int(question_id) - 1
+        line = questions[index]
+        change = int(line['vote_number']) - 1
+        questions[index]['vote_number'] = str(change)
+        connection.export_data(questions, 'sample_data/question.csv')
+        return redirect('/list')
+    return render_template('vote_down.html', route=route)
+
+
 if __name__ == "__main__":
     app.run(
         host='0.0.0.0',

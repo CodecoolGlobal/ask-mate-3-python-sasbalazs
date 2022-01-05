@@ -32,6 +32,7 @@
                 <th>Submission time</th>
                 <th>View number</th>
                 <th>Vote number</th>
+                <th>Vote</th>
                 <th>Title</th>
                 <th>Message</th>
                 <th>Image</th>
@@ -42,6 +43,7 @@
                     <td>{{ line['submission_time'] }}</td>
                     <td>{{ line['view_number'] }}</td>
                     <td>{{ line['vote_number'] }} points</td>
+                    <td><a href="/question/{{ line['id'] }}/vote_up">Vote Up</a><br><a href="/question/{{ line['id'] }}/vote_down">Vote Down</a></td>
                     <td><a href="/question/{{ line['id'] }}">{{line['title']}}</a></td>
                     <td  style="width:500px">{{ line['message'] }}</td>
                     <td>{{ line['image'] }}</td>
