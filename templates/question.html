@@ -18,6 +18,10 @@
         {% endif %}
         {% for answer in answers_to_render %}
         {% if answer['question_id'] %}<div>{{ answer['message'] }}</div>{% endif %}
+        <div> <a href="/delete_answer/{{ answer.id }}>">Delete answer</a></div>
+
+
+
         {% endfor %}
 
     <br>

@@ -15,7 +15,10 @@ def post_new_answer(question_id):
     elif request.method == 'POST':
         answers = connection.import_data("sample_data/answer.csv")
         new_answer = {}
-        new_answer['id'] = data_manager.get_id(answers)
+        #new_answer['id'] = data_manager.get_id(answers)
+        last_element = answers[-1]
+        id = int(last_element['id']) + 1
+        new_answer['id'] = id
         new_answer['submission_time'] = data_manager.get_unixtime()
         new_answer['vote_number'] = 0
         new_answer['question_id'] = question_id
@@ -30,31 +33,21 @@ def post_new_answer(question_id):
 def add_question():
     return render_template('add-question.html')
 
-# @app.route('/display_question', methods=['POST'])
-# def display_question():
-#     new_question = {}
-#     counter = len(connection.import_data('sample_data/question.csv'))+1
-#     if request.method == 'POST':
-#         id = counter
-#         new_question['id'] = str(id)
-#         submission_time = data_manager.get_unixtime()
-#         new_question['submission_time'] = submission_time
-#         new_question['view_number'] = 0
-#         new_question['vote_number'] = 0
-#         title = request.form['title']
-#         new_question['title'] = title
-#         message = request.form['message']
-#         new_question['message'] = message
-#         image = request.form['image']
-#         if image:
-#             new_question['image'] = image
-#         new_question['image'] = None
-#
-#         questions = connection.import_data('sample_data/question.csv')
-#         questions.append(new_question)
-#         connection.export_data(questions, 'sample_data/question.csv')
-#         return render_template('/display_added_question.html', new_question=new_question)
-
+@app.route("/delete_answer/<answer_id>")
+def delete_answer(answer_id):
+    answers = connection.import_data("sample_data/answer.csv")
+    for number in answer_id:
+        if number.isnumeric():
+            answer_id = number
+    answer_id = int(answer_id)
+    line_to_delete = answers[answer_id]
+    question_id = line_to_delete['question_id']
+    answers.pop(answer_id)
+    connection.export_data(answers, "sample_data/answer.csv")
+    route = url_for("post_new_answer", question_id=question_id)
+    question_to_render, answers_to_render = data_manager.get_answer_questions(question_id)
+    return render_template('question.html', question_to_render=question_to_render,
+                           answers_to_render=answers_to_render, route=route)
 
 @app.route("/question/<question_id>")
 def question(question_id):

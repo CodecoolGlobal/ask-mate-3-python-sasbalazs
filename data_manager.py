@@ -4,7 +4,7 @@ import calendar
 
 
 def get_id(filename):
-    item_id = len(filename)
+    item_id = len(filename) + 1
     return item_id
 
 
