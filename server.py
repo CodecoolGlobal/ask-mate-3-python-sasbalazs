@@ -13,8 +13,7 @@ app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 def delete_question(question_id):
     answers = connection.import_data("sample_data/answer.csv")
     questions = connection.import_data("sample_data/question.csv")
-    res_answers = [answer for answer in answers if answer["question_id"] != question_id ]
-    print(questions)
+    res_answers = [answer for answer in answers if answer["question_id"] != question_id]
     res_questions = [question for question in questions if question["id"] != question_id]
     connection.export_data(res_answers, 'sample_data/answer.csv')
     connection.export_data(res_questions, 'sample_data/question.csv')
@@ -73,7 +72,6 @@ def post_new_answer(question_id):
     elif request.method == 'POST':
         answers = connection.import_data("sample_data/answer.csv")
         new_answer = {}
-        #new_answer['id'] = data_manager.get_id(answers)
         last_element = answers[-1]
         id = int(last_element['id']) + 1
         new_answer['id'] = id
@@ -127,7 +125,7 @@ def question(question_id):
                            answers_to_render=answers_to_render, route=route, questions=questions)
 
 
-@app.route("/edit_question/<question_id>")
+@app.route("/question/<question_id>/edit")
 def edit_question(question_id):
     questions = connection.import_data("sample_data/question.csv")
     question_to_edit = {}
