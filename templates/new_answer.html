@@ -6,7 +6,7 @@
 </head>
 <body>
      <h1>{{question_to_render["title"]}}</h1>
-    <form action="{{route}}" method='POST'>
+    <form action="{{route}}" enctype="multipart/form-data"  method='POST'>
         <p>
             <label for="new_answer-input">Your answer:</label>
             <br>

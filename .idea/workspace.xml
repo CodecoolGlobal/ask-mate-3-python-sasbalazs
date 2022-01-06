@@ -4,22 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-<<<<<<< HEAD
-    <list default="true" id="8fc3cb1e-3923-4761-9c6c-df81fa666462" name="Changes" comment="">
+    <list default="true" id="8726d10c-82b6-4cad-acb9-d9d6ea726a3d" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_manager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sample_data/answer.csv" beforeDir="false" afterPath="$PROJECT_DIR$/sample_data/answer.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sample_data/question.csv" beforeDir="false" afterPath="$PROJECT_DIR$/sample_data/question.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/server.py" afterDir="false" />
-<<<<<<< HEAD
+      <change beforePath="$PROJECT_DIR$/templates/display_question_to_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/display_question_to_edit.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/list.html" afterDir="false" />
-=======
+      <change beforePath="$PROJECT_DIR$/templates/new_answer.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/new_answer.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/question.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/question.html" afterDir="false" />
-=======
-    <list default="true" id="8726d10c-82b6-4cad-acb9-d9d6ea726a3d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/server.py" afterDir="false" />
->>>>>>> 9d046a327d5dd646f1b6c89b9707107a833dbbaf
->>>>>>> 06cc1ae50a8d9e69c9301034c4609adedabc4556
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,8 +26,7 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectId" id="23H6g5PdoPrVRFhArbsyHhB1hft" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectId" id="23CEqKoobvrz5FQOxPVBs3TSC4f" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -42,10 +35,6 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-<<<<<<< HEAD
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/server.py" />
-    <property name="settings.editor.selected.configurable" value="configurable.group.language" />
-=======
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../super-sprinter-3000-python-sasbalazs" />
     <property name="node.js.detected.package.eslint" value="true" />
@@ -53,26 +42,21 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Python" />
->>>>>>> 9d046a327d5dd646f1b6c89b9707107a833dbbaf
   </component>
   <component name="RunManager">
-    <configuration name="server" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
-      <module name="ask-mate-1-python-szeplaki" />
+    <configuration name="server" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="$PROJECT_DIR$/venv/bin/python" />
+      <option name="SDK_HOME" value="/usr/bin/python3.8" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-<<<<<<< HEAD
-=======
       <module name="" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
->>>>>>> 9d046a327d5dd646f1b6c89b9707107a833dbbaf
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/server.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -82,20 +66,21 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.server" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="8fc3cb1e-3923-4761-9c6c-df81fa666462" name="Changes" comment="" />
-      <created>1641378776720</created>
+      <changelist id="8726d10c-82b6-4cad-acb9-d9d6ea726a3d" name="Changes" comment="" />
+      <created>1641229857765</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-<<<<<<< HEAD
-      <updated>1641378776720</updated>
-=======
       <updated>1641229857765</updated>
       <workItem from="1641388166556" duration="3365000" />
->>>>>>> 9d046a327d5dd646f1b6c89b9707107a833dbbaf
     </task>
     <servers />
   </component>
@@ -112,5 +97,8 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/ask_mate_1_python_szeplaki$server.coverage" NAME="server Coverage Results" MODIFIED="1641485669725" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

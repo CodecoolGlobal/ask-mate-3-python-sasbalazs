@@ -6,7 +6,7 @@
 </head>
 <body>
     <h1>Edit question</h1><br>
-    <form action="/rewrite_one_question" method="post">
+    <form action="/rewrite_one_question" enctype="multipart/form-data" method="post">
         <input type="hidden" id="postId" name="id" value={{ question_to_edit.id }}>
         <input type="hidden" id="submission" name="submission_time" value="{{ question_to_edit.submission_time }}">
         <input type="hidden" id="view" name="view_number" value="{{ question_to_edit.view_number }}">

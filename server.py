@@ -70,6 +70,9 @@ def post_new_answer(question_id):
         return render_template('new_answer.html', route=route, question_id=question_id,
                                                  question_to_render=question_to_render, )
     elif request.method == 'POST':
+        if request.files['image']:
+            file = request.files['image']
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
         answers = connection.import_data("sample_data/answer.csv")
         new_answer = {}
         last_element = answers[-1]
@@ -79,7 +82,11 @@ def post_new_answer(question_id):
         new_answer['vote_number'] = 0
         new_answer['question_id'] = question_id
         new_answer['message'] = request.form['new_answer']
-        new_answer['image'] = None
+        file = request.files['image']
+        if file.filename:
+            new_answer['image'] = file.filename
+        else:
+            new_answer['image'] = None
         answers.append(new_answer)
         connection.export_data(answers, 'sample_data/answer.csv')
         return redirect(url_for("question", question_id=question_id))
@@ -146,6 +153,9 @@ def display_question():
 def rewrite_one_question():
     edited_question = {}
     if request.method == 'POST':
+        if request.files['image']:
+            file = request.files['image']
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
         id = request.form['id']
         edited_question.update({'id': id})
 
@@ -164,11 +174,11 @@ def rewrite_one_question():
         message = request.form['message']
         edited_question.update({'message': message})
 
-        if request.form['image']:
-            image = request.form['image']
-            edited_question.update({'image': image})
+        file = request.files['image']
+        if file.filename:
+            edited_question.update({'image': file.filename})
         else:
-            edited_question.update({'image': None})
+            edited_question.update({'image': image})
 
         questions = connection.import_data('sample_data/question.csv')
         for quest in questions:
