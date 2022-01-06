@@ -53,7 +53,7 @@ def vote_up_answer(answer_id):
 def vote_down_answer(answer_id):
     answers = connection.import_data("sample_data/answer.csv")
     for answer in answers:
-        if answer["id"] == answer_id:
+        if answer["id"] == answer_id and answer['vote_number'] != '0':
             vote_down = int(answer["vote_number"])
             vote_down -= 1
             answer["vote_number"] = vote_down
@@ -94,13 +94,14 @@ def post_new_answer(question_id):
 
 @app.route("/add-question", methods=['GET', 'POST'])
 def add_question():
-    counter = len(connection.import_data('sample_data/question.csv'))+1
     if request.method == 'POST':
         if request.files['file']:
             file = request.files['file']
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+        questions = connection.import_data("sample_data/question.csv")
         new_question = {}
-        id = counter
+        last_element = questions[-1]
+        id = int(last_element['id']) + 1
         new_question['id'] = str(id)
         submission_time = data_manager.get_unixtime()
         new_question['submission_time'] = submission_time
@@ -177,14 +178,11 @@ def rewrite_one_question():
         file = request.files['image']
         if file.filename:
             edited_question.update({'image': file.filename})
-        else:
-            edited_question.update({'image': image})
+        # else:
+        #     edited_question.update({'image': image})
 
         questions = connection.import_data('sample_data/question.csv')
-        for quest in questions:
-            index = int(quest['id'])
-            if quest['id'] == edited_question['id']:
-                questions[index - 1] = edited_question
+        questions = [edited_question if quest['id'] == edited_question['id'] else quest for quest in questions]
         connection.export_data(questions, 'sample_data/question.csv')
         questions = connection.import_data('sample_data/question.csv')
         return render_template('list.html', questions=questions)
@@ -226,13 +224,13 @@ def vote_up(question_id):
     questions = connection.import_data("sample_data/question.csv")
     route = url_for("post_new_answer", question_id=question_id)
     if request.method == 'GET':
-        index = int(question_id) - 1
-        line = questions[index]
-        change = int(line['vote_number']) + 1
-        questions[index]['vote_number'] = str(change)
-        connection.export_data(questions, 'sample_data/question.csv')
-        return redirect('/list')
-    return render_template('vote_up.html', route=route)
+        for quest in questions:
+            if quest['id'] == question_id:
+                vote_up = int(quest['vote_number'])
+                vote_up += 1
+                quest['vote_number'] = vote_up
+                connection.export_data(questions, 'sample_data/question.csv')
+    return redirect('/list')
 
 
 @app.route("/question/<question_id>/vote_down", methods=['GET'])
@@ -240,13 +238,13 @@ def vote_down(question_id):
     questions = connection.import_data("sample_data/question.csv")
     route = url_for("post_new_answer", question_id=question_id)
     if request.method == 'GET':
-        index = int(question_id) - 1
-        line = questions[index]
-        change = int(line['vote_number']) - 1
-        questions[index]['vote_number'] = str(change)
-        connection.export_data(questions, 'sample_data/question.csv')
-        return redirect('/list')
-    return render_template('vote_down.html', route=route)
+        for quest in questions:
+            if quest['id'] == question_id and quest['vote_number'] != '0':
+                vote_down = int(quest["vote_number"])
+                vote_down -= 1
+                quest["vote_number"] = vote_down
+                connection.export_data(questions, 'sample_data/question.csv')
+    return redirect('/list')
 
 
 if __name__ == "__main__":
