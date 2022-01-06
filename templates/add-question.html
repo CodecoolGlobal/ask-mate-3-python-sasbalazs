@@ -6,7 +6,7 @@
 </head>
 <body>
     <h1>Add question</h1><br>
-    <form action="/display_question" method="post">
+    <form action="/add-question" method="post" enctype="multipart/form-data">
         <label>Title:<br>
             <input type="text" minlength="5" name="title" required>
         </label>
@@ -16,7 +16,7 @@
         </label>
         <br><br>
         <label for="image">Upload an image</label><br>
-        <input id="image" type="file" name="image" accept="image/png, image/jpeg">
+        <input id="image" type="file" name="file" accept="image/png, image/jpeg">
 
         <br><br>
         <input type="submit" value="Add new Question">

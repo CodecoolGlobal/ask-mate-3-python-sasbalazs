@@ -1,8 +1,12 @@
 from flask import Flask, flash, render_template, request, redirect, url_for
 import connection
 import data_manager
+import os
 
+dirname = os.path.dirname(__file__)
+UPLOAD_FOLDER = os.path.join(dirname, "static", "Image")
 app = Flask(__name__)
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
 
 @app.route("/question/<question_id>/delete")
@@ -15,6 +19,22 @@ def delete_question(question_id):
     connection.export_data(res_answers, 'sample_data/answer.csv')
     connection.export_data(res_questions, 'sample_data/question.csv')
     return redirect("/")
+
+
+@app.route("/answer/<answer_id>/delete")
+def delete_answer(answer_id):
+    answers_without_deleted = []
+    answers = connection.import_data("sample_data/answer.csv")
+    for answer in answers:
+        if answer['id'] != answer_id:
+            answers_without_deleted.append(answer)
+        else:
+            question_id = answer['question_id']
+    connection.export_data(answers_without_deleted, "sample_data/answer.csv")
+    route = url_for("post_new_answer", question_id=question_id)
+    question_to_render, answers_to_render = data_manager.get_answer_questions(question_id)
+    return render_template('question.html', question_to_render=question_to_render,
+                           answers_to_render=answers_to_render, route=route)
 
 
 @app.route("/answer/<answer_id>/vote_up")
@@ -43,7 +63,7 @@ def vote_down_answer(answer_id):
     return redirect(url_for("question", question_id=question_id))
 
 
-@app.route("/question/<question_id>/new-answer", methods= ['GET', 'POST'])
+@app.route("/question/<question_id>/new-answer", methods=['GET', 'POST'])
 def post_new_answer(question_id):
     if request.method == 'GET':
         route = url_for("post_new_answer", question_id=question_id)
@@ -67,35 +87,44 @@ def post_new_answer(question_id):
         return redirect(url_for("question", question_id=question_id))
 
 
-@app.route("/add-question")
+@app.route("/add-question", methods=['GET', 'POST'])
 def add_question():
+    counter = len(connection.import_data('sample_data/question.csv'))+1
+    if request.method == 'POST':
+        if request.files['file']:
+            file = request.files['file']
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+        new_question = {}
+        id = counter
+        new_question['id'] = str(id)
+        submission_time = data_manager.get_unixtime()
+        new_question['submission_time'] = submission_time
+        new_question['view_number'] = 0
+        new_question['vote_number'] = 0
+        title = request.form['title']
+        new_question['title'] = title
+        message = request.form['message']
+        new_question['message'] = message
+        file = request.files['file']
+        if file.filename:
+            new_question['image'] = file.filename
+        else:
+            new_question['image'] = None
+        questions = connection.import_data('sample_data/question.csv')
+        questions.append(new_question)
+        connection.export_data(questions, 'sample_data/question.csv')
+        return redirect(url_for("display_question"))
     return render_template('add-question.html')
-
-
-@app.route("/delete_answer/<answer_id>")
-def delete_answer(answer_id):
-    answers = connection.import_data("sample_data/answer.csv")
-    for number in answer_id:
-        if number.isnumeric():
-            answer_id = number
-    answer_id = int(answer_id)
-    line_to_delete = answers[answer_id]
-    question_id = line_to_delete['question_id']
-    answers.pop(answer_id)
-    connection.export_data(answers, "sample_data/answer.csv")
-    route = url_for("post_new_answer", question_id=question_id)
-    question_to_render, answers_to_render = data_manager.get_answer_questions(question_id)
-    return render_template('question.html', question_to_render=question_to_render,
-                           answers_to_render=answers_to_render, route=route)
 
 
 @app.route("/question/<question_id>")
 def question(question_id):
     route = url_for("post_new_answer", question_id=question_id)
     answers = connection.import_data("sample_data/answer.csv")
+    questions = connection.import_data("sample_data/question.csv")
     question_to_render, answers_to_render = data_manager.get_answer_questions(question_id)
     return render_template('question.html', question_to_render=question_to_render,
-                           answers_to_render=answers_to_render, route=route)
+                           answers_to_render=answers_to_render, route=route, questions=questions)
 
 
 @app.route("/edit_question/<question_id>")
@@ -108,30 +137,11 @@ def edit_question(question_id):
     return render_template('display_question_to_edit.html', question_to_edit=question_to_edit)
 
 
-@app.route('/display_question', methods=['POST'])
+@app.route('/display_question', methods=['GET', 'POST'])
 def display_question():
-    new_question = {}
-    counter = len(connection.import_data('sample_data/question.csv'))+1
-    if request.method == 'POST':
-        id = counter
-        new_question['id'] = str(id)
-        submission_time = data_manager.get_unixtime()
-        new_question['submission_time'] = submission_time
-        new_question['view_number'] = 0
-        new_question['vote_number'] = 0
-        title = request.form['title']
-        new_question['title'] = title
-        message = request.form['message']
-        new_question['message'] = message
-        image = request.form['image']
-        if image:
-            new_question['image'] = image
-        new_question['image'] = None
-
-        questions = connection.import_data('sample_data/question.csv')
-        questions.append(new_question)
-        connection.export_data(questions, 'sample_data/question.csv')
-        return render_template('/display_added_question.html', new_question=new_question)
+    questions = connection.import_data("sample_data/question.csv")
+    new_question = questions[-1]
+    return render_template("display_added_question.html", new_question=new_question)
 
 
 @app.route("/rewrite_one_question", methods=['GET', 'POST'])

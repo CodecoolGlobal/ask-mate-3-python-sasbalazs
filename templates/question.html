@@ -11,21 +11,22 @@
         {% if question_to_render['image'] %}
         <img src="question_to_render['image']" alt="Question_image" width="500" height="600">
         {% endif %}
-    <div> <a href="/edit_question/{{ question_to_render['id'] }}">Edit a question</a></div>
+    <div> <a href="/question/{{ question_to_render['id'] }}/edit">Edit a question</a></div>
     <div> <a href="/question/{{ question_to_render['id'] }}/delete">Delete a question</a></div>
     <br>
         {% if answers_to_render %}
         <h2>Answers</h2>
         {% endif %}
         {% for answer in answers_to_render %}
+        {% if answer['question_id'] %}<div>{{ answer['message'] }}</div>{% endif %}
+        <div> <a href="/answer/{{ answer['id'] }}/delete">Delete answer</a></div>
         {% if answer['question_id'] %}
         <div>
             <table >
                  <tr>
                      <td style="width:80px">Vote: {{ answer['vote_number'] }}</td>
-                     <td style="width:600px">{{ answer['message'] }}</td>
-                     <td style="width:100px">  <a href= "/answer/{{answer['id']}}/vote_up"> Vote Up </a></td>
-                     <td style="width:100px">  <a href= "/answer/{{answer['id']}}/vote_down"> Vote Down </a></td>
+                     <td style="width:100px">  <a href="/answer/{{answer.id}}/vote_up">Vote Up</a></td>
+                     <td style="width:100px">  <a href="/answer/{{answer.id}}/vote_down">Vote Down</a></td>
                  </tr>
             </table>
         </div>

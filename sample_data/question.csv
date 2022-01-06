@@ -1,9 +1,10 @@
 id,submission_time,view_number,vote_number,title,message,image
 1,1493368154,29,8,How to make lists in Python?,"I am totally new to this, any hints?",
-2,1493068124,15,9,Wordpress loading multiple jQuery Versions,I developed a plugin that uses the jquery booklet plugin (http://builtbywill.com/booklet/#/) this plugin binds a function to $ so I cann call $('.myBook').booklet(),
-3,1493015432,1364,0,Drawing canvas with an image picked with Cordova Camera Plugin,"I'm getting an image from device and drawing a canvas with filters using Pixi JS. It works all well using computer to get an image. But when I'm on IOS, it throws errors such as cross origin issue, or that I'm trying to use an unknown format.",images/image1.png
+2,1493068124,15,,Wordpress loading multiple jQuery Versions,I developed a plugin that uses the jquery booklet plugin (http://builtbywill.com/booklet/#/) this plugin binds a function to $ so I cann call $('.myBook').booklet(),
+3,1493015432,1364,0,Drawing canvas with an image picked with Cordova Camera Plugin,"I'm getting an image from device and drawing a canvas with filters using Pixi JS. It works all well using computer to get an image. But when I'm on IOS, it throws errors such as cross origin issue, or that I'm trying to use an unknown format.",
 4,1641333754,0,1,fourth question,this is the fourth questionsssssssss yeeeeeeeeeeeeeeeeeeee hujuhujuhujhuj,
-5,1641335056,0,2,5.title,thisisquestion,
-6,1641335700,0,0,added question,this is again,
-7,1641376569,0,0,wewew,grfgrr,
-8,1641376656,0,0,fgffdgfgr,dgdge,
+5,1641461701,0,0,Title,lukmzjnhtbgr,transzfogaras.jpg
+6,1641461829,0,0,gbrfvbbv,fgnrgfgb,transzfogaras.jpg
+7,1641471055,0,0,000000000,111111111111111,220725_original_5424x3390.jpg
+8,1641471164,0,0,aaaaaaaaaaaaaaaa,bbbbbbbbbbbbb,224968_original_5184x3456.jpg
+9,1641477580,0,0,New Title,"This is a new question, please answer it!",231762_original_5438x3399.jpg

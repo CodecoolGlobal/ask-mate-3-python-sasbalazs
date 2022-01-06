@@ -9,7 +9,7 @@
     <h3>{{ new_question['title'] }}</h3>
     <p>{{ new_question['message'] }}</p>
     {% if new_question['image'] %}
-    <img src="question_to_render['image']" alt="Question_image" width="500" height="600">
+    <img src="{{ url_for('static', filename='Image/'~new_question['image']) }}" alt="Question_image" width="500">
     {% endif %}
     <a href="/list">Back to the main page</a>
 
