@@ -53,10 +53,13 @@ def vote_up_answer(answer_id):
 def vote_down_answer(answer_id):
     answers = connection.import_data("sample_data/answer.csv")
     for answer in answers:
-        if answer["id"] == answer_id and answer['vote_number'] != '0':
-            vote_down = int(answer["vote_number"])
-            vote_down -= 1
-            answer["vote_number"] = vote_down
+        if answer["id"] == answer_id:
+            if int(answer['vote_number']) > 0:
+                vote_down = int(answer["vote_number"])
+                vote_down -= 1
+                answer["vote_number"] = vote_down
+            else:
+                answer["vote_number"] = 0
             question_id = answer["question_id"]
     connection.export_data(answers, 'sample_data/answer.csv')
     return redirect(url_for("question", question_id=question_id))
