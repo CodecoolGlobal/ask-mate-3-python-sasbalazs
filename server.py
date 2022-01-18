@@ -11,12 +11,7 @@ app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
 @app.route("/question/<question_id>/delete")
 def delete_question(question_id):
-    answers = connection.import_data("sample_data/answer.csv")
-    questions = connection.import_data("sample_data/question.csv")
-    res_answers = [answer for answer in answers if answer["question_id"] != question_id]
-    res_questions = [question for question in questions if question["id"] != question_id]
-    connection.export_data(res_answers, 'sample_data/answer.csv')
-    connection.export_data(res_questions, 'sample_data/question.csv')
+    data_manager.delete_question(question_id)
     return redirect("/")
 
 
@@ -122,6 +117,7 @@ def add_question():
         questions = connection.import_data('sample_data/question.csv')
         questions.append(new_question)
         connection.export_data(questions, 'sample_data/question.csv')
+        # data_manager.add_question()
         return redirect(url_for("display_question"))
     return render_template('add-question.html')
 
@@ -194,32 +190,8 @@ def rewrite_one_question():
 @app.route("/list")
 @app.route("/")
 def list_page():
-    questions = connection.import_data("sample_data/question.csv")
-    answers = connection.import_data("sample_data/answer.csv")
-    if request.method == 'GET':
-        order_by = request.args.get('order_by')
-        order_direction = request.args.get('order_direction')
-        if order_by == 'Title' and order_direction == 'ascending':
-            questions = sorted(questions, key=lambda questions: questions['title'].upper())
-        if order_by == 'Title' and order_direction == 'descending':
-            questions = sorted(questions, key=lambda questions: questions['title'].upper(), reverse=True)
-        if order_by == 'Number of views' and order_direction == 'ascending':
-            questions = sorted(questions, key=lambda questions: int(questions['view_number']))
-        if order_by == 'Number of views' and order_direction == 'descending':
-            questions = sorted(questions, key=lambda questions: int(questions['view_number']), reverse=True)
-        if order_by == 'Submission time' and order_direction == 'ascending':
-            questions = sorted(questions, key=lambda questions: int(questions['submission_time']))
-        if order_by == 'Submission time' and order_direction == 'descending':
-            questions = sorted(questions, key=lambda questions: int(questions['submission_time']), reverse=True)
-        if order_by == 'Message' and order_direction == 'ascending':
-            questions = sorted(questions, key=lambda questions: len(questions['message']))
-        if order_by == 'Message' and order_direction == 'descending':
-            questions = sorted(questions, key=lambda questions: len(questions['message']), reverse=True)
-        if order_by == 'Number of votes' and order_direction == 'ascending':
-            questions = sorted(questions, key=lambda questions: int(questions['vote_number']))
-        if order_by == 'Number of votes' and order_direction == 'descending':
-            questions = sorted(questions, key=lambda questions: int(questions['vote_number']), reverse=True)
-    return render_template('list.html', questions=questions, answers=answers)
+    questions = data_manager.get_questions()
+    return render_template('list.html', questions=questions)
 
 
 @app.route("/question/<question_id>/vote_up", methods=['GET'])
