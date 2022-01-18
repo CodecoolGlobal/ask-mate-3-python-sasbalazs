@@ -4,8 +4,13 @@ import calendar
 
 
 @connection.connection_handler
-def xs():
-    pass
+def get_questions(cursor):
+    query = """
+            SELECT *
+            FROM question
+            ORDER BY submission_time"""
+    cursor.execute(query)
+    return cursor.fetchall()
 
 def get_id(filename):
     item_id = len(filename) + 1
@@ -36,5 +41,17 @@ def get_answer_questions(question_id):
         if question_id == answer['question_id']:
             answers_to_render.append(answer)
     return question_to_render, answers_to_render
+
+
+def delete_question(question_id):
+    answers = connection.import_data("sample_data/answer.csv")
+    questions = connection.import_data("sample_data/question.csv")
+    res_answers = [answer for answer in answers if answer["question_id"] != question_id]
+    res_questions = [question for question in questions if question["id"] != question_id]
+    connection.export_data(res_answers, 'sample_data/answer.csv')
+    connection.export_data(res_questions, 'sample_data/question.csv')
+
+
+
 
 
