@@ -3,6 +3,10 @@ from datetime import datetime
 import calendar
 
 
+@connection.connection_handler
+def xs():
+    pass
+
 def get_id(filename):
     item_id = len(filename) + 1
     return item_id
