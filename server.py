@@ -171,9 +171,10 @@ def vote_down(question_id):
 def search():
     if request.method == "GET":
         search_phrase = request.args.get("q")
-        q_and_a = data_manager.search(search_phrase)
-        print(q_and_a)
-    return render_template('search.html', question_to_render=q_and_a)
+        questions = data_manager.q_search(search_phrase)
+        print(questions)
+        answers = data_manager.a_search(search_phrase)
+    return render_template('search.html', question_to_render=questions, answers_to_render=answers)
 
 
 if __name__ == "__main__":

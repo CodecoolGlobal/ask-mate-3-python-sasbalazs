@@ -22,10 +22,7 @@
             <table >
                  <tr>
                      <td style="width:350px"> {% if answer['question_id'] %}<div>{{ answer['message'] }}</div> </td>
-                     <td style="width:80px"> <a href="/answer/{{ answer['id'] }}/delete">Delete answer</a> </td>
                      <td style="width:80px">Vote: {{ answer['vote_number'] }}</td>
-                     <td style="width:100px"> <a href="/answer/{{answer.id}}/vote_up">Vote Up</a></td>
-                     <td style="width:100px">  <a href="/answer/{{answer.id}}/vote_down">Vote Down</a></td>
                      <td> {% if answer['image'] %}
                          <img src="{{ url_for('static', filename='Image/'~answer['image']) }}" alt="image" width="200">
                             {% endif %}
@@ -36,7 +33,7 @@
         {% endif %}
         {% endfor %}
 
-
+    <br>
     <div> <a href="/list">Back to the main page</a></div>
     <br>
 </body>
