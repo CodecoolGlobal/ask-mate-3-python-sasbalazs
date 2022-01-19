@@ -183,7 +183,7 @@ def list_page():
 #     questions = connection.import_data("sample_data/question.csv")
 #     route = url_for("post_new_answer", question_id=question_id)
 #     if request.method == 'GET':
-#
+#         data_manager.q_vote_up(question_id)
 #     return redirect('/list')
 
 

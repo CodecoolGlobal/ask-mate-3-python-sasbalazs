@@ -54,9 +54,8 @@ def get_sorted(cursor, order_by, order_direction):
     return cursor.fetchall()
 
 
-def get_id(filename):
-    item_id = len(filename) + 1
-    return item_id
+# @connection.connection_handler
+# def q_vote_up(cursor, question_id):
 
 
 @connection.connection_handler
