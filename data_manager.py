@@ -117,6 +117,17 @@ def get_last_question(cursor, id):
 
 
 @connection.connection_handler
+def get_answer_to_edit(cursor, id):
+    query = """
+            SELECT *
+            FROM answer
+            WHERE id = %(id)s LIMIT 1"""
+    value = {'id': id}
+    cursor.execute(query, value)
+    return cursor.fetchone()
+
+
+@connection.connection_handler
 def get_answers(cursor, question_id):
     query = """
                 SELECT *
@@ -226,6 +237,13 @@ def post_answer(cursor, data):
 @connection.connection_handler
 def edit_question(cursor, title, message, image, id):
     cursor.execute("UPDATE question SET title = %s, message = %s, image = %s WHERE id = %s", (title, message, image, id))
+
+
+
+@connection.connection_handler
+def edit_answer(cursor, message, image, id):
+    cursor.execute("UPDATE answer SET message = %s, image = %s WHERE id = %s", (message, image, id))
+
 
 
 def get_unixtime():
