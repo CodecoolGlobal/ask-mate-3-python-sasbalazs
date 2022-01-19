@@ -55,8 +55,6 @@ def post_new_answer(question_id):
         vote_number = 0
         question_id = question_id
         message = request.form['new_answer']
-
-
         file = request.files['image']
         if file.filename:
             image = file.filename
@@ -101,11 +99,7 @@ def question(question_id):
 
 @app.route("/question/<question_id>/edit")
 def edit_question(question_id):
-    questions = connection.import_data("sample_data/question.csv")
-    question_to_edit = {}
-    for line in questions:
-        if question_id == line['id']:
-            question_to_edit = line
+    question_to_edit = data_manager.get_last_question(question_id)
     return render_template('display_question_to_edit.html', question_to_edit=question_to_edit)
 
 
@@ -115,41 +109,24 @@ def display_question(id):
     return render_template("display_added_question.html", new_question=new_question)
 
 
-@app.route("/rewrite_one_question", methods=['GET', 'POST'])
-def rewrite_one_question():
-    edited_question = {}
+@app.route("/rewrite_one_question/<id>", methods=['GET', 'POST'])
+def rewrite_one_question(id):
     if request.method == 'POST':
         if request.files['image']:
             file = request.files['image']
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
-        id = request.form['id']
-        edited_question.update({'id': id})
-
-        submission_time = request.form['submission_time']
-        edited_question.update({'submission_time': submission_time})
-
-        view_number = request.form['view_number']
-        edited_question.update({'view_number': view_number})
-
-        vote_number = request.form['vote_number']
-        edited_question.update({'vote_number': vote_number})
-
         title = request.form['title']
-        edited_question.update({'title': title})
-
         message = request.form['message']
-        edited_question.update({'message': message})
-
         file = request.files['image']
         if file.filename:
-            edited_question.update({'image': file.filename})
-        # else:
-        #     edited_question.update({'image': image})
+            image = file.filename
+        else:
+            image = None
 
-        questions = connection.import_data('sample_data/question.csv')
-        questions = [edited_question if quest['id'] == edited_question['id'] else quest for quest in questions]
-        connection.export_data(questions, 'sample_data/question.csv')
-        questions = connection.import_data('sample_data/question.csv')
+
+
+        data_manager.edit_question(title, message, image, id)
+        questions = data_manager.get_questions()
         return render_template('list.html', questions=questions)
 
 
