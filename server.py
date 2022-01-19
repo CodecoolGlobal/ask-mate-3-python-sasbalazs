@@ -154,7 +154,6 @@ def rewrite_one_question():
 
 
 @app.route("/list", methods=["GET", "POST"])
-@app.route("/")
 def list_page():
     questions = data_manager.get_questions()
     if request.method == "GET":
@@ -171,6 +170,12 @@ def list_page():
     return render_template('list.html', questions=questions)
 
 
+@app.route("/")
+def main_page():
+    questions = data_manager.get_five_latest_questions()
+    return render_template('main-page.html', questions=questions)
+
+
 @app.route("/question/<question_id>/vote_up", methods=['GET'])
 def vote_up(question_id):
     if request.method == 'GET':
@@ -182,6 +187,11 @@ def vote_up(question_id):
 def vote_down(question_id):
     if request.method == 'GET':
         data_manager.q_vote_down(question_id)
+    return redirect('/list')
+
+
+@app.route("/search", methods=['GET'])
+def search():
     return redirect('/list')
 
 
