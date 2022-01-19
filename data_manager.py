@@ -54,8 +54,28 @@ def get_sorted(cursor, order_by, order_direction):
     return cursor.fetchall()
 
 
-# @connection.connection_handler
-# def q_vote_up(cursor, question_id):
+@connection.connection_handler
+def q_vote_up(cursor, question_id):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            UPDATE question
+            SET vote_number = vote_number + 1
+            WHERE id = {}"""
+        ).format(psycopg2.sql.Literal(question_id))
+    )
+
+
+@connection.connection_handler
+def q_vote_down(cursor, question_id):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            UPDATE question
+            SET vote_number = vote_number - 1
+            WHERE id = {}"""
+        ).format(psycopg2.sql.Literal(question_id))
+    )
 
 
 @connection.connection_handler
