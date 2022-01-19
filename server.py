@@ -48,37 +48,36 @@ def vote_down_answer(answer_id):
 def post_new_answer(question_id):
     if request.method == 'GET':
         route = url_for("post_new_answer", question_id=question_id)
-        question_to_render, answers_to_render = data_manager.get_answer_questions(question_id)
+        question_to_render = data_manager.get_last_question(question_id)
+        answers_to_render = data_manager.get_answers(question_id)
         return render_template('new_answer.html', route=route, question_id=question_id,
                                                  question_to_render=question_to_render, )
     elif request.method == 'POST':
         if request.files['image']:
             file = request.files['image']
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
-        answers = connection.import_data("sample_data/answer.csv")
-        new_answer = {}
-        last_element = answers[-1]
-        id = int(last_element['id']) + 1
-        new_answer['id'] = id
-        new_answer['submission_time'] = data_manager.get_unixtime()
-        new_answer['vote_number'] = 0
-        new_answer['question_id'] = question_id
-        new_answer['message'] = request.form['new_answer']
+        time = data_manager.get_unixtime()
+        submission_time = data_manager.convert_to_date(time)
+        vote_number = 0
+        question_id = question_id
+        message = request.form['new_answer']
+
+
         file = request.files['image']
         if file.filename:
-            new_answer['image'] = file.filename
+            image = file.filename
         else:
-            new_answer['image'] = None
-        answers.append(new_answer)
-        connection.export_data(answers, 'sample_data/answer.csv')
+            image = None
+        data = [submission_time, vote_number, question_id, message, image]
+        data_manager.post_answer(data)
         return redirect(url_for("question", question_id=question_id))
 
 
 @app.route("/add-question", methods=['GET', 'POST'])
 def add_question():
     if request.method == 'POST':
-        if request.files['file']:
-            file = request.files['file']
+        if request.files['image']:
+            file = request.files['image']
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
         time = data_manager.get_unixtime()
         submission_time = data_manager.convert_to_date(time)
@@ -86,7 +85,7 @@ def add_question():
         vote_number = 0
         title = request.form['title']
         message = request.form['message']
-        file = request.files['file']
+        file = request.files['image']
         if file.filename:
             image = file.filename
         else:

@@ -79,6 +79,14 @@ def display_question_after_adding(cursor, id):
     cursor.execute(query, value)
     return cursor.fetchone()
 
+@connection.connection_handler
+def post_answer(cursor, data):
+    query = """
+    INSERT INTO answer
+    (submission_time, vote_number, question_id, message, image)
+    VALUES (%(submission_time)s, %(vote_number)s, %(question)s, %(message)s, %(image)s)"""
+    cursor.execute(query, {"submission_time": data[0], "vote_number": data[1], "question": data[2], "message": data[3],
+                           "image": data[4]})
 
 def get_unixtime():
     d = datetime.utcnow()
