@@ -27,12 +27,9 @@ def delete_answer(cursor, answer_id):
 @connection.connection_handler
 def get_question_id(cursor, answer_id):
     query = """
-            SELECT
-            question_id
-            FROM
-            answer
-            WHERE "id"=%(answer_id)s
-            """
+            SELECT question_id
+            FROM answer
+            WHERE "id"=%(answer_id)s"""
     cursor.execute(query, {'answer_id': answer_id})
     return cursor.fetchone()
 
@@ -50,9 +47,9 @@ def get_questions(cursor):
 @connection.connection_handler
 def get_five_latest_questions(cursor):
     query = """
-                SELECT *
-                FROM question
-                ORDER BY submission_time DESC LIMIT 5"""
+            SELECT *
+            FROM question
+            ORDER BY submission_time DESC LIMIT 5"""
     cursor.execute(query)
     return cursor.fetchall()
 
@@ -130,13 +127,35 @@ def get_answer_to_edit(cursor, id):
 @connection.connection_handler
 def get_answers(cursor, question_id):
     query = """
+            SELECT *
+            FROM answer
+            WHERE question_id = question_id
+            ORDER BY submission_time"""
+    value = {'question_id': question_id}
+    cursor.execute(query, value)
+    return cursor.fetchall()
+
+
+@connection.connection_handler
+def get_comments(cursor, question_id):
+    query = """
                 SELECT *
-                FROM answer
+                FROM comment
                 WHERE question_id = question_id
                 ORDER BY submission_time"""
     value = {'question_id': question_id}
     cursor.execute(query, value)
     return cursor.fetchall()
+
+
+@connection.connection_handler
+def add_comments(cursor, data):
+    query = """
+            INSERT INTO comment 
+            (question_id, message, submission_time, edited_count)
+            VALUES (%(question_id)s, %(message)s, %(submission_time)s, %(edited_count)s)"""
+    cursor.execute(query,
+                   {"question_id": data[0], "message": data[1], "submission_time": data[2], "edited_count": data[3]})
 
 
 @connection.connection_handler
@@ -239,11 +258,9 @@ def edit_question(cursor, title, message, image, id):
     cursor.execute("UPDATE question SET title = %s, message = %s, image = %s WHERE id = %s", (title, message, image, id))
 
 
-
 @connection.connection_handler
 def edit_answer(cursor, message, image, id):
     cursor.execute("UPDATE answer SET message = %s, image = %s WHERE id = %s", (message, image, id))
-
 
 
 def get_unixtime():
@@ -257,19 +274,6 @@ def convert_to_date(timestamp):
     data = datetime.utcfromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
     return data
 
-
-def get_answer_questions(question_id):
-    questions = connection.import_data("sample_data/question.csv")
-    answers = connection.import_data("sample_data/answer.csv")
-    question_to_render = []
-    answers_to_render = []
-    for line in questions:
-        if question_id == line['id']:
-            question_to_render = line
-    for answer in answers:
-        if question_id == answer['question_id']:
-            answers_to_render.append(answer)
-    return question_to_render, answers_to_render
 
 
 

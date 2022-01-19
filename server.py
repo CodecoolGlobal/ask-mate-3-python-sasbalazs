@@ -88,13 +88,32 @@ def add_question():
     return render_template('add-question.html')
 
 
+@app.route("/question/<question_id>/new-comment", methods=['GET', 'POST'])
+def render_comment_template(question_id):
+    return render_template('add_comment.html', question_id=question_id)
+
+
+@app.route("/add_comment", methods=['GET', 'POST'])
+def add_comment():
+    if request.method == 'POST':
+        question_id = request.form['question_id']
+        message = request.form['message']
+        time = data_manager.get_unixtime()
+        submission_time = data_manager.convert_to_date(time)
+        edited_count = 0
+        data = [question_id, message, submission_time, edited_count]
+        data_manager.add_comments(data)
+        return redirect(url_for("question", question_id=question_id))
+
 @app.route("/question/<question_id>")
 def question(question_id):
     route = url_for("post_new_answer", question_id=question_id)
     question_to_render = data_manager.get_last_question(str(question_id))
     answers_to_render = data_manager.get_answers(question_id)
+    comments_to_render = data_manager.get_comments(question_id)
     return render_template('question.html', question_to_render=question_to_render,
-                           answers_to_render=answers_to_render, route=route)
+                           answers_to_render=answers_to_render, comments_to_render=comments_to_render,
+                           route=route)
 
 
 @app.route("/question/<question_id>/edit")

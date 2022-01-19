@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Add Comment</title>
+</head>
+<body>
+    <h1>Add comment</h1>
+    <br>
+    <form action="/add_comment" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="question_id" value={{ question_id }}>
+        <br><br>
+        <label>Message:<br>
+            <textarea rows="4" cols="50" name="message" required></textarea>
+        </label>
+        <br><br>
+        <input type="submit" value="Add new Commit">
+    </form>
+</body>
+</html>
