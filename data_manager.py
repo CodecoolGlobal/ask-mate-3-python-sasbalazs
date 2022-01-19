@@ -1,3 +1,5 @@
+import psycopg2.sql
+
 import connection
 from datetime import datetime
 import calendar
@@ -44,9 +46,48 @@ def get_answers(cursor, question_id):
     cursor.execute(query, value)
     return cursor.fetchall()
 
+
+@connection.connection_handler
+def get_sorted(cursor, order_by, order_direction):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            SELECT * 
+            FROM question
+            ORDER BY {} {}"""
+        ).format(
+            psycopg2.sql.Identifier(order_by),
+            psycopg2.sql.SQL(order_direction)
+        )
+    )
+    return cursor.fetchall()
+
+
 def get_id(filename):
     item_id = len(filename) + 1
     return item_id
+
+
+@connection.connection_handler
+def addquestion(cursor, data):
+    query = """
+    INSERT INTO question 
+    (submission_time, view_number, vote_number, title, message, image)
+    VALUES (%(submission_time)s, %(view_number)s, %(vote_number)s, %(title)s, %(message)s, %(image)s)
+    RETURNING id"""
+    cursor.execute(query, {"submission_time": data[0], "view_number": data[1], "vote_number": data[2], "title": data[3], "message": data[4], "image": data[5]})
+    return cursor.fetchone()
+
+
+@connection.connection_handler
+def display_question_after_adding(cursor, id):
+    query = """
+            SELECT *
+            FROM question
+            WHERE id = %(id)s"""
+    value = {'id': id}
+    cursor.execute(query, value)
+    return cursor.fetchone()
 
 
 def get_unixtime():
