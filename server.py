@@ -15,33 +15,27 @@ def delete_question(question_id):
     return redirect("/")
 
 
-@app.route("/answer/<answer_id>/vote_up")
+@app.route("/answer/<answer_id>/delete")
+def delete_answer(answer_id):
+    question_id = data_manager.get_question_id(answer_id)
+    data_manager.delete_answer(answer_id)
+    return redirect(url_for("question", question_id=question_id['question_id']))
+
+
+@app.route("/answer/<answer_id>/vote_up", methods=["GET"])
 def vote_up_answer(answer_id):
-    answers = connection.import_data("sample_data/answer.csv")
-    for answer in answers:
-        if answer["id"] == answer_id:
-            vote_up = int(answer["vote_number"])
-            vote_up += 1
-            answer["vote_number"] = vote_up
-            question_id = answer["question_id"]
-    connection.export_data(answers, 'sample_data/answer.csv')
-    return redirect(url_for("question", question_id=question_id))
+    question_id = data_manager.get_question_id(answer_id)
+    if request.method == 'GET':
+        data_manager.a_vote_up(answer_id)
+    return redirect(url_for("question", question_id=question_id['question_id']))
 
 
-@app.route("/answer/<answer_id>/vote_down")
+@app.route("/answer/<answer_id>/vote_down", methods=["GET"])
 def vote_down_answer(answer_id):
-    answers = connection.import_data("sample_data/answer.csv")
-    for answer in answers:
-        if answer["id"] == answer_id:
-            if int(answer['vote_number']) > 0:
-                vote_down = int(answer["vote_number"])
-                vote_down -= 1
-                answer["vote_number"] = vote_down
-            else:
-                answer["vote_number"] = 0
-            question_id = answer["question_id"]
-    connection.export_data(answers, 'sample_data/answer.csv')
-    return redirect(url_for("question", question_id=question_id))
+    question_id = data_manager.get_question_id(answer_id)
+    if request.method == "GET":
+        data_manager.a_vote_down(answer_id)
+    return redirect(url_for("question", question_id=question_id['question_id']))
 
 
 @app.route("/question/<question_id>/new-answer", methods=['GET', 'POST'])
@@ -99,7 +93,7 @@ def add_question():
 @app.route("/question/<question_id>")
 def question(question_id):
     route = url_for("post_new_answer", question_id=question_id)
-    question_to_render = data_manager.get_last_question(question_id)
+    question_to_render = data_manager.get_last_question(str(question_id))
     answers_to_render = data_manager.get_answers(question_id)
     return render_template('question.html', question_to_render=question_to_render,
                            answers_to_render=answers_to_render, route=route)
@@ -177,26 +171,17 @@ def list_page():
     return render_template('list.html', questions=questions)
 
 
-# @app.route("/question/<question_id>/vote_up", methods=['GET'])
-# def vote_up(question_id):
-#     questions = connection.import_data("sample_data/question.csv")
-#     route = url_for("post_new_answer", question_id=question_id)
-#     if request.method == 'GET':
-#         data_manager.q_vote_up(question_id)
-#     return redirect('/list')
+@app.route("/question/<question_id>/vote_up", methods=['GET'])
+def vote_up(question_id):
+    if request.method == 'GET':
+        data_manager.q_vote_up(question_id)
+    return redirect('/list')
 
 
 @app.route("/question/<question_id>/vote_down", methods=['GET'])
 def vote_down(question_id):
-    questions = connection.import_data("sample_data/question.csv")
-    route = url_for("post_new_answer", question_id=question_id)
     if request.method == 'GET':
-        for quest in questions:
-            if quest['id'] == question_id and quest['vote_number'] != '0':
-                vote_down = int(quest["vote_number"])
-                vote_down -= 1
-                quest["vote_number"] = vote_down
-                connection.export_data(questions, 'sample_data/question.csv')
+        data_manager.q_vote_down(question_id)
     return redirect('/list')
 
 
