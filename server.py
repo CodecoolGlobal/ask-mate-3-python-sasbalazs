@@ -15,22 +15,6 @@ def delete_question(question_id):
     return redirect("/")
 
 
-@app.route("/answer/<answer_id>/delete")
-def delete_answer(answer_id):
-    answers_without_deleted = []
-    answers = connection.import_data("sample_data/answer.csv")
-    for answer in answers:
-        if answer['id'] != answer_id:
-            answers_without_deleted.append(answer)
-        else:
-            question_id = answer['question_id']
-    connection.export_data(answers_without_deleted, "sample_data/answer.csv")
-    route = url_for("post_new_answer", question_id=question_id)
-    question_to_render, answers_to_render = data_manager.get_answer_questions(question_id)
-    return render_template('question.html', question_to_render=question_to_render,
-                           answers_to_render=answers_to_render, route=route)
-
-
 @app.route("/answer/<answer_id>/vote_up")
 def vote_up_answer(answer_id):
     answers = connection.import_data("sample_data/answer.csv")
@@ -96,29 +80,20 @@ def add_question():
         if request.files['file']:
             file = request.files['file']
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
-        questions = connection.import_data("sample_data/question.csv")
-        new_question = {}
-        last_element = questions[-1]
-        id = int(last_element['id']) + 1
-        new_question['id'] = str(id)
-        submission_time = data_manager.get_unixtime()
-        new_question['submission_time'] = submission_time
-        new_question['view_number'] = 0
-        new_question['vote_number'] = 0
+        time = data_manager.get_unixtime()
+        submission_time = data_manager.convert_to_date(time)
+        view_number = 0
+        vote_number = 0
         title = request.form['title']
-        new_question['title'] = title
         message = request.form['message']
-        new_question['message'] = message
         file = request.files['file']
         if file.filename:
-            new_question['image'] = file.filename
+            image = file.filename
         else:
-            new_question['image'] = None
-        questions = connection.import_data('sample_data/question.csv')
-        questions.append(new_question)
-        connection.export_data(questions, 'sample_data/question.csv')
-        # data_manager.add_question()
-        return redirect(url_for("display_question"))
+            image = None
+        data = [submission_time, view_number,vote_number, title, message, image]
+        id = data_manager.addquestion(data)
+        return redirect(url_for("display_question",id = id['id']))
     return render_template('add-question.html')
 
 
@@ -141,10 +116,9 @@ def edit_question(question_id):
     return render_template('display_question_to_edit.html', question_to_edit=question_to_edit)
 
 
-@app.route('/display_question', methods=['GET', 'POST'])
-def display_question():
-    questions = connection.import_data("sample_data/question.csv")
-    new_question = questions[-1]
+@app.route('/display_question/<id>', methods=['GET', 'POST'])
+def display_question(id):
+    new_question = data_manager.display_question_after_adding(id)
     return render_template("display_added_question.html", new_question=new_question)
 
 
