@@ -186,10 +186,20 @@ def rewrite_one_question():
         return render_template('list.html', questions=questions)
 
 
-@app.route("/list")
+@app.route("/list", methods=["GET", "POST"])
 @app.route("/")
 def list_page():
     questions = data_manager.get_questions()
+    if request.method == "GET":
+        order_by = request.args.get('order_by')
+        order_by = order_by.lower()
+        order_by = order_by.replace(" ", "_")
+        order_direction = request.args.get('order_direction')
+        if order_direction == 'descending':
+            order_direction = 'DESC'
+        else:
+            order_direction = 'ASC'
+        questions = data_manager.get_sorted(order_by, order_direction)
     return render_template('list.html', questions=questions)
 
 

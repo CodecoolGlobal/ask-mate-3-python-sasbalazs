@@ -1,3 +1,5 @@
+import psycopg2.sql
+
 import connection
 from datetime import datetime
 import calendar
@@ -34,6 +36,23 @@ def get_answers(cursor, question_id):
     value = {'question_id': question_id}
     cursor.execute(query, value)
     return cursor.fetchall()
+
+
+@connection.connection_handler
+def get_sorted(cursor, order_by, order_direction):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            SELECT * 
+            FROM question
+            ORDER BY {} {}"""
+        ).format(
+            psycopg2.sql.Identifier(order_by),
+            psycopg2.sql.SQL(order_direction)
+        )
+    )
+    return cursor.fetchall()
+
 
 def get_id(filename):
     item_id = len(filename) + 1
