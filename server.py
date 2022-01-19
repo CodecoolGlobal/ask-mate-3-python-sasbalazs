@@ -192,7 +192,9 @@ def vote_down(question_id):
 def search():
     if request.method == "GET":
         search_phrase = request.args.get("q")
-        questions = data_manager.q_search(search_phrase)
+        message_search = data_manager.q_message_search(search_phrase)
+        title_search = data_manager.q_title_search(search_phrase)
+        questions = message_search, title_search
         print(questions)
         answers = data_manager.a_search(search_phrase)
     return render_template('search.html', question_to_render=questions, answers_to_render=answers)

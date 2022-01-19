@@ -58,7 +58,7 @@ def get_five_latest_questions(cursor):
 
 
 @connection.connection_handler
-def q_search(cursor, search_phrase):
+def q_title_search(cursor, search_phrase):
     cursor.execute(
         psycopg2.sql.SQL(
             """
@@ -68,20 +68,17 @@ def q_search(cursor, search_phrase):
         ).format(
             psycopg2.sql.Literal('%' + search_phrase + '%')
         )
-        or
+    )
+    return cursor.fetchall()
+
+
+@connection.connection_handler
+def q_message_search(cursor, search_phrase):
+    cursor.execute(
         psycopg2.sql.SQL(
             """
             SELECT * 
             FROM question
-            WHERE message LIKE {}"""
-        ).format(
-            psycopg2.sql.Literal('%' + search_phrase + '%')
-        )
-        or
-        psycopg2.sql.SQL(
-            """
-            SELECT * 
-            FROM answer
             WHERE message LIKE {}"""
         ).format(
             psycopg2.sql.Literal('%' + search_phrase + '%')
