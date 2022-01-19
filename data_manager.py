@@ -15,6 +15,29 @@ def delete_question(cursor, question_id):
 
 
 @connection.connection_handler
+def delete_answer(cursor, answer_id):
+    query = """
+            DELETE 
+            FROM answer
+            WHERE 'id'=%(answer_id)s
+            """
+    cursor.execute(query, {'answer_id': answer_id})
+
+
+@connection.connection_handler
+def get_question_id(cursor, answer_id):
+    query = """
+            SELECT
+            question_id
+            FROM
+            answer
+            WHERE "id"=%(answer_id)s
+            """
+    cursor.execute(query, {'answer_id': answer_id})
+    return cursor.fetchone()
+
+
+@connection.connection_handler
 def get_questions(cursor):
     query = """
             SELECT *
@@ -29,7 +52,7 @@ def get_last_question(cursor, id):
     query = """
         SELECT *
         FROM question
-        WHERE id = %(id)s LIMIT 1;"""
+        WHERE id = %(id)s LIMIT 1"""
     value = {'id': id}
     cursor.execute(query, value)
     return cursor.fetchone()
@@ -116,13 +139,6 @@ def get_answer_questions(question_id):
     return question_to_render, answers_to_render
 
 
-def delete_question(question_id):
-    answers = connection.import_data("sample_data/answer.csv")
-    questions = connection.import_data("sample_data/question.csv")
-    res_answers = [answer for answer in answers if answer["question_id"] != question_id]
-    res_questions = [question for question in questions if question["id"] != question_id]
-    connection.export_data(res_answers, 'sample_data/answer.csv')
-    connection.export_data(res_questions, 'sample_data/question.csv')
 
 
 
