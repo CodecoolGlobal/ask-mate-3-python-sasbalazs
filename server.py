@@ -192,7 +192,11 @@ def vote_down(question_id):
 
 @app.route("/search", methods=['GET'])
 def search():
-    return redirect('/list')
+    if request.method == "GET":
+        search_phrase = request.args.get("q")
+        q_and_a = data_manager.search(search_phrase)
+        print(q_and_a)
+    return render_template('search.html', question_to_render=q_and_a)
 
 
 if __name__ == "__main__":
