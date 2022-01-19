@@ -103,6 +103,12 @@ def edit_question(question_id):
     return render_template('display_question_to_edit.html', question_to_edit=question_to_edit)
 
 
+@app.route("/answer/<answer_id>/edit")
+def edit_answer(answer_id):
+    answer_to_edit = data_manager.get_answer_to_edit(answer_id)
+    return render_template('display_answer_to_edit.html', answer_to_edit=answer_to_edit)
+
+
 @app.route('/display_question/<id>', methods=['GET', 'POST'])
 def display_question(id):
     new_question = data_manager.display_question_after_adding(id)
@@ -122,12 +128,27 @@ def rewrite_one_question(id):
             image = file.filename
         else:
             image = None
-
-
-
         data_manager.edit_question(title, message, image, id)
         questions = data_manager.get_questions()
         return render_template('list.html', questions=questions)
+
+
+@app.route("/rewrite_one_answer/<answer_id>", methods=['GET', 'POST'])
+def rewrite_one_answer(answer_id):
+    if request.method == 'POST':
+        if request.files['image']:
+            file = request.files['image']
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+        message = request.form['message']
+        file = request.files['image']
+        if file.filename:
+            image = file.filename
+        else:
+            image = None
+        data_manager.edit_answer(message, image, answer_id)
+        questions = data_manager.get_questions()
+        return render_template('list.html', questions=questions)
+
 
 
 @app.route("/list", methods=["GET", "POST"])
