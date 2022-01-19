@@ -24,16 +24,18 @@ def delete_answer(answer_id):
 
 @app.route("/answer/<answer_id>/vote_up", methods=["GET"])
 def vote_up_answer(answer_id):
+    question_id = data_manager.get_question_id(answer_id)
     if request.method == 'GET':
         data_manager.a_vote_up(answer_id)
-    return redirect("/question/<question_id>")
+    return redirect(url_for("question", question_id=question_id['question_id']))
 
 
 @app.route("/answer/<answer_id>/vote_down", methods=["GET"])
 def vote_down_answer(answer_id):
+    question_id = data_manager.get_question_id(answer_id)
     if request.method == "GET":
         data_manager.a_vote_down(answer_id)
-    return redirect("/question/<question_id>")
+    return redirect(url_for("question", question_id=question_id['question_id']))
 
 
 @app.route("/question/<question_id>/new-answer", methods=['GET', 'POST'])
