@@ -79,6 +79,30 @@ def q_vote_down(cursor, question_id):
 
 
 @connection.connection_handler
+def a_vote_up(cursor, answer_id):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            UPDATE answer
+            SET vote_number = vote_number + 1
+            WHERE id = {}"""
+        ).format(psycopg2.sql.Literal(answer_id))
+    )
+
+
+@connection.connection_handler
+def a_vote_down(cursor, answer_id):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            UPDATE answer
+            SET vote_number = vote_number - 1
+            WHERE id = {}"""
+        ).format(psycopg2.sql.Literal(answer_id))
+    )
+
+
+@connection.connection_handler
 def addquestion(cursor, data):
     query = """
     INSERT INTO question 
