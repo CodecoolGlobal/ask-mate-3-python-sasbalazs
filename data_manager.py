@@ -164,6 +164,12 @@ def post_answer(cursor, data):
     cursor.execute(query, {"submission_time": data[0], "vote_number": data[1], "question": data[2], "message": data[3],
                            "image": data[4]})
 
+
+@connection.connection_handler
+def edit_question(cursor, title, message, image, id):
+    cursor.execute("UPDATE question SET title = %s, message = %s, image = %s WHERE id = %s", (title, message, image, id))
+
+
 def get_unixtime():
     d = datetime.utcnow()
     unixtime = calendar.timegm(d.utctimetuple())
