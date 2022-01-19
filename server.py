@@ -15,14 +15,14 @@ def delete_question(question_id):
     return redirect("/")
 
 
-@app.route("/answer/<answer_id>/vote_up", methods=["GET"])
+@app.route("/answer/<answer_id>/delete")
 def delete_answer(answer_id):
     question_id = data_manager.get_question_id(answer_id)
     data_manager.delete_answer(answer_id)
     return redirect(url_for("question", question_id=question_id['question_id']))
 
 
-@app.route("/answer/<answer_id>/vote_up")
+@app.route("/answer/<answer_id>/vote_up", methods=["GET"])
 def vote_up_answer(answer_id):
     if request.method == 'GET':
         data_manager.a_vote_up(answer_id)
