@@ -5,31 +5,7 @@
     <title>Question list</title>
 </head>
 <body>
-    <h1>Question list</h1>
-    <p>
-        <a href="/add-question">Add question</a>
-    </p>
-    <form action="/list">
-    <p>Sort by:</p>
-    <select name="order_by" id="order_by">
-    	<option>Submission time</option>
-    	<option>View number</option>
-    	<option>Vote number</option>
-    	<option>Title</option>
-    	<option>Message</option>
-    </select>
-    <br>
-    <select name="order_direction" id="order_direction">
-    	<option>ascending</option>
-    	<option>descending</option>
-    </select><br>
-    <button type="submit">Sort</button>
-    </form>
-    <form action="/search">
-        <input type="text" name="q" id="q" placeholder="Search...">
-        <button type="submit">Search</button>
-    </form>
-    <p>
+<p>
         <table>
             <tr>
                 <th>ID</th>
@@ -54,8 +30,7 @@
                  </tr>
             {% endfor %}
         </table>
-    </p>
-
-
+</p>
+<a href="/list">All questions</a>
 </body>
 </html>

@@ -42,7 +42,17 @@ def get_questions(cursor):
     query = """
             SELECT *
             FROM question
-            ORDER BY submission_time"""
+            ORDER BY submission_time DESC"""
+    cursor.execute(query)
+    return cursor.fetchall()
+
+
+@connection.connection_handler
+def get_five_latest_questions(cursor):
+    query = """
+                SELECT *
+                FROM question
+                ORDER BY submission_time DESC LIMIT 5"""
     cursor.execute(query)
     return cursor.fetchall()
 
