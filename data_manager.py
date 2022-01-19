@@ -12,6 +12,29 @@ def get_questions(cursor):
     cursor.execute(query)
     return cursor.fetchall()
 
+
+@connection.connection_handler
+def get_last_question(cursor, id):
+    query = """
+        SELECT *
+        FROM question
+        WHERE id = %(id)s LIMIT 1;"""
+    value = {'id': id}
+    cursor.execute(query, value)
+    return cursor.fetchone()
+
+
+@connection.connection_handler
+def get_answers(cursor, question_id):
+    query = """
+                SELECT *
+                FROM answer
+                WHERE question_id = question_id
+                ORDER BY submission_time"""
+    value = {'question_id': question_id}
+    cursor.execute(query, value)
+    return cursor.fetchall()
+
 def get_id(filename):
     item_id = len(filename) + 1
     return item_id
