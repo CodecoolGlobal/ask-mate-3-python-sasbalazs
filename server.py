@@ -16,6 +16,13 @@ def delete_question(question_id):
 
 
 @app.route("/answer/<answer_id>/vote_up", methods=["GET"])
+def delete_answer(answer_id):
+    question_id = data_manager.get_question_id(answer_id)
+    data_manager.delete_answer(answer_id)
+    return redirect(url_for("question", question_id=question_id['question_id']))
+
+
+@app.route("/answer/<answer_id>/vote_up")
 def vote_up_answer(answer_id):
     if request.method == 'GET':
         data_manager.a_vote_up(answer_id)
@@ -85,7 +92,7 @@ def add_question():
 @app.route("/question/<question_id>")
 def question(question_id):
     route = url_for("post_new_answer", question_id=question_id)
-    question_to_render = data_manager.get_last_question(question_id)
+    question_to_render = data_manager.get_last_question(str(question_id))
     answers_to_render = data_manager.get_answers(question_id)
     return render_template('question.html', question_to_render=question_to_render,
                            answers_to_render=answers_to_render, route=route)
