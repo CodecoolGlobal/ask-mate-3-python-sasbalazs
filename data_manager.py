@@ -4,6 +4,15 @@ import calendar
 
 
 @connection.connection_handler
+def delete_question(cursor, question_id):
+    query = """
+            DELETE 
+            FROM question
+            WHERE 'id'=%(question_id)s"""
+    cursor.execute(query, {'question_id': question_id})
+
+
+@connection.connection_handler
 def get_questions(cursor):
     query = """
             SELECT *
