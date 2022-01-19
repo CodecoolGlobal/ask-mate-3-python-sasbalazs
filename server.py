@@ -166,29 +166,25 @@ def list_page():
     questions = data_manager.get_questions()
     if request.method == "GET":
         order_by = request.args.get('order_by')
-        order_by = order_by.lower()
-        order_by = order_by.replace(" ", "_")
         order_direction = request.args.get('order_direction')
-        if order_direction == 'descending':
-            order_direction = 'DESC'
-        else:
-            order_direction = 'ASC'
-        questions = data_manager.get_sorted(order_by, order_direction)
+        if order_by and order_direction:
+            order_by = order_by.lower()
+            order_by = order_by.replace(" ", "_")
+            if order_direction == 'descending':
+                order_direction = 'DESC'
+            else:
+                order_direction = 'ASC'
+            questions = data_manager.get_sorted(order_by, order_direction)
     return render_template('list.html', questions=questions)
 
 
-@app.route("/question/<question_id>/vote_up", methods=['GET'])
-def vote_up(question_id):
-    questions = connection.import_data("sample_data/question.csv")
-    route = url_for("post_new_answer", question_id=question_id)
-    if request.method == 'GET':
-        for quest in questions:
-            if quest['id'] == question_id:
-                vote_up = int(quest['vote_number'])
-                vote_up += 1
-                quest['vote_number'] = vote_up
-                connection.export_data(questions, 'sample_data/question.csv')
-    return redirect('/list')
+# @app.route("/question/<question_id>/vote_up", methods=['GET'])
+# def vote_up(question_id):
+#     questions = connection.import_data("sample_data/question.csv")
+#     route = url_for("post_new_answer", question_id=question_id)
+#     if request.method == 'GET':
+#
+#     return redirect('/list')
 
 
 @app.route("/question/<question_id>/vote_down", methods=['GET'])
