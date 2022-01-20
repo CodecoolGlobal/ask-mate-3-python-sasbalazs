@@ -128,6 +128,12 @@ def edit_answer(answer_id):
     return render_template('display_answer_to_edit.html', answer_to_edit=answer_to_edit)
 
 
+@app.route("/comment/<comment_id>/edit")
+def edit_comment(comment_id):
+    comment_to_edit = data_manager.get_comment_to_edit(comment_id)
+    return render_template('display_comment_to_edit.html', comment_to_edit=comment_to_edit)
+
+
 @app.route('/display_question/<id>', methods=['GET', 'POST'])
 def display_question(id):
     new_question = data_manager.display_question_after_adding(id)
@@ -168,6 +174,24 @@ def rewrite_one_answer(answer_id):
         questions = data_manager.get_questions()
         return render_template('list.html', questions=questions)
 
+
+@app.route("/rewrite_one_comment/<comment_id>", methods=['GET', 'POST'])
+def rewrite_one_comment(comment_id):
+    if request.method == 'POST':
+        message = request.form['message']
+        time = data_manager.get_unixtime()
+        submission_time = data_manager.convert_to_date(time)
+        edited_count = int(request.form['edited_count'])
+        edited_count += 1
+        question_id = request.form['question_id']
+        data_manager.edit_comment(message, submission_time, edited_count, comment_id)
+        route = url_for("post_new_answer", question_id=question_id)
+        question_to_render = data_manager.get_last_question(str(question_id))
+        answers_to_render = data_manager.get_answers(question_id)
+        comments_to_render = data_manager.get_comments(question_id)
+        return render_template('question.html', question_to_render=question_to_render,
+                               answers_to_render=answers_to_render, comments_to_render=comments_to_render,
+                               route=route)
 
 
 @app.route("/list", methods=["GET", "POST"])
