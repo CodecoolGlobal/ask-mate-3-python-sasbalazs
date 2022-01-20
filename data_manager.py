@@ -40,7 +40,7 @@ def add_new_tag(cursor, new_tag):
         psycopg2.sql.SQL(
             """
             INSERT INTO tag (name)
-            VALUES {}
+            VALUES ({})
             """ ).format(
             psycopg2.sql.Literal(new_tag)
         )
@@ -49,10 +49,13 @@ def add_new_tag(cursor, new_tag):
 
 def combine_tags_with_ids(question_id):
     tags = collect_all_tags(question_id)
-    tag_ids = get_tag_id(question_id)
-    tags_temp = [i[0]['name'] for i in tags]
-    tag_ids_temp = [i['tag_id'] for i in tag_ids]
-    tags_combined = list(zip(tags_temp, tag_ids_temp))
+    if tags:
+        tag_ids = get_tag_id(question_id)
+        tags_temp = [i[0]['name'] for i in tags]
+        tag_ids_temp = [i['tag_id'] for i in tag_ids]
+        tags_combined = list(zip(tags_temp, tag_ids_temp))
+    else:
+        tags_combined = None
     return tags_combined
 
 
@@ -66,7 +69,7 @@ def collect_all_tags(question_id):
             tags.append(tag)
         return tags
     else:
-        return 'No tags yet.'
+        return None
 
 
 @connection.connection_handler
