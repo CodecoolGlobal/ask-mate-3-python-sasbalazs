@@ -16,8 +16,7 @@
         {% if tags %}
             {% for tag in tags %}
                     {{ tag[0] }}
-
-                          <a href="/question/{{ question_to_render['id'] }}/tag/{{ tag[0][1] }}/delete">X</a>
+                          <a href="/question/{{ question_to_render['id'] }}/tag/{{ tag[1] }}/delete">X</a>
             {% endfor %}
         {% endif %}
     </div>

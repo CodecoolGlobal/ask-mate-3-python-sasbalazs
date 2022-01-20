@@ -11,8 +11,8 @@ app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
 @app.route("/question/<question_id>/tag/<tag_id>/delete")
 def delete_tag(question_id, tag_id):
-    data_manager.delete_tag(question_id)
-    return redirect(url_for("question", question_id=question_id['question_id']), tag_id=tag_id)
+    data_manager.delete_tag(question_id, tag_id)
+    return redirect(url_for("question", question_id=question_id))
 
 
 @app.route("/question/<question_id>/new-tag", methods=["GET", "POST"])

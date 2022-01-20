@@ -5,18 +5,17 @@ from datetime import datetime
 import calendar
 
 
-
-
 @connection.connection_handler
-def delete_tag(cursor, question_id):
+def delete_tag(cursor, question_id, tag_id):
     cursor.execute(
         psycopg2.sql.SQL(
             """
             DELETE FROM question_tag
-            WHERE question_id={}
+            WHERE question_id = {} AND tag_id={}
             """
         ).format(
-        psycopg2.sql.Literal(question_id)
+        psycopg2.sql.Literal(question_id),
+        psycopg2.sql.Literal(tag_id)
         )
     )
 
@@ -55,6 +54,7 @@ def combine_tags_with_ids(question_id):
     tag_ids_temp = [i['tag_id'] for i in tag_ids]
     tags_combined = list(zip(tags_temp, tag_ids_temp))
     return tags_combined
+
 
 def collect_all_tags(question_id):
     tag_id = get_tag_id(question_id)
