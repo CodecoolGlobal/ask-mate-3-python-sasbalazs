@@ -194,9 +194,11 @@ def q_search(cursor, search_phrase):
 
 
 def fancy_search_result(search_phrase, text):
-    new_value = f"\033{search_phrase}"
-    fancy_text = text.replace(search_phrase, new_value)
-    return fancy_text
+    new_value = f'<span style = "color: #ff0000"> {search_phrase} </span>'
+    for i in text:
+        # text[0]['title'] = i['title'].replace(search_phrase, new_value)
+        text[0]['message'] = i['message'].replace(search_phrase, new_value)
+    return text
 
 
 @connection.connection_handler
