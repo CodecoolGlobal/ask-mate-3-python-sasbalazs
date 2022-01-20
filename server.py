@@ -239,9 +239,9 @@ def search():
         search_phrase = request.args.get("q")
         message_search = data_manager.q_message_search(search_phrase)
         title_search = data_manager.q_title_search(search_phrase)
-        questions = [message_search, title_search]
+        message_search.append(title_search)
         answers = data_manager.a_search(search_phrase)
-    return render_template('search.html', question_to_render=questions, answers_to_render=answers)
+    return render_template('search.html', question_to_render=message_search, answers_to_render=answers)
 
 
 if __name__ == "__main__":
