@@ -191,6 +191,12 @@ def q_title_search(cursor, search_phrase):
     return cursor.fetchall()
 
 
+def fancy_search_result(search_phrase, text):
+    new_value = f"\033{search_phrase}"
+    fancy_text = text.replace(search_phrase, new_value)
+    return fancy_text
+
+
 @connection.connection_handler
 def q_message_search(cursor, search_phrase):
     cursor.execute(
