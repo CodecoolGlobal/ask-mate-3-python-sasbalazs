@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Comment</title>
+</head>
+<body>
+    <h1>Edit Comment</h1><br>
+
+    <form action="/rewrite_answer_comment/{{ comment_to_edit.id }}" enctype="multipart/form-data" method="POST">
+        <input type="hidden" id="edited_count" name="edited_count" value={{ comment_to_edit.edited_count}}>
+        <input type="hidden" id="answer_id" name="answer_id" value={{ comment_to_edit.answer_id}}>
+        <label for="message">Message:</label><br>
+        <textarea id="message" rows="4" cols="50" name="message" required>{{ comment_to_edit.message }}</textarea>
+        <br><br>
+        <input type="submit" value="Edit Commit">
+    </form>
+
+    <a href="/list">Back to the main page</a>
+</body>
+</html>

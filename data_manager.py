@@ -25,13 +25,63 @@ def delete_answer(cursor, answer_id):
 
 
 @connection.connection_handler
+def delete_comment(cursor, comment_id):
+    query = """
+            DELETE 
+            FROM comment
+            WHERE id = %(comment_id)s
+            """
+    value = {'comment_id': comment_id}
+    cursor.execute(query, value)
+
+@connection.connection_handler
 def get_question_id(cursor, answer_id):
     query = """
             SELECT question_id
             FROM answer
-            WHERE "id"=%(answer_id)s"""
-    cursor.execute(query, {'answer_id': answer_id})
+            WHERE answer.id = %(id)s"""
+    cursor.execute(query, {'id': answer_id})
     return cursor.fetchone()
+
+@connection.connection_handler
+def get_answer(cursor, answer_id):
+    query = """
+            SELECT *
+            FROM answer
+            WHERE answer.id = %(id)s"""
+    cursor.execute(query, {'id': answer_id})
+    return cursor.fetchone()
+
+
+@connection.connection_handler
+def get_answer_id(cursor, comment_id):
+    query = """
+                SELECT answer_id
+                FROM comment
+                WHERE comment.id = %(id)s"""
+    cursor.execute(query, {'id': comment_id})
+    return cursor.fetchone()
+
+
+@connection.connection_handler
+def get_question_id_to_delete_comment(cursor, comment_id):
+    query = """
+            SELECT question_id
+            FROM comment
+            WHERE comment.id = %(id)s"""
+    cursor.execute(query, {'id': comment_id})
+    return cursor.fetchone()
+
+
+@connection.connection_handler
+def get_answer_id_to_delete_comment(cursor, comment_id):
+    query = """
+            SELECT answer_id
+            FROM comment
+            WHERE comment.id = %(id)s"""
+    cursor.execute(query, {'id': comment_id})
+    return cursor.fetchone()
+
 
 
 @connection.connection_handler
@@ -100,23 +150,23 @@ def a_search(cursor, search_phrase):
 
 
 @connection.connection_handler
-def get_last_question(cursor, id):
+def get_last_question(cursor, question_id):
     query = """
         SELECT *
         FROM question
-        WHERE id = %(id)s LIMIT 1"""
-    value = {'id': id}
+        WHERE question.id = %(id)s LIMIT 1"""
+    value = {'id': question_id}
     cursor.execute(query, value)
     return cursor.fetchone()
 
 
 @connection.connection_handler
-def get_answer_to_edit(cursor, id):
+def get_answer_to_edit(cursor, answer_id):
     query = """
             SELECT *
             FROM answer
-            WHERE id = %(id)s LIMIT 1"""
-    value = {'id': id}
+            WHERE answer.id = %(id)s LIMIT 1"""
+    value = {'id': answer_id}
     cursor.execute(query, value)
     return cursor.fetchone()
 
@@ -160,6 +210,19 @@ def get_comments(cursor, question_id):
 
 
 @connection.connection_handler
+def get_comments_to_answer(cursor, answer_id):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """SELECT *
+                FROM comment
+                WHERE answer_id = {}
+                ORDER BY submission_time"""
+        ).format(psycopg2.sql.Literal(answer_id))
+    )
+    return cursor.fetchall()
+
+
+@connection.connection_handler
 def add_comments(cursor, data):
     query = """
             INSERT INTO comment 
@@ -168,6 +231,15 @@ def add_comments(cursor, data):
     cursor.execute(query,
                    {"question_id": data[0], "message": data[1], "submission_time": data[2], "edited_count": data[3]})
 
+
+@connection.connection_handler
+def add_comment_answer(cursor, data):
+    query = """
+                INSERT INTO comment 
+                (answer_id, message, submission_time, edited_count)
+                VALUES (%(answer_id)s, %(message)s, %(submission_time)s, %(edited_count)s)"""
+    cursor.execute(query,
+                   {"answer_id": data[0], "message": data[1], "submission_time": data[2], "edited_count": data[3]})
 
 @connection.connection_handler
 def get_sorted(cursor, order_by, order_direction):

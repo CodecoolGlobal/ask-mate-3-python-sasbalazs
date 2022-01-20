@@ -9,6 +9,15 @@ app = Flask(__name__)
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
 
+
+@app.route("/answer/<answer_id>/commits")
+def render_answer_with_commits(answer_id):
+    answer = data_manager.get_answer(answer_id)
+    comments_to_render = data_manager.get_comments_to_answer(answer_id)
+    return render_template('answer_and_comments.html', answer=answer, comments_to_render=comments_to_render)
+
+
+
 @app.route("/question/<question_id>/delete")
 def delete_question(question_id):
     data_manager.delete_question(question_id)
@@ -20,6 +29,22 @@ def delete_answer(answer_id):
     question_id = data_manager.get_question_id(answer_id)
     data_manager.delete_answer(answer_id)
     return redirect(url_for("question", question_id=question_id['question_id']))
+
+
+@app.route("/comment/<comment_id>/delete")
+def delete_comment(comment_id):
+    question_id = data_manager.get_question_id_to_delete_comment(comment_id)
+    data_manager.delete_comment(comment_id)
+    return redirect(url_for("question", question_id=question_id['question_id']))
+
+@app.route("/answer-comment/<comment_id>/delete")
+def delete_answer_comment(comment_id):
+    answer_id = data_manager.get_answer_id_to_delete_comment(comment_id)
+    answer_id = answer_id['answer_id']
+    data_manager.delete_comment(comment_id)
+    answer = data_manager.get_answer(answer_id)
+    comments_to_render = data_manager.get_comments_to_answer(answer_id)
+    return render_template('answer_and_comments.html', answer=answer, comments_to_render=comments_to_render)
 
 
 @app.route("/answer/<answer_id>/vote_up", methods=["GET"])
@@ -45,7 +70,7 @@ def post_new_answer(question_id):
         question_to_render = data_manager.get_last_question(question_id)
         answers_to_render = data_manager.get_answers(question_id)
         return render_template('new_answer.html', route=route, question_id=question_id,
-                                                 question_to_render=question_to_render, )
+                                                 question_to_render=question_to_render)
     elif request.method == 'POST':
         if request.files['image']:
             file = request.files['image']
@@ -93,6 +118,13 @@ def render_comment_template(question_id):
     return render_template('add_comment.html', question_id=question_id)
 
 
+@app.route("/answer/<answer_id>/new-comment")
+def render_comment_template_to_answer(answer_id):
+    question_id = data_manager.get_question_id(answer_id)
+    question_id = question_id['question_id']
+    return render_template('add_comment_to_answer.html', answer_id=answer_id, question_id=question_id)
+
+
 @app.route("/add_comment", methods=['GET', 'POST'])
 def add_comment():
     if request.method == 'POST':
@@ -103,6 +135,20 @@ def add_comment():
         edited_count = 0
         data = [question_id, message, submission_time, edited_count]
         data_manager.add_comments(data)
+        return redirect(url_for("question", question_id=question_id))
+
+
+@app.route("/add_comment_to_answer", methods=['GET', 'POST'])
+def add_comment_to_answer():
+    if request.method == 'POST':
+        question_id = request.form['question_id']
+        answer_id = request.form['answer_id']
+        message = request.form['message']
+        time = data_manager.get_unixtime()
+        submission_time = data_manager.convert_to_date(time)
+        edited_count = 0
+        data = [answer_id, message, submission_time, edited_count]
+        data_manager.add_comment_answer(data)
         return redirect(url_for("question", question_id=question_id))
 
 
@@ -133,6 +179,12 @@ def edit_answer(answer_id):
 def edit_comment(comment_id):
     comment_to_edit = data_manager.get_comment_to_edit(comment_id)
     return render_template('display_comment_to_edit.html', comment_to_edit=comment_to_edit)
+
+
+@app.route("/answer-comment/<comment_id>/edit")
+def edit_answer_comment(comment_id):
+    comment_to_edit = data_manager.get_comment_to_edit(comment_id)
+    return render_template('display_comment_to_edit_for_answer.html', comment_to_edit=comment_to_edit)
 
 
 @app.route('/display_question/<id>', methods=['GET', 'POST'])
@@ -174,7 +226,6 @@ def rewrite_one_answer(answer_id):
             image = None
         data_manager.edit_answer(message, image, answer_id)
         questions = data_manager.get_questions()
-        # return render_template('list.html', questions=questions)
         return redirect(url_for("question", question_id=question_id['question_id']))
 
 @app.route("/rewrite_one_comment/<comment_id>", methods=['GET', 'POST'])
@@ -194,6 +245,22 @@ def rewrite_one_comment(comment_id):
         return render_template('question.html', question_to_render=question_to_render,
                                answers_to_render=answers_to_render, comments_to_render=comments_to_render,
                                route=route)
+
+
+@app.route("/rewrite_answer_comment/<comment_id>", methods=['GET', 'POST'])
+def rewrite_answer_comment(comment_id):
+    if request.method == 'POST':
+        message = request.form['message']
+        time = data_manager.get_unixtime()
+        submission_time = data_manager.convert_to_date(time)
+        edited_count = int(request.form['edited_count'])
+        edited_count += 1
+        data_manager.edit_comment(message, submission_time, edited_count, comment_id)
+        answer_id = data_manager.get_answer_id(comment_id)
+        answer_id = answer_id['answer_id']
+        answer = data_manager.get_answer(answer_id)
+        comments_to_render = data_manager.get_comments_to_answer(answer_id)
+        return render_template('answer_and_comments.html', answer=answer, comments_to_render=comments_to_render)
 
 
 @app.route("/list", methods=["GET", "POST"])
