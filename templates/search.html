@@ -5,7 +5,7 @@
     <title>Question</title>
 </head>
 <body>
-    <h1>Question</h1>
+    <h1>Questions</h1>
     {% for question in question_to_render %}
         {% for line in question %}
         <h2>{% if line['id'] %}<div>{{ line['title'] }}</div>{% endif %}</h2>

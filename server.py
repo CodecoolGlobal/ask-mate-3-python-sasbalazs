@@ -12,7 +12,7 @@ app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 @app.route("/question/<question_id>/delete")
 def delete_question(question_id):
     data_manager.delete_question(question_id)
-    return redirect("/")
+    return redirect("/list")
 
 
 @app.route("/answer/<answer_id>/delete")
@@ -105,6 +105,7 @@ def add_comment():
         data_manager.add_comments(data)
         return redirect(url_for("question", question_id=question_id))
 
+
 @app.route("/question/<question_id>")
 def question(question_id):
     route = url_for("post_new_answer", question_id=question_id)
@@ -154,6 +155,7 @@ def rewrite_one_question(id):
 
 @app.route("/rewrite_one_answer/<answer_id>", methods=['GET', 'POST'])
 def rewrite_one_answer(answer_id):
+    question_id = data_manager.get_question_id(answer_id)
     if request.method == 'POST':
         if request.files['image']:
             file = request.files['image']
@@ -166,8 +168,8 @@ def rewrite_one_answer(answer_id):
             image = None
         data_manager.edit_answer(message, image, answer_id)
         questions = data_manager.get_questions()
-        return render_template('list.html', questions=questions)
-
+        # return render_template('list.html', questions=questions)
+        return redirect(url_for("question", question_id=question_id['question_id']))
 
 
 @app.route("/list", methods=["GET", "POST"])

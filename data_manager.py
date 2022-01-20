@@ -123,13 +123,15 @@ def get_answer_to_edit(cursor, id):
 
 @connection.connection_handler
 def get_answers(cursor, question_id):
-    query = """
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
             SELECT *
             FROM answer
-            WHERE question_id = question_id
+            WHERE question_id = {}
             ORDER BY submission_time"""
-    value = {'question_id': question_id}
-    cursor.execute(query, value)
+        ).format(psycopg2.sql.Literal(question_id))
+    )
     return cursor.fetchall()
 
 
