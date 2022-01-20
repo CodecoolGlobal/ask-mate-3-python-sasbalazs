@@ -5,13 +5,134 @@ from datetime import datetime
 import calendar
 
 
+def add_new_tag_all(tag_name, question_id):
+    add_new_tag(tag_name)
+    tag_id_all = get_tag_id_from_name(tag_name)
+    tag_id = tag_id_all[0]['id']
+    add_tag_to_question(question_id, tag_id)
+
+
+@connection.connection_handler
+def delete_tag(cursor, question_id, tag_id):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            DELETE FROM question_tag
+            WHERE question_id = {} AND tag_id={}
+            """
+        ).format(
+        psycopg2.sql.Literal(question_id),
+        psycopg2.sql.Literal(tag_id)
+        )
+    )
+
+
+@connection.connection_handler
+def add_tag_to_question(cursor, question_id, tag_id):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            INSERT INTO question_tag (question_id, tag_id)
+            VALUES ({}, {})
+            """ ).format(
+            psycopg2.sql.Literal(question_id),
+            psycopg2.sql.Literal(tag_id)
+        )
+    )
+
+
+@connection.connection_handler
+def add_new_tag(cursor, new_tag):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            INSERT INTO tag (name)
+            VALUES ({})
+            """ ).format(
+            psycopg2.sql.Literal(new_tag)
+        )
+    )
+
+
+def combine_tags_with_ids(question_id):
+    tags = collect_all_tags(question_id)
+    if tags:
+        tag_ids = get_tag_id(question_id)
+        tags_temp = [i[0]['name'] for i in tags]
+        tag_ids_temp = [i['tag_id'] for i in tag_ids]
+        tags_combined = list(zip(tags_temp, tag_ids_temp))
+    else:
+        tags_combined = None
+    return tags_combined
+
+
+def collect_all_tags(question_id):
+    tag_id = get_tag_id(question_id)
+    if tag_id:
+        tag_ids = [i['tag_id'] for i in tag_id]
+        tags = []
+        for i in tag_ids:
+            tag = get_tags(i)
+            tags.append(tag)
+        return tags
+    else:
+        return None
+
+
+@connection.connection_handler
+def get_tags(cursor, tag_id):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            SELECT name
+            FROM tag
+            WHERE id = {}"""
+        ).format(
+            psycopg2.sql.Literal(tag_id)
+        )
+    )
+    return cursor.fetchall()
+
+@connection.connection_handler
+def get_tag_id_from_name(cursor, tag_name):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            '''
+            SELECT id
+            FROM tag
+            WHERE name={}
+            '''
+        ).format(
+            psycopg2.sql.Literal(tag_name)
+        )
+    )
+    return cursor.fetchall()
+
+
+@connection.connection_handler
+def get_tag_id(cursor, question_id):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            SELECT tag_id
+            FROM question_tag
+            WHERE question_id = {}
+            """
+        ).format(
+            psycopg2.sql.Literal(question_id)
+        )
+    )
+    return cursor.fetchall()
+
+
 @connection.connection_handler
 def delete_question(cursor, question_id):
     query = """
             DELETE 
             FROM question
-            WHERE 'id'=%(question_id)s"""
-    cursor.execute(query, {'question_id': question_id})
+            WHERE id=%(question_id)s"""
+    value = {'question_id': question_id}
+    cursor.execute(query, value)
 
 
 @connection.connection_handler
@@ -19,9 +140,10 @@ def delete_answer(cursor, answer_id):
     query = """
             DELETE 
             FROM answer
-            WHERE 'id'=%(answer_id)s
+            WHERE id=%(answer_id)s
             """
-    cursor.execute(query, {'answer_id': answer_id})
+    value = {'answer_id': answer_id}
+    cursor.execute(query, value)
 
 
 @connection.connection_handler
@@ -105,33 +227,28 @@ def get_five_latest_questions(cursor):
 
 
 @connection.connection_handler
-def q_title_search(cursor, search_phrase):
+def q_search(cursor, search_phrase):
     cursor.execute(
         psycopg2.sql.SQL(
             """
             SELECT * 
             FROM question
-            WHERE title LIKE {}"""
+            WHERE message LIKE {}
+            OR title LIKE {}"""
         ).format(
+            psycopg2.sql.Literal('%' + search_phrase + '%'),
             psycopg2.sql.Literal('%' + search_phrase + '%')
         )
     )
     return cursor.fetchall()
 
 
-@connection.connection_handler
-def q_message_search(cursor, search_phrase):
-    cursor.execute(
-        psycopg2.sql.SQL(
-            """
-            SELECT * 
-            FROM question
-            WHERE message LIKE {}"""
-        ).format(
-            psycopg2.sql.Literal('%' + search_phrase + '%')
-        )
-    )
-    return cursor.fetchall()
+def fancy_search_result(search_phrase, text):
+    new_value = f'<span style = "color: #ff0000"> {search_phrase} </span>'
+    for i in text:
+        # text[0]['title'] = i['title'].replace(search_phrase, new_value)
+        text[0]['message'] = i['message'].replace(search_phrase, new_value)
+    return text
 
 
 @connection.connection_handler
@@ -192,6 +309,19 @@ def get_answers(cursor, question_id):
             WHERE question_id = {}
             ORDER BY submission_time"""
         ).format(psycopg2.sql.Literal(question_id))
+    )
+    return cursor.fetchall()
+
+
+@connection.connection_handler
+def get_all_answers(cursor):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            SELECT *
+            FROM answer
+            ORDER BY submission_time"""
+        )
     )
     return cursor.fetchall()
 

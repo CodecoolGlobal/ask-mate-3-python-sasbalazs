@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add new tag</title>
+</head>
+<body>
+    <section>
+        <h1>The tags for this question are:</h1>
+        {% if tags %}
+            {%  for tag in tags %}
+                {{ tag[0] }}
+            {% endfor %}
+        {% else %}
+        <div>No tags yet</div>
+        {% endif %}
+        <h1>Choose from our most popular tags:</h1>
+        <form action="/question/ {{ question_id }} /new-tag" method='POST'>
+              <input type="text" id="new_tag" name="new_tag" maxlength="20">
+            <br>
+              <input type="submit" value="Submit">
+        </form>
+        <br>
+            <a href="/list">Back to the main page</a>
+    </section>
+
+
+</body>
+</html>

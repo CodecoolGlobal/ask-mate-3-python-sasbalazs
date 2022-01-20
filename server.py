@@ -1,5 +1,4 @@
-from flask import Flask, flash, render_template, request, redirect, url_for
-import connection
+from flask import Flask, render_template, request, redirect, url_for
 import data_manager
 import os
 
@@ -9,13 +8,29 @@ app = Flask(__name__)
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
 
-
 @app.route("/answer/<answer_id>/commits")
 def render_answer_with_commits(answer_id):
     answer = data_manager.get_answer(answer_id)
     comments_to_render = data_manager.get_comments_to_answer(answer_id)
     return render_template('answer_and_comments.html', answer=answer, comments_to_render=comments_to_render)
 
+
+@app.route("/question/<question_id>/tag/<tag_id>/delete")
+def delete_tag(question_id, tag_id):
+    data_manager.delete_tag(question_id, tag_id)
+    return redirect(url_for("question", question_id=question_id))
+
+
+@app.route("/question/<question_id>/new-tag", methods=["GET", "POST"])
+def add_tag(question_id):
+    if request.method == "GET":
+        tags_combined = data_manager.combine_tags_with_ids(question_id)
+        return render_template("add_tag.html", question_id=question_id, tags=tags_combined)
+    elif request.method == "POST":
+        if request.form["new_tag"]:
+            tag_name = request.form.get('new_tag')
+            data_manager.add_new_tag_all(tag_name, question_id)
+        return redirect(url_for("question", question_id=question_id))
 
 
 @app.route("/question/<question_id>/delete")
@@ -68,7 +83,6 @@ def post_new_answer(question_id):
     if request.method == 'GET':
         route = url_for("post_new_answer", question_id=question_id)
         question_to_render = data_manager.get_last_question(question_id)
-        answers_to_render = data_manager.get_answers(question_id)
         return render_template('new_answer.html', route=route, question_id=question_id,
                                                  question_to_render=question_to_render)
     elif request.method == 'POST':
@@ -157,10 +171,11 @@ def question(question_id):
     route = url_for("post_new_answer", question_id=question_id)
     question_to_render = data_manager.get_last_question(str(question_id))
     answers_to_render = data_manager.get_answers(question_id)
+    tags_combined = data_manager.combine_tags_with_ids(question_id)
     comments_to_render = data_manager.get_comments(question_id)
     return render_template('question.html', question_to_render=question_to_render,
-                           answers_to_render=answers_to_render, comments_to_render=comments_to_render,
-                           route=route)
+                           answers_to_render=answers_to_render, route=route, tags=tags_combined,
+                           comments_to_render=comments_to_render)
 
 
 @app.route("/question/<question_id>/edit")
@@ -225,8 +240,8 @@ def rewrite_one_answer(answer_id):
         else:
             image = None
         data_manager.edit_answer(message, image, answer_id)
-        questions = data_manager.get_questions()
         return redirect(url_for("question", question_id=question_id['question_id']))
+
 
 @app.route("/rewrite_one_comment/<comment_id>", methods=['GET', 'POST'])
 def rewrite_one_comment(comment_id):
@@ -304,11 +319,17 @@ def vote_down(question_id):
 def search():
     if request.method == "GET":
         search_phrase = request.args.get("q")
-        message_search = data_manager.q_message_search(search_phrase)
-        title_search = data_manager.q_title_search(search_phrase)
-        questions = [message_search, title_search]
-        answers = data_manager.a_search(search_phrase)
-    return render_template('search.html', question_to_render=questions, answers_to_render=answers)
+        message_search_temp = data_manager.q_search(search_phrase)
+        all_question_temp = data_manager.get_questions()
+        all_answers_temp = data_manager.get_all_answers()
+        answers_temp = data_manager.a_search(search_phrase)
+        message_search = data_manager.fancy_search_result(search_phrase, message_search_temp)
+        all_question = data_manager.fancy_search_result(search_phrase, all_question_temp)
+        all_answers = data_manager.fancy_search_result(search_phrase, all_answers_temp)
+        answers = data_manager.fancy_search_result(search_phrase, answers_temp)
+
+    return render_template('search.html', question_to_render=message_search, answers_to_render=answers,
+                           all_answers=all_answers, all_question=all_question)
 
 
 if __name__ == "__main__":
