@@ -6,7 +6,9 @@ import calendar
 
 
 def add_new_tag_all(tag_name, question_id):
+    add_new_tag(tag_name)
     tag_id_all = get_tag_id_from_name(tag_name)
+    print(tag_id_all)
     tag_id = tag_id_all[0]['id']
     add_tag_to_question(question_id, tag_id)
 
