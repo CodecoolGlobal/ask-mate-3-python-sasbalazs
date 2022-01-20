@@ -254,11 +254,12 @@ def vote_down(question_id):
 def search():
     if request.method == "GET":
         search_phrase = request.args.get("q")
-        message_search = data_manager.q_message_search(search_phrase)
-        title_search = data_manager.q_title_search(search_phrase)
-        message_search.append(title_search)
+        message_search = data_manager.q_search(search_phrase)
+        all_question = data_manager.get_questions()
+        all_answers = data_manager.get_all_answers()
         answers = data_manager.a_search(search_phrase)
-    return render_template('search.html', question_to_render=message_search, answers_to_render=answers)
+    return render_template('search.html', question_to_render=message_search, answers_to_render=answers,
+                           all_answers=all_answers, all_question=all_question)
 
 
 if __name__ == "__main__":
