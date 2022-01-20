@@ -5,6 +5,12 @@ from datetime import datetime
 import calendar
 
 
+def add_new_tag_all(tag_name, question_id):
+    tag_id_all = get_tag_id_from_name(tag_name)
+    tag_id = tag_id_all[0]['id']
+    add_tag_to_question(question_id, tag_id)
+
+
 @connection.connection_handler
 def delete_tag(cursor, question_id, tag_id):
     cursor.execute(
@@ -85,6 +91,22 @@ def get_tags(cursor, tag_id):
         )
     )
     return cursor.fetchall()
+
+@connection.connection_handler
+def get_tag_id_from_name(cursor, tag_name):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            '''
+            SELECT id
+            FROM tag
+            WHERE name={}
+            '''
+        ).format(
+            psycopg2.sql.Literal(tag_name)
+        )
+    )
+    return cursor.fetchall()
+
 
 @connection.connection_handler
 def get_tag_id(cursor, question_id):

@@ -18,16 +18,13 @@ def delete_tag(question_id, tag_id):
 @app.route("/question/<question_id>/new-tag", methods=["GET", "POST"])
 def add_tag(question_id):
     if request.method == "GET":
-        return render_template("add_tag.html", question_id=question_id)
+        tags_combined = data_manager.combine_tags_with_ids(question_id)
+        return render_template("add_tag.html", question_id=question_id, tags=tags_combined)
     elif request.method == "POST":
-        if request.form['tag_id']:
-            tag_id = request.form.get('tag_id')
-            print(tag_id, question_id)
-            data_manager.add_tag_to_question(question_id, tag_id)
-        elif request.form["new_tag"]:
+        if request.form["new_tag"]:
             tag_name = request.form.get('new_tag')
-            data_manager.add_new_tag(tag_name)
-        return redirect(url_for("question", question_id=question_id['question_id']))
+            data_manager.add_new_tag_all(tag_name, question_id)
+        return redirect(url_for("question", question_id=question_id))
 
 
 @app.route("/question/<question_id>/delete")
