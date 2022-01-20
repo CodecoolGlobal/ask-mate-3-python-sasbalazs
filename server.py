@@ -9,6 +9,27 @@ app = Flask(__name__)
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
 
+@app.route("/question/<question_id>/tag/<tag_id>/delete")
+def delete_tag(question_id, tag_id):
+    data_manager.delete_tag(question_id)
+    return redirect(url_for("question", question_id=question_id['question_id']), tag_id=tag_id)
+
+
+@app.route("/question/<question_id>/new-tag", methods=["GET", "POST"])
+def add_tag(question_id):
+    if request.method == "GET":
+        return render_template("add_tag.html", question_id=question_id)
+    elif request.method == "POST":
+        if request.form['tag_id']:
+            tag_id = request.form.get('tag_id')
+            print(tag_id, question_id)
+            data_manager.add_tag_to_question(question_id, tag_id)
+        elif request.form["new_tag"]:
+            tag_name = request.form.get('new_tag')
+            data_manager.add_new_tag(tag_name)
+        return redirect(url_for("question", question_id=question_id['question_id']))
+
+
 @app.route("/question/<question_id>/delete")
 def delete_question(question_id):
     data_manager.delete_question(question_id)
@@ -93,8 +114,9 @@ def question(question_id):
     route = url_for("post_new_answer", question_id=question_id)
     question_to_render = data_manager.get_last_question(str(question_id))
     answers_to_render = data_manager.get_answers(question_id)
+    tags_combined = data_manager.combine_tags_with_ids(question_id)
     return render_template('question.html', question_to_render=question_to_render,
-                           answers_to_render=answers_to_render, route=route)
+                           answers_to_render=answers_to_render, route=route, tags=tags_combined)
 
 
 @app.route("/question/<question_id>/edit")

@@ -11,6 +11,18 @@
         {% if question_to_render['image'] %}
         <img src="{{ url_for('static', filename='Image/'~question_to_render['image']) }}" alt="Question_image" width="300" >
         {% endif %}
+    <br>
+    <div>
+        {% if tags %}
+            {% for tag in tags %}
+                    {{ tag[0] }}
+
+                          <a href="/question/{{ question_to_render['id'] }}/tag/{{ tag[0][1] }}/delete">X</a>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <br>
+    <div> <a href="/question/{{ question_to_render['id'] }}/new-tag">Add tag</a></div>
     <div> <a href="/question/{{ question_to_render['id'] }}/edit">Edit question</a></div>
     <div> <a href="/question/{{ question_to_render['id'] }}/delete">Delete question</a></div>
     <br>

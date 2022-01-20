@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add new tag</title>
+</head>
+<body>
+    <section>
+        <h1>Choose from our most popular tags:</h1>
+        <form action="/question/ {{ question_id }} /new-tag" method='POST'>
+              <input type="checkbox" id="tag-input-1" name="tag_id" value="1">
+              <label for="taginput1"> Python</label><br>
+              <input type="checkbox" id="tag-input-2" name="tag_id" value="2">
+              <label for="taginput2"> SQL</label><br>
+              <input type="checkbox" id="tag-input-3" name="tag_id" value="3">
+              <label for="taginput3"> CSS</label><br><br>
+              <h1>Or add a new tag:</h1>
+              <input type="text" id="new_tag" name="new_tag" maxlength="20">
+            <br>
+              <input type="submit" value="Submit">
+        </form>
+        <br>
+            <a href="/list">Back to the main page</a>
+    </section>
+
+
+</body>
+</html>
