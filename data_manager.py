@@ -8,7 +8,6 @@ import calendar
 def add_new_tag_all(tag_name, question_id):
     add_new_tag(tag_name)
     tag_id_all = get_tag_id_from_name(tag_name)
-    print(tag_id_all)
     tag_id = tag_id_all[0]['id']
     add_tag_to_question(question_id, tag_id)
 
@@ -150,12 +149,9 @@ def delete_answer(cursor, answer_id):
 @connection.connection_handler
 def get_question_id(cursor, answer_id):
     query = """
-            SELECT
-            question_id
-            FROM
-            answer
-            WHERE id=%(answer_id)s
-            """
+            SELECT question_id
+            FROM answer
+            WHERE "id"=%(answer_id)s"""
     cursor.execute(query, {'answer_id': answer_id})
     return cursor.fetchone()
 
@@ -173,10 +169,55 @@ def get_questions(cursor):
 @connection.connection_handler
 def get_five_latest_questions(cursor):
     query = """
-                SELECT *
-                FROM question
-                ORDER BY submission_time DESC LIMIT 5"""
+            SELECT *
+            FROM question
+            ORDER BY submission_time DESC LIMIT 5"""
     cursor.execute(query)
+    return cursor.fetchall()
+
+
+@connection.connection_handler
+def q_title_search(cursor, search_phrase):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            SELECT * 
+            FROM question
+            WHERE title LIKE {}"""
+        ).format(
+            psycopg2.sql.Literal('%' + search_phrase + '%')
+        )
+    )
+    return cursor.fetchall()
+
+
+@connection.connection_handler
+def q_message_search(cursor, search_phrase):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            SELECT * 
+            FROM question
+            WHERE message LIKE {}"""
+        ).format(
+            psycopg2.sql.Literal('%' + search_phrase + '%')
+        )
+    )
+    return cursor.fetchall()
+
+
+@connection.connection_handler
+def a_search(cursor, search_phrase):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            SELECT * 
+            FROM answer
+            WHERE message LIKE {}"""
+        ).format(
+            psycopg2.sql.Literal('%' + search_phrase + '%')
+        )
+    )
     return cursor.fetchall()
 
 
@@ -192,15 +233,62 @@ def get_last_question(cursor, id):
 
 
 @connection.connection_handler
-def get_answers(cursor, question_id):
+def get_answer_to_edit(cursor, id):
+    query = """
+            SELECT *
+            FROM answer
+            WHERE id = %(id)s LIMIT 1"""
+    value = {'id': id}
+    cursor.execute(query, value)
+    return cursor.fetchone()
+
+
+@connection.connection_handler
+def get_comment_to_edit(cursor, id):
     query = """
                 SELECT *
-                FROM answer
-                WHERE question_id = question_id
-                ORDER BY submission_time"""
-    value = {'question_id': question_id}
+                FROM comment
+                WHERE id = %(id)s LIMIT 1"""
+    value = {'id': id}
     cursor.execute(query, value)
+    return cursor.fetchone()
+
+
+@connection.connection_handler
+def get_answers(cursor, question_id):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            SELECT *
+            FROM answer
+            WHERE question_id = {}
+            ORDER BY submission_time"""
+        ).format(psycopg2.sql.Literal(question_id))
+    )
     return cursor.fetchall()
+
+
+@connection.connection_handler
+def get_comments(cursor, question_id):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """SELECT *
+                FROM comment
+                WHERE question_id = {}
+                ORDER BY submission_time"""
+        ).format(psycopg2.sql.Literal(question_id))
+    )
+    return cursor.fetchall()
+
+
+@connection.connection_handler
+def add_comments(cursor, data):
+    query = """
+            INSERT INTO comment 
+            (question_id, message, submission_time, edited_count)
+            VALUES (%(question_id)s, %(message)s, %(submission_time)s, %(edited_count)s)"""
+    cursor.execute(query,
+                   {"question_id": data[0], "message": data[1], "submission_time": data[2], "edited_count": data[3]})
 
 
 @connection.connection_handler
@@ -303,6 +391,17 @@ def edit_question(cursor, title, message, image, id):
     cursor.execute("UPDATE question SET title = %s, message = %s, image = %s WHERE id = %s", (title, message, image, id))
 
 
+@connection.connection_handler
+def edit_answer(cursor, message, image, id):
+    cursor.execute("UPDATE answer SET message = %s, image = %s WHERE id = %s", (message, image, id))
+
+
+@connection.connection_handler
+def edit_comment(cursor, message, submission_time, edited_count, id):
+    cursor.execute("UPDATE comment SET message = %s, submission_time = %s, edited_count = %s WHERE id = %s",
+                   (message, submission_time, edited_count, id))
+
+
 def get_unixtime():
     d = datetime.utcnow()
     unixtime = calendar.timegm(d.utctimetuple())
@@ -314,19 +413,6 @@ def convert_to_date(timestamp):
     data = datetime.utcfromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
     return data
 
-
-def get_answer_questions(question_id):
-    questions = connection.import_data("sample_data/question.csv")
-    answers = connection.import_data("sample_data/answer.csv")
-    question_to_render = []
-    answers_to_render = []
-    for line in questions:
-        if question_id == line['id']:
-            question_to_render = line
-    for answer in answers:
-        if question_id == answer['question_id']:
-            answers_to_render.append(answer)
-    return question_to_render, answers_to_render
 
 
 

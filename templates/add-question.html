@@ -6,17 +6,17 @@
 </head>
 <body>
     <h1>Add question</h1><br>
-    <form action="/add-question" method="post" enctype="multipart/form-data">
-        <label>Title:<br>
-            <input type="text" minlength="5" name="title" required>
+    <form action="/add-question" enctype="multipart/form-data" method="POST">
+        <label for="add-title">Title:<br>
+            <input id="add_title" type="text" minlength="5" name="title" required>
         </label>
         <br><br>
-        <label>Message:<br>
-            <textarea rows="4" cols="50" name="message" required></textarea>
+        <label for="add-message">Message:<br>
+            <textarea id="add-message" rows="4" cols="50" name="message" required></textarea>
         </label>
         <br><br>
         <label for="image">Upload an image</label><br>
-        <input id="image" type="file" name="file" accept="image/png, image/jpeg">
+        <input id="image" type="file" name="image" accept="image/png, image/jpeg">
 
         <br><br>
         <input type="submit" value="Add new Question">
