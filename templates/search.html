@@ -1,10 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Question</title>
-</head>
-<body>
+{% extends "layout.html" %}
+{% block tab_title %}Search results{% endblock %}
+{% block page_header %}Search results{% endblock %}
+{% block content %}
     {% for line in question_to_render %}
         <h2>{% if line['id'] %}<div>{{ line['title'] | safe}}</div>{% endif %}</h2>
         <p>{% if line['id'] %}<div>{{ line['message'] | safe }}</div>{% endif %}</p>
@@ -40,7 +37,5 @@
         {% endif %}
     {% endfor %}
     <br>
-    <div> <a href="/list">Back to the main page</a></div>
-    <br>
-</body>
-</html>
+    {% include 'footer.html' %}
+{%endblock%}

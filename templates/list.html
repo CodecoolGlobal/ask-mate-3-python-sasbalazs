@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Question list</title>
-</head>
-<body>
-    <h1>Question list</h1>
+{% extends "layout.html" %}
+{% block tab_title %}Question list{% endblock %}
+{% block page_header %}Question list{% endblock %}
+{% block content %}
     <p>
         <a href="/add-question">Add question</a>
     </p>
@@ -56,6 +52,5 @@
         </table>
     </p>
 
-<a href="/">Back to the main page</a>
-</body>
-</html>
+    {% include 'footer.html' %}
+{%endblock%}

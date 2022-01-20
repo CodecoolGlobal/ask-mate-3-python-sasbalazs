@@ -1,12 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Edit Question</title>
-</head>
-<body>
-    <h1>Edit question</h1><br>
-
+{% extends "layout.html" %}
+    {% block tab_title %}Edit question{% endblock %}
+    {% block page_header %}Edit question{% endblock %}
+    {% block content %}
     <form action="/rewrite_one_question/{{ question_to_edit.id }}" enctype="multipart/form-data" method="post">
         <label for="input-title">Title:</label><br>
         <input id="input-title" type="text" minlength="5" name="title" value="{{ question_to_edit.title }}" required>
@@ -19,10 +14,8 @@
         <br><br>
         <input type="submit" value="Edit Question">
     </form>
-
-    <a href="/list">Back to the main page</a>
-</body>
-</html>
+    {% include 'footer.html' %}
+{%endblock%}
 
 
 

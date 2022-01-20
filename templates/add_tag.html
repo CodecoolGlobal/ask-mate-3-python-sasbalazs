@@ -1,12 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Add new tag</title>
-</head>
-<body>
-    <section>
-        <h1>The tags for this question are:</h1>
+{% extends "layout.html" %}
+{% block tab_title %}Add new tag{% endblock %}
+{% block page_header %}The tags for this question are:{% endblock %}
+{% block content %}
+        <section>
         {% if tags %}
             {%  for tag in tags %}
                 {{ tag[0] }}
@@ -21,9 +17,6 @@
               <input type="submit" value="Submit">
         </form>
         <br>
-            <a href="/list">Back to the main page</a>
-    </section>
-
-
-</body>
-</html>
+        </section>
+    {% include 'footer.html' %}
+{%endblock%}

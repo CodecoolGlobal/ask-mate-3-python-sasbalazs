@@ -1,12 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Edit Answer</title>
-</head>
-<body>
-    <h1>Edit Answer</h1><br>
-
+{% extends "layout.html" %}
+    {% block tab_title %}Edit answer{% endblock %}
+    {% block page_header %}Edit answer{% endblock %}
+    {% block content %}
     <form action="/rewrite_one_answer/{{ answer_to_edit.id }}" enctype="multipart/form-data" method="post">
         <label for="message">Message:</label><br>
         <textarea id="message" rows="4" cols="50" name="message" required>{{ answer_to_edit.message }}</textarea>
@@ -16,7 +11,5 @@
         <br><br>
         <input type="submit" value="Edit Answer">
     </form>
-
-    <a href="/list">Back to the main page</a>
-</body>
-</html>
+    {% include 'footer.html' %}
+{%endblock%}

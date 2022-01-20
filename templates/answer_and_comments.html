@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Answer</title>
-</head>
-<body>
-    <h1>Answer</h1>
+{% extends "layout.html" %}
+    {% block tab_title %}Answer{% endblock %}
+    {% block page_header %}Answer{% endblock %}
+    {% block content %}
     <p>{% if answer['id'] %}<div>{{ answer['message'] }}</div>{% endif %}</p>
         {% if answer['image'] %}
         <img src="{{ url_for('static', filename='Image/'~answer['image']) }}" alt="Answer_image" width="300" >
@@ -28,8 +24,7 @@
             </table>
         </div>
         {% endfor %}
-{##}
     <div> <a href="/list">Back to the main page</a></div>
     <br>
-</body>
-</html>
+    {% include 'footer.html' %}
+{%endblock%}

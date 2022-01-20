@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Question list</title>
-</head>
-<body>
-<p>
+{% extends "layout.html" %}
+    {% block tab_title %}Main page{% endblock %}
+    {% block page_header %}Main page{% endblock %}
+    {% block content %}
+    <p>
         <table>
             <tr>
                 <th>ID</th>
@@ -28,7 +25,6 @@
                  </tr>
             {% endfor %}
         </table>
-</p>
+    </p>
 <a href="/list">All questions</a>
-</body>
-</html>
+{%endblock%}

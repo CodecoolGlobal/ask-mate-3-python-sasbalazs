@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Add Question</title>
-</head>
-<body>
-    <h1>Add question</h1><br>
+{% extends "layout.html" %}
+    {% block tab_title %}Add question{% endblock %}
+    {% block page_header %}Add question{% endblock %}
+    {% block content %}
     <form action="/add-question" enctype="multipart/form-data" method="POST">
         <label for="add-title">Title:<br>
             <input id="add_title" type="text" minlength="5" name="title" required>
@@ -21,5 +17,6 @@
         <br><br>
         <input type="submit" value="Add new Question">
     </form>
-</body>
-</html>
+        <br>
+    {% include 'footer.html' %}
+{%endblock%}

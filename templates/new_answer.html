@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Post answer</title>
-</head>
-<body>
-     <h1>{{question_to_render["title"]}}</h1>
+{% extends "layout.html" %}
+{% block tab_title %}Post answer{% endblock %}
+{% block page_header %}{{question_to_render["title"]}}{% endblock %}
+{% block content %}
     <form action="{{route}}" enctype="multipart/form-data"  method='POST'>
         <p>
             <label for="new_answer-input">Your answer:</label>
@@ -15,11 +11,9 @@
             <br><br>
         <label for="image">Upload an image</label><br>
         <input id="image" type="file" name="image" accept="image/png, image/jpeg">
-
         <br><br>
         </p>
-
         <button type="submit">Add new answer</button>
     </form>
-</body>
-</html>
+    {% include 'footer.html' %}
+{%endblock%}

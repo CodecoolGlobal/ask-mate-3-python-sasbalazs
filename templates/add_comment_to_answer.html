@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Add Comment</title>
-</head>
-<body>
-    <h1>Add comment</h1>
+{% extends "layout.html" %}
+    {% block tab_title %}Add comment{% endblock %}
+    {% block page_header %}Add comment{% endblock %}
+    {% block content %}
     <br>
     <form action="/add_comment_to_answer" method="post" enctype="multipart/form-data">
         <input type="hidden" name="answer_id" value={{ answer_id }}>
@@ -17,5 +13,4 @@
         <br><br>
         <input type="submit" value="Add new Comment">
     </form>
-</body>
-</html>
+{%endblock%}
