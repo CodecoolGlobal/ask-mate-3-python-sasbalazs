@@ -148,13 +148,14 @@ def get_answers(cursor, question_id):
 
 @connection.connection_handler
 def get_comments(cursor, question_id):
-    query = """
-                SELECT *
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """SELECT *
                 FROM comment
-                WHERE question_id = question_id
+                WHERE question_id = {}
                 ORDER BY submission_time"""
-    value = {'question_id': question_id}
-    cursor.execute(query, value)
+        ).format(psycopg2.sql.Literal(question_id))
+    )
     return cursor.fetchall()
 
 
