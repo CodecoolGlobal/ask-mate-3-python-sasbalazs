@@ -122,6 +122,17 @@ def get_answer_to_edit(cursor, id):
 
 
 @connection.connection_handler
+def get_comment_to_edit(cursor, id):
+    query = """
+                SELECT *
+                FROM comment
+                WHERE id = %(id)s LIMIT 1"""
+    value = {'id': id}
+    cursor.execute(query, value)
+    return cursor.fetchone()
+
+
+@connection.connection_handler
 def get_answers(cursor, question_id):
     cursor.execute(
         psycopg2.sql.SQL(
@@ -260,6 +271,12 @@ def edit_question(cursor, title, message, image, id):
 @connection.connection_handler
 def edit_answer(cursor, message, image, id):
     cursor.execute("UPDATE answer SET message = %s, image = %s WHERE id = %s", (message, image, id))
+
+
+@connection.connection_handler
+def edit_comment(cursor, message, submission_time, edited_count, id):
+    cursor.execute("UPDATE comment SET message = %s, submission_time = %s, edited_count = %s WHERE id = %s",
+                   (message, submission_time, edited_count, id))
 
 
 def get_unixtime():

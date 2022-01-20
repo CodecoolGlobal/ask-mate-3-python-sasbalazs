@@ -24,6 +24,7 @@
             <table>
                 <tr>
                     <td style="width:350px"> {% if comment['question_id'] %}<div>{{ comment['message'] }}</div>{% endif %}</td>
+                    <td style="width:80px"> {% if comment['question_id'] %}<div>Edited {{ comment['edited_count'] }}times</div>{% endif %}</td>
                      <td style="width:80px"> <a href="/comment/{{ comment['id'] }}/edit">Edit comment</a></td>
                      <td style="width:80px"> <a href="/comment/{{ comment['id'] }}/delete">Delete comment</a></td>
                 </tr>
