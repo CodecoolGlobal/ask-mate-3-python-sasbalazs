@@ -2,9 +2,8 @@
 {% block tab_title %}Question list{% endblock %}
 {% block page_header %}Question list{% endblock %}
 {% block content %}
-    <p>
-        <a href="/add-question">Add question</a>
-    </p>
+    <div style="text-align: center; font-size: 40px; font-weight: bold"><a href="/add-question">Add question</a></div>
+
     <form action="/list">
     <p>Sort by:</p>
     <select name="order_by" id="order_by">
@@ -46,7 +45,7 @@
                     <td style="width:100px"><a href="/question/{{ line['id'] }}/vote_up">Vote Up</a><br><a href="/question/{{ line['id'] }}/vote_down">Vote Down</a></td>
                     <td><a href="/question/{{ line['id'] }}">{{line['title']}}</a></td>
                     <td  style="width:500px">{{ line['message'] }}</td>
-                    <td><img src="{{ url_for('static', filename='Image/'~line['image']) if line['image'] }}" width="100"></td>
+                    <td><img src="{{ url_for('static', filename='Image/'~line['image']) if line['image'] }}" width="300"></td>
                  </tr>
             {% endfor %}
         </table>

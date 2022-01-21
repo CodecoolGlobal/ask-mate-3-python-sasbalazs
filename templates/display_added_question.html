@@ -1,11 +1,13 @@
 {% extends "layout.html" %}
     {% block tab_title %}Question{% endblock %}
-    {% block page_header %}Questiont{% endblock %}
+    {% block page_header %}Question{% endblock %}
     {% block content %}
     <h3>{{ new_question['title'] }}</h3>
     <p>{{ new_question['message'] }}</p>
     {% if new_question['image'] %}
-    <img src="{{ url_for('static', filename='Image/'~new_question['image']) }}" alt="Question_image" width="500">
+    <img src="{{ url_for('static', filename='Image/'~new_question['image']) }}" alt="Question_image" width="700">
     {% endif %}
-    <a href="/list">Back questions list</a>
+        <p>
+            <a href="/list">Back questions list</a>
+        </p>
 {%endblock%}

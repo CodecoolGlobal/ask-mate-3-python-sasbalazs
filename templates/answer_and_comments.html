@@ -2,7 +2,7 @@
     {% block tab_title %}Answer{% endblock %}
     {% block page_header %}Answer{% endblock %}
     {% block content %}
-    <p>{% if answer['id'] %}<div>{{ answer['message'] }}</div>{% endif %}</p>
+    <p>{% if answer['id'] %}<div style="width: 1000px">{{ answer['message'] }}</div>{% endif %}</p>
         {% if answer['image'] %}
         <img src="{{ url_for('static', filename='Image/'~answer['image']) }}" alt="Answer_image" width="300" >
         {% endif %}
@@ -18,13 +18,12 @@
                 <tr>
                     <td style="width:350px"> {% if comment['answer_id'] %}<div>{{ comment['message'] }}</div>{% endif %}</td>
                     <td style="width:80px"> {% if comment['answer_id'] %}<div>Edited {{ comment['edited_count'] }}times</div>{% endif %}</td>
-                     <td style="width:80px"> <a href="/answer-comment/{{ comment['id'] }}/edit">Edit comment</a></td>
-                     <td style="width:80px"> <a href="/answer-comment/{{ comment['id'] }}/delete">Delete comment</a></td>
+                    <td style="width:80px"> <a href="/answer-comment/{{ comment['id'] }}/edit">Edit comment</a></td>
+                    <td style="width:80px"> <a href="/answer-comment/{{ comment['id'] }}/delete">Delete comment</a></td>
                 </tr>
             </table>
         </div>
         {% endfor %}
-    <div> <a href="/list">Back to the main page</a></div>
     <br>
     {% include 'footer.html' %}
 {%endblock%}

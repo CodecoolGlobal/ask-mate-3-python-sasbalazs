@@ -55,7 +55,7 @@
                      <td style="width:100px"> <a href="/answer/{{answer.id}}/vote_up">Vote Up</a></td>
                      <td style="width:100px">  <a href="/answer/{{answer.id}}/vote_down">Vote Down</a></td>
                      <td> {% if answer['image'] %}
-                         <img src="{{ url_for('static', filename='Image/'~answer['image']) }}" alt="image" width="200">
+                         <img src="{{ url_for('static', filename='Image/'~answer['image']) }}" alt="image" width="300">
                             {% endif %}
                      </td>
                  </tr>

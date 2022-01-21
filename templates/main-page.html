@@ -21,10 +21,13 @@
                     <td>{{ line['vote_number'] }} points</td>
                     <td><a href="/question/{{ line['id'] }}">{{line['title']}}</a></td>
                     <td  style="width:500px">{{ line['message'] }}</td>
-                    <td><img src="{{ url_for('static', filename='Image/'~line['image']) if line['image'] }}" width="100"></td>
+                    <td><img src="{{ url_for('static', filename='Image/'~line['image']) if line['image'] }}" width="300"></td>
                  </tr>
             {% endfor %}
         </table>
     </p>
-<a href="/list">All questions</a>
+        <div style="text-align: center; font-size: 40px; font-weight: bold">
+            <a href="/list">All questions</a>
+        </div>
+
 {%endblock%}
