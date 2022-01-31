@@ -2,7 +2,18 @@
     {% block tab_title %}Main page{% endblock %}
     {% block page_header %}Main page{% endblock %}
     {% block content %}
-    <p>
+    <div class="container flex">
+         <p>{{ login_status }}</p>
+         {% if 'username' in session: %}
+             <button class="button" id="test-link" type="button" onclick="location.href='/test'">Go to tests</button>
+             <br>
+             <button class="button" id="logout-button" type="button" onclick="location.href='/logout'">Log out</button>
+         {% else %}
+             <h1>Do you have an account?</h1>
+             <button class="button" id="login-button" type="button" onclick="location.href='/login'">Log in</button>
+             <a href="/register" class="register">Click here to register</a>
+         {% endif %}
+        </div>
         <table>
             <tr>
                 <th>ID</th>

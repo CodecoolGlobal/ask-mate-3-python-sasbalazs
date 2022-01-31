@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 import data_manager
 import os
 
@@ -8,7 +8,6 @@ app = Flask(__name__)
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
 
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     login_status = ''
@@ -16,7 +15,7 @@ def login():
         session['username'] = request.form['username']
         username = request.form['username']
         plain_text_password = request.form['password']
-        stored_hashed_password = data.users[username]
+        stored_hashed_password = data_manager.users[username]
         is_matching = data_manager.verify_password(plain_text_password, stored_hashed_password)
         if is_matching:
             session["user_answers"] = []
@@ -26,6 +25,10 @@ def login():
             login_status = "Wrong password or username given!"
     return render_template('login.html', login_status=login_status)
 
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('index'))
 
 
 @app.route("/answer/<answer_id>/commits")
