@@ -5,6 +5,7 @@ import os
 dirname = os.path.dirname(__file__)
 UPLOAD_FOLDER = os.path.join(dirname, "static", "Image")
 app = Flask(__name__)
+app.secret_key = 'jhabljbasdjbkasdnbf'
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
 
@@ -20,7 +21,7 @@ def login():
         if is_matching:
             session["user_answers"] = []
             session["question_index"] = 0
-            return redirect(url_for('index'))
+            return redirect(url_for('list_page'))
         else:
             login_status = "Wrong password or username given!"
     return render_template('login.html', login_status=login_status)
