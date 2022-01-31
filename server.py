@@ -8,6 +8,26 @@ app = Flask(__name__)
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
 
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    login_status = ''
+    if request.method == 'POST':
+        session['username'] = request.form['username']
+        username = request.form['username']
+        plain_text_password = request.form['password']
+        stored_hashed_password = data.users[username]
+        is_matching = data_manager.verify_password(plain_text_password, stored_hashed_password)
+        if is_matching:
+            session["user_answers"] = []
+            session["question_index"] = 0
+            return redirect(url_for('index'))
+        else:
+            login_status = "Wrong password or username given!"
+    return render_template('login.html', login_status=login_status)
+
+
+
 @app.route("/answer/<answer_id>/commits")
 def render_answer_with_commits(answer_id):
     answer = data_manager.get_answer(answer_id)
