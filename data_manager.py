@@ -43,6 +43,9 @@ def verify_password(plain_text_password, hashed_password):
     return bcrypt.checkpw(plain_text_password.encode('utf-8'), hashed_bytes_password)
 
 
+users = {"jhon@doe.com": '$2b$12$oEu70hPGVeKwciKR03EIoe/Y/IK8fojMoACqGO0exGucSq.lIsbim'}
+
+
 @connection.connection_handler
 def add_tag_to_question(cursor, question_id, tag_id):
     cursor.execute(
