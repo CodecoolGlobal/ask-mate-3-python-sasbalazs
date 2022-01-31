@@ -18,12 +18,11 @@ def login():
         stored_hashed_password = data_manager.users[username]
         is_matching = data_manager.verify_password(plain_text_password, stored_hashed_password)
         if is_matching:
-            session["user_answers"] = []
-            session["question_index"] = 0
             return redirect(url_for('index'))
         else:
             login_status = "Wrong password or username given!"
     return render_template('login.html', login_status=login_status)
+
 
 @app.route('/logout')
 def logout():
