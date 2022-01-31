@@ -5,6 +5,10 @@ import connection
 from datetime import datetime
 import calendar
 
+users = {'john@doe.com': '$2b$12$/TYFvXOy9wDQUOn5SKgTzedwiqB6cm.UIfPewBnz0kUQeK9Eu4mSC',
+         'Barbi': '$2b$12$rg6d0DV7FhHjbbM13synJ.krMgFouIhf6Y8kNtsx1VKPGMumOxpQ6'}
+
+
 
 def add_new_tag_all(tag_name, question_id):
     add_new_tag(tag_name)

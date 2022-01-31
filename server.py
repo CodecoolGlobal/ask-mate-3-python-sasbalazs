@@ -6,6 +6,7 @@ dirname = os.path.dirname(__file__)
 UPLOAD_FOLDER = os.path.join(dirname, "static", "Image")
 app = Flask(__name__)
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -18,7 +19,7 @@ def login():
         stored_hashed_password = data_manager.users[username]
         is_matching = data_manager.verify_password(plain_text_password, stored_hashed_password)
         if is_matching:
-            return redirect(url_for('index'))
+            return redirect(url_for('main_page'))
         else:
             login_status = "Wrong password or username given!"
     return render_template('login.html', login_status=login_status)
@@ -27,7 +28,7 @@ def login():
 @app.route('/logout')
 def logout():
     session.clear()
-    return redirect(url_for('index'))
+    return redirect(url_for('main_page'))
 
 
 @app.route("/answer/<answer_id>/commits")
