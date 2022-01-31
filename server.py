@@ -21,7 +21,7 @@ def login():
         if is_matching:
             session["user_answers"] = []
             session["question_index"] = 0
-            return redirect(url_for('list_page'))
+            return redirect(url_for('main_page'))
         else:
             login_status = "Wrong password or username given!"
     return render_template('login.html', login_status=login_status)
@@ -29,7 +29,7 @@ def login():
 @app.route('/logout')
 def logout():
     session.clear()
-    return redirect(url_for('index'))
+    return redirect(url_for('main_page'))
 
 
 @app.route("/answer/<answer_id>/commits")
