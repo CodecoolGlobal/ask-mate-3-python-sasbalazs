@@ -87,6 +87,22 @@ def check_password(cursor, username):
 
 
 @connection.connection_handler
+def register_user(cursor, email, password, r_time):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            INSERT INTO users
+            (username, password, registration_time)
+            VALUES ({}, {}, {})
+            """).format(
+            psycopg2.sql.Literal(email),
+            psycopg2.sql.Literal(password),
+            psycopg2.sql.Literal(r_time)
+        )
+    )
+
+
+@connection.connection_handler
 def add_new_tag(cursor, new_tag):
     cursor.execute(
         psycopg2.sql.SQL(

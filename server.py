@@ -33,6 +33,19 @@ def logout():
     return redirect(url_for('main_page'))
 
 
+@app.route("/register", methods=['GET', 'POST'])
+def registration_page():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
+        time = data_manager.get_unixtime()
+        submission_time = data_manager.convert_to_date(time)
+        hashed_password = data_manager.hash_password(password)
+        data_manager.register_user(email, hashed_password, submission_time)
+        return redirect(url_for('main_page'))
+    return render_template('registration.html')
+
+
 @app.route("/answer/<answer_id>/commits")
 def render_answer_with_commits(answer_id):
     answer = data_manager.get_answer(answer_id)
