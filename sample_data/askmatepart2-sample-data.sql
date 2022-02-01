@@ -55,9 +55,20 @@ CREATE TABLE question_tag (
 );
 
 DROP TABLE IF EXISTS public.tag;
--CREATE TABLE tag (
+CREATE TABLE tag (
     id serial NOT NULL,
     name text NOT NULL
+);
+
+DROP TABLE IF EXISTS public.users;
+CREATE TABLE users (
+    id serial NOT NULL,
+    username text,
+    password text,
+    question_id integer,
+    answer_id integer,
+    comment_id integer,
+    registration_time timestamp without time zone
 );
 
 
