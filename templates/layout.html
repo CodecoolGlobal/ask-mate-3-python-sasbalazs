@@ -5,7 +5,36 @@
     <title>{% block tab_title %}{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
 </head>
-<body id="grad">
+<body>
+<nav class="navbar">
+    <div class="navbar__container">
+        <a href="#home" id="navbar__logo" onclick="location.href='/'">ASKMATE</a>
+        <ul class="navbar__menu">
+            <li class="navbar__item">
+                <a href="#all-questions" class="navbar__links" id="all-questions-page" onclick="location.href='/list'">All questions</a>
+            </li>
+            <li class="navbar__item">
+                <a href="#users" class="navbar__links" id="users-page" onclick="location.href='/users'">Users</a>
+            </li>
+            <li class="navbar__item">
+                <a href="#tags" class="navbar__links" id="tags-page" onclick="location.href='/tags'">Tags</a>
+            </li>
+            {% if 'username' in session %}
+            <li class="navbar__item">
+                <a href="#login" class="navbar__links" id="login-page" onclick="location.href='/logout'">Log out</a>
+            </li>
+            {% else %}
+            <li class="navbar__item">
+                <a href="#login" class="navbar__links" id="login-page" onclick="location.href='/login'">Log in</a>
+            </li>
+            <li class="navbar__btn">
+                <a href="#sign-up" class="button" id="sign-up" onclick="location.href='/register'">Sign up</a>
+            </li>
+            {%  endif  %}
+        </ul>
+    </div>
+</nav>
+
 <div class="content-wrapper">
     <header>
         <h1 id="header-title">{% block page_header %}{% endblock %}</h1>

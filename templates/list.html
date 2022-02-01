@@ -1,55 +1,50 @@
 {% extends "layout.html" %}
-{% block tab_title %}Question list{% endblock %}
-{% block page_header %}Question list{% endblock %}
-{% block content %}
-    <div style="text-align: center; font-size: 40px; font-weight: bold"><a href="/add-question">Add question</a></div>
+{% block tab_title %}Question list{%  endblock %}
 
-    <form action="/list">
-    <p>Sort by:</p>
-    <select name="order_by" id="order_by">
-    	<option>Submission time</option>
-    	<option>View number</option>
-    	<option>Vote number</option>
-    	<option>Title</option>
-    	<option>Message</option>
-    </select>
-    <br>
-    <select name="order_direction" id="order_direction">
-    	<option>ascending</option>
-    	<option>descending</option>
-    </select><br>
-    <button type="submit">Sort</button>
-    </form>
-    <form action="/search">
-        <input type="text" name="q" id="q" placeholder="Search...">
-        <button type="submit">Search</button>
-    </form>
-    <p>
-        <table>
-            <tr>
-                <th>ID</th>
-                <th>Submission time</th>
-                <th>View number</th>
-                <th>Vote number</th>
-                <th>Vote</th>
-                <th>Title</th>
-                <th>Message</th>
-                <th>Image</th>
-            </tr>
+{% block content %}
+    <section class="inline-container">
+        <p class="inline-item">Question list</p>
+        <div class="content__btn"><a class="button" href="/add-question">Add new question</a></div>
+
+        <form class="inline-item" action="/list">
+        <p>Sort by:</p>
+        <select name="order_by" id="order_by">
+            <option>Submission time</option>
+            <option>View number</option>
+            <option>Vote number</option>
+            <option>Title</option>
+            <option>Message</option>
+        </select>
+        <br>
+        <select name="order_direction" id="order_direction">
+            <option>ascending</option>
+            <option>descending</option>
+        </select><br>
+        <button type="submit">Sort</button>
+        </form>
+        <form action="/search">
+            <input type="text" name="q" id="q" placeholder="Search...">
+            <button type="submit">Search</button>
+        </form>
+    </section>
+    <section class="container">
+
             {% for line in questions %}
-                <tr>
-                    <td>{{ line['id'] }}</td>
-                    <td>{{ line['submission_time'] }}</td>
-                    <td>{{ line['view_number'] }}</td>
-                    <td>{{ line['vote_number'] }} points</td>
-                    <td style="width:100px"><a href="/question/{{ line['id'] }}/vote_up">Vote Up</a><br><a href="/question/{{ line['id'] }}/vote_down">Vote Down</a></td>
-                    <td><a href="/question/{{ line['id'] }}">{{line['title']}}</a></td>
-                    <td  style="width:500px">{{ line['message'] }}</td>
-                    <td><img src="{{ url_for('static', filename='Image/'~line['image']) if line['image'] }}" width="300"></td>
-                 </tr>
+                <div class="card">
+                <p>{{ line['id'] }}</p>
+                <h1><a href="/question/{{ line['id'] }}">{{line['title']}}</a></h1>
+                <p>{{ line['submission_time'] }}</p>
+                <p>{{ line['view_number'] }}</p>
+                <p>{{ line['vote_number'] }} points</p>
+                <p ><a href="/question/{{ line['id'] }}/vote_up">Vote Up</a><br><a href="/question/{{ line['id'] }}/vote_down">Vote Down</a></p>
+                <p></p>
+                <p> {{ line['message'] }}</p>
+                <p><img src="{{ url_for('static', filename='Image/'~line['image']) if line['image'] }}" width="300"></p>
+            </div>
             {% endfor %}
-        </table>
-    </p>
+
+    </section>
+
 
     {% include 'footer.html' %}
 {%endblock%}
