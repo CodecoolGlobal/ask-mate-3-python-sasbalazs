@@ -16,9 +16,10 @@ def login():
     if request.method == 'POST':
         session['username'] = request.form['username']
         username = request.form['username']
+        valid_username = data_manager.check_username(username)
         plain_text_password = request.form['password']
-        stored_hashed_password = data_manager.users[username]
-        is_matching = data_manager.verify_password(plain_text_password, stored_hashed_password)
+        valid_password = data_manager.check_password(valid_username['username'])
+        is_matching = data_manager.verify_password(plain_text_password, valid_password['password'])
         if is_matching:
             return redirect(url_for('main_page'))
         else:

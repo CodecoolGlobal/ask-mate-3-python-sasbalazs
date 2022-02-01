@@ -9,7 +9,6 @@ users = {'john@doe.com': '$2b$12$/TYFvXOy9wDQUOn5SKgTzedwiqB6cm.UIfPewBnz0kUQeK9
          'Barbi': '$2b$12$rg6d0DV7FhHjbbM13synJ.krMgFouIhf6Y8kNtsx1VKPGMumOxpQ6'}
 
 
-
 def add_new_tag_all(tag_name, question_id):
     add_new_tag(tag_name)
     tag_id_all = get_tag_id_from_name(tag_name)
@@ -43,9 +42,6 @@ def verify_password(plain_text_password, hashed_password):
     return bcrypt.checkpw(plain_text_password.encode('utf-8'), hashed_bytes_password)
 
 
-users = {"jhon@doe.com": '$2b$12$oEu70hPGVeKwciKR03EIoe/Y/IK8fojMoACqGO0exGucSq.lIsbim'}
-
-
 @connection.connection_handler
 def add_tag_to_question(cursor, question_id, tag_id):
     cursor.execute(
@@ -58,6 +54,36 @@ def add_tag_to_question(cursor, question_id, tag_id):
             psycopg2.sql.Literal(tag_id)
         )
     )
+
+
+@connection.connection_handler
+def check_username(cursor, username):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            SELECT username
+            FROM users
+            WHERE username = {}
+            """).format(
+            psycopg2.sql.Literal(username)
+        )
+    )
+    return cursor.fetchone()
+
+
+@connection.connection_handler
+def check_password(cursor, username):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            SELECT password
+            FROM users
+            WHERE username = {}
+            """).format(
+            psycopg2.sql.Literal(username)
+        )
+    )
+    return cursor.fetchone()
 
 
 @connection.connection_handler
@@ -111,6 +137,7 @@ def get_tags(cursor, tag_id):
         )
     )
     return cursor.fetchall()
+
 
 @connection.connection_handler
 def get_tag_id_from_name(cursor, tag_name):
@@ -175,6 +202,7 @@ def delete_comment(cursor, comment_id):
     value = {'comment_id': comment_id}
     cursor.execute(query, value)
 
+
 @connection.connection_handler
 def get_question_id(cursor, answer_id):
     query = """
@@ -183,6 +211,7 @@ def get_question_id(cursor, answer_id):
             WHERE answer.id = %(id)s"""
     cursor.execute(query, {'id': answer_id})
     return cursor.fetchone()
+
 
 @connection.connection_handler
 def get_answer(cursor, answer_id):
@@ -222,7 +251,6 @@ def get_answer_id_to_delete_comment(cursor, comment_id):
             WHERE comment.id = %(id)s"""
     cursor.execute(query, {'id': comment_id})
     return cursor.fetchone()
-
 
 
 @connection.connection_handler
