@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+    {% block tab_title %}Registration page{% endblock %}
+    {% block page_header %}Registration page{% endblock %}
+    {% block content %}
+
+    <h1></h1>
+    <form action="/register" method="post">
+        <label>Registration email:
+            <input type="text" min="5" name="email" placeholder="Enter email here ..." required>
+        </label>
+        <br>
+        <label>Registration password:
+            <input type="password" name="password" placeholder="Enter password here ..." required>
+        </label>
+        <br><br>
+        <input type="submit" value="Confirm registration">
+    </form>
+    <div style="text-align: center; font-size: 40px; font-weight: bold">
+        <a href="/">Main page</a>
+    </div>
+
+{%endblock%}
