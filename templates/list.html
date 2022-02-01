@@ -4,7 +4,6 @@
 {% block content %}
     <section class="inline-container">
         <p class="inline-item">Question list</p>
-        <div class="content__btn"><a class="button" href="/add-question">Add new question</a></div>
 
         <form class="inline-item" action="/list">
         <p>Sort by:</p>
@@ -26,20 +25,20 @@
             <input type="text" name="q" id="q" placeholder="Search...">
             <button type="submit">Search</button>
         </form>
+        <div class="content__btn"><a class="button-simple" href="/add-question">Add question</a></div>
     </section>
     <section class="container">
 
             {% for line in questions %}
                 <div class="card">
-                <p>{{ line['id'] }}</p>
-                <h1><a href="/question/{{ line['id'] }}">{{line['title']}}</a></h1>
-                <p>{{ line['submission_time'] }}</p>
-                <p>{{ line['view_number'] }}</p>
-                <p>{{ line['vote_number'] }} points</p>
-                <p ><a href="/question/{{ line['id'] }}/vote_up">Vote Up</a><br><a href="/question/{{ line['id'] }}/vote_down">Vote Down</a></p>
-                <p></p>
-                <p> {{ line['message'] }}</p>
-                <p><img src="{{ url_for('static', filename='Image/'~line['image']) if line['image'] }}" width="300"></p>
+                <p class="card--item">{{ line['id'] }}</p>
+                <h1 class="card--item"><a href="/question/{{ line['id'] }}">{{line['title']}}</a></h1>
+                <p class="card--item">{{ line['submission_time'] }}</p>
+                <p class="card--item">{{ line['view_number'] }}</p>
+                <p class="card--item">{{ line['vote_number'] }} points</p>
+                <p class="card--item"> {{ line['message'] }}</p>
+                <p class="card--item"><img src="{{ url_for('static', filename='Image/'~line['image']) if line['image'] }}" width="300"></p><p class="card--item"><a href="/question/{{ line['id'] }}/vote_up">Vote Up</a><br>
+                    <a href="/question/{{ line['id'] }}/vote_down">Vote Down</a></p>
             </div>
             {% endfor %}
 
