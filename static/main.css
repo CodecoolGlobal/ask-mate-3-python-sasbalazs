@@ -103,6 +103,43 @@
 /*UTILS*/
 .container {
     background: lightgray;
+    padding: 5px;
+}
+
+.inline-container {
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    height: 50px;
+    position : relative;
+	max-width: 900px;
+	margin : 20px auto;
+    align-content: center;
+}
+
+.inline-item {
+    display: flex;
+    margin-left: auto;
+    align-items: center;
+    padding: 0 1rem;
+    height: 50px;
+}
+
+
+.card {
+    position : relative;
+	max-width: 900px;
+	margin : 20px auto;
+    background: white;
+    border-radius: 10px;
+    padding: 20px 40px 60px 20px;
+	box-shadow: 10px 10px 30px 0px rgba(0,0,0,0.5);
+    align-content: center;
+}
+
+.card--item {
+    display: grid;
+
 }
 
 .content__btn {
@@ -113,27 +150,17 @@
     width: 200px;
 }
 
-.inline-container,
-.inline-item {
-    display: flex;
-    justify-content: space-between;
-    align-content: center;
-    padding: 0 1rem;
-    height: 50px;
-}
-
-
-.card {
-    position : relative;
-	height: 450px;
-	max-width: 900px;
-	margin : 20px auto;
-    background: white;
-    border-radius: 10px;
-    padding: 20px;
-	box-shadow: 10px 10px 30px 0px rgba(0,0,0,0.5);
-    align-content: center;
-
+.button-simple {
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    padding: 10px 20px;
+    height: 100%;
+    width: 100%;
+    outline: none;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    border: none #833ab4;
 }
 
 h1{
@@ -152,8 +179,14 @@ a{
     text-align: center;
 }
 footer{
+    display:flex;
     font-size: 20px;
+    height: 100px;
+    padding: 20px 20px 100px;
+    align-content: center;
+    justify-content: center;
 }
+
 section{
     font-size: 20px;
 }
