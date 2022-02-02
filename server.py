@@ -90,15 +90,22 @@ def add_tag(question_id):
 
 @app.route("/question/<question_id>/delete")
 def delete_question(question_id):
-    data_manager.delete_question(question_id)
-    return redirect("/list")
+    if "username" in session:
+        data_manager.delete_question(question_id)
+        return redirect("/list")
+    else:
+        return redirect(url_for("question", question_id=int(question_id)))
 
 
 @app.route("/answer/<answer_id>/delete")
 def delete_answer(answer_id):
-    question_id = data_manager.get_question_id(answer_id)
-    data_manager.delete_answer(answer_id)
-    return redirect(url_for("question", question_id=question_id['question_id']))
+    if "username" in session:
+        question_id = data_manager.get_question_id(answer_id)
+        data_manager.delete_answer(answer_id)
+        return redirect(url_for("question", question_id=question_id['question_id']))
+    else:
+        question_id = data_manager.get_question_id(answer_id)
+        return redirect(url_for("question", question_id=question_id['question_id']))
 
 
 @app.route("/comment/<comment_id>/delete")
