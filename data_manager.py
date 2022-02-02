@@ -564,7 +564,6 @@ def accept_answer(cursor, answer_id):
             WHERE id = {}"""
         ).format(psycopg2.sql.Literal(answer_id))
     )
->>>>>>> 23a97b5fb7560d4ca8df3d63706f96e1cf94b0b6
 
 
 @connection.connection_handler
