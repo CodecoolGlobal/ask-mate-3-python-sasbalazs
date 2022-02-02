@@ -48,7 +48,13 @@
         <div>
             <table >
                  <tr>
+                    {% if logged_in %}
+                     <td><form action="/question" method="post">
+                         <button type="submit">Accept answer</button></form></td>
                      <td style="width:350px"> {% if answer['question_id'] == question_to_render['id'] %}<div><a href="/answer/{{ answer['id'] }}/commits">{{ answer['message'] }}</a></div>{% endif %}</td>
+                    {% else %}
+                     <td style="width:350px"> {% if answer['question_id'] == question_to_render['id'] %}<div><a href="/answer/{{ answer['id'] }}/commits">{{ answer['message'] }}</a></div>{% endif %}</td>
+                    {% endif %}
                      <td style="width:80px"> <a href="/answer/{{ answer['id'] }}/edit">Edit answer</a></td>
                      <td style="width:80px"> <a href="/answer/{{ answer['id'] }}/delete">Delete answer</a></td>
                      <td style="width:80px">Vote: {{ answer['vote_number'] }}</td>

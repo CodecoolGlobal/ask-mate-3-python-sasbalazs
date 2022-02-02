@@ -36,6 +36,7 @@ CREATE TABLE answer (
     question_id integer,
     message text,
     image text,
+    accepted boolean,
     user_id integer
 );
 
@@ -104,13 +105,7 @@ ALTER TABLE ONLY question_tag
 
 
 INSERT INTO users VALUES (0, 'jonh@doe.com', '$2b$12$oEu70hPGVeKwciKR03EIoe/Y/IK8fojMoACqGO0exGucSq.lIsbim', '2017-04-28 08:29:00');
-<<<<<<< HEAD
 SELECT pg_catalog.setval('users_id_seq', 1, true);
-
-
-=======
-SELECT pg_catalog.setval('users_id_seq', 0, true);
->>>>>>> f86cffc299eb7488fb467b49c046d22f5bd51503
 INSERT INTO question VALUES (0, '2017-04-28 08:29:00', 29, 7, 'How to make lists in Python?', 'I am totally new to this, any hints?', NULL);
 INSERT INTO question VALUES (1, '2017-04-29 09:19:00', 15, 9, 'Wordpress loading multiple jQuery Versions', 'I developed a plugin that uses the jquery booklet plugin (http://builtbywill.com/booklet/#/) this plugin binds a function to $ so I cann call $(".myBook").booklet();
 
@@ -134,14 +129,14 @@ INSERT INTO question VALUES (3, '2022-01-21 00:30:32', 0, 3, 'What year Mustang 
 
 SELECT pg_catalog.setval('question_id_seq', 2, true);
 
-INSERT INTO answer VALUES (1, '2017-04-28 16:49:00', 4, 1, 'You need to use brackets: my_list = []', NULL);
-INSERT INTO answer VALUES (2, '2017-04-25 14:42:00', 35, 1, 'Look it up in the Python docs', 'images/image2.jpg');
-INSERT INTO answer VALUES (3, '2022-01-21 01:37:46', 0, 3, 'Avoid The 2006 Model Year! Produced by Ford Motor Company, an American multinational car corporation, the Ford Mustang is a series of cars manufactured since 1964.',  'Ford-Mustang_2005_Kupeja_162531904_7.jpg');
-INSERT INTO answer VALUES (4, '2022-01-21 01:38:39', 0, 5, 'A meandering river is a great example of a phenomenon of water changing the shape of land. When it is surrounded by steep rock a river rarely curves but when it open up in large valleys it will weave back and forth. Water on the outside of the river will travel faster and erode the land more quickly. Eventually it will curve too much and lose speed. A stream table can be used to model a meandering river.', NULL);
-INSERT INTO answer VALUES (5, '2022-01-21 01:39:43', 0, 5, 'Are you kidding me? What kind of silly question is this? Did you not learn geography?', NULL);
-INSERT INTO answer VALUES (6, '2022-01-21 01:40:52', 0, 6, 'You should definitely visit Switzerland! I recommend you take a trip to Switzerland. It is also possible travel by train between mountains.', 'schweizerbahnen.jpeg');
-INSERT INTO answer VALUES (8, '2022-01-21 01:56:49', 0, 7, 'I think so... Do you think you can meet him?', 'momoa_single.jpg');
-)
+INSERT INTO answer VALUES (1, '2017-04-28 16:49:00', 4, 1, 'You need to use brackets: my_list = []', NULL, False);
+INSERT INTO answer VALUES (2, '2017-04-25 14:42:00', 35, 1, 'Look it up in the Python docs', 'images/image2.jpg', False);
+INSERT INTO answer VALUES (3, '2022-01-21 01:37:46', 0, 3, 'Avoid The 2006 Model Year! Produced by Ford Motor Company, an American multinational car corporation, the Ford Mustang is a series of cars manufactured since 1964.',  'Ford-Mustang_2005_Kupeja_162531904_7.jpg', False);
+INSERT INTO answer VALUES (4, '2022-01-21 01:38:39', 0, 5, 'A meandering river is a great example of a phenomenon of water changing the shape of land. When it is surrounded by steep rock a river rarely curves but when it open up in large valleys it will weave back and forth. Water on the outside of the river will travel faster and erode the land more quickly. Eventually it will curve too much and lose speed. A stream table can be used to model a meandering river.', NULL, False);
+INSERT INTO answer VALUES (5, '2022-01-21 01:39:43', 0, 5, 'Are you kidding me? What kind of silly question is this? Did you not learn geography?', NULL, False);
+INSERT INTO answer VALUES (6, '2022-01-21 01:40:52', 0, 6, 'You should definitely visit Switzerland! I recommend you take a trip to Switzerland. It is also possible travel by train between mountains.', 'schweizerbahnen.jpeg', False);
+INSERT INTO answer VALUES (8, '2022-01-21 01:56:49', 0, 7, 'I think so... Do you think you can meet him?', 'momoa_single.jpg', False);
+
 SELECT pg_catalog.setval('answer_id_seq', 2, true);
 
 INSERT INTO comment VALUES (2, NULL, 1, 'I think you could use my_list = list() as well.', '2017-05-02 16:55:00');
