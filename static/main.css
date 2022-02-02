@@ -101,6 +101,10 @@
 }
 
 /*UTILS*/
+
+.content-wrapper{
+    padding: 60px;
+}
 .container {
     background: lightgray;
     padding: 5px;
