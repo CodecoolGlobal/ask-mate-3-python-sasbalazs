@@ -14,22 +14,25 @@
                 <a href="#all-questions" class="navbar__links" id="all-questions-page" onclick="location.href='/list'">All questions</a>
             </li>
             <li class="navbar__item">
-                <a href="#users" class="navbar__links" id="users-page" onclick="location.href='/users'">Users</a>
+                <a href="#users" class="navbar__links" id="user-page" onclick="location.href='/users'">Users</a>
             </li>
             <li class="navbar__item">
                 <a href="#tags" class="navbar__links" id="tags-page" onclick="location.href='/tags'">Tags</a>
             </li>
             {% if 'username' in session %}
-            <li class="navbar__item">
+                <li class="navbar__item">
+                    <a href="#users" class="navbar__links" id="user-page" onclick="location.href='/user/{{session['id']}}'">My profile</a>
+                </li>
+                <li class="navbar__item">
                 <a href="#login" class="navbar__links" id="login-page" onclick="location.href='/logout'">Log out</a>
             </li>
             {% else %}
-            <li class="navbar__item">
-                <a href="#login" class="navbar__links" id="login-page" onclick="location.href='/login'">Log in</a>
-            </li>
-            <li class="navbar__btn">
-                <a href="#sign-up" class="button" id="sign-up" onclick="location.href='/register'">Sign up</a>
-            </li>
+                <li class="navbar__item">
+                    <a href="#login" class="navbar__links" id="login-page" onclick="location.href='/login'">Log in</a>
+                </li>
+                <li class="navbar__btn">
+                    <a href="#sign-up" class="button" id="sign-up" onclick="location.href='/register'">Sign up</a>
+                </li>
             {%  endif  %}
         </ul>
     </div>

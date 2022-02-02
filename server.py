@@ -16,6 +16,7 @@ def login():
     if request.method == 'POST':
         session['username'] = request.form['username']
         username = request.form['username']
+        session['id'] = data_manager.get_user_name_from_name(username)['id']
         valid_username = data_manager.check_username(username)
         plain_text_password = request.form['password']
         valid_password = data_manager.check_password(valid_username['username'])
@@ -35,11 +36,8 @@ def logout():
 
 @app.route('/user/<user_id>')
 def user_page(user_id):
-    if 'username' in session:
-        username =data_manager.get_user_id_from_name(user_id)
-        if session['username'] == username:
-            pass
-    return render_template('user_page.html', user_id=user_id)
+    user = data_manager.get_user_data_from_id(user_id)
+    return render_template('user_page.html', user=user)
 
 
 @app.route("/answer/<answer_id>/commits")
