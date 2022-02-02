@@ -47,13 +47,22 @@
         {% for answer in answers_to_render %}
         <div>
             <table >
+            {% if answer['accepted'] == True %}
+                 <tr bgcolor="#00aa00">
+            {% else %}
                  <tr>
+            {% endif %}
                     {% if logged_in %}
-                     <td><form action="/question" method="post">
-                         <button type="submit">Accept answer</button></form></td>
-                     <td style="width:350px"> {% if answer['question_id'] == question_to_render['id'] %}<div><a href="/answer/{{ answer['id'] }}/commits">{{ answer['message'] }}</a></div>{% endif %}</td>
+                         <td><form action="/question/{{ question_to_render['id'] }}" method="post">
+                             {% if answer['accepted'] == True %}
+                                 <button type="submit" name="answer_id" value="{{ answer['id'] }}">Unaccept answer</button>
+                             {% else %}
+                                 <button type="submit" name="answer_id" value="{{ answer['id'] }}">Accept answer</button>
+                             {% endif %}
+                         </form></td>
+                         <td style="width:350px"> {% if answer['question_id'] == question_to_render['id'] %}<div><a href="/answer/{{ answer['id'] }}/commits">{{ answer['message'] }}</a></div>{% endif %}</td>
                     {% else %}
-                     <td style="width:350px"> {% if answer['question_id'] == question_to_render['id'] %}<div><a href="/answer/{{ answer['id'] }}/commits">{{ answer['message'] }}</a></div>{% endif %}</td>
+                         <td style="width:350px"> {% if answer['question_id'] == question_to_render['id'] %}<div><a href="/answer/{{ answer['id'] }}/commits">{{ answer['message'] }}</a></div>{% endif %}</td>
                     {% endif %}
                      <td style="width:80px"> <a href="/answer/{{ answer['id'] }}/edit">Edit answer</a></td>
                      <td style="width:80px"> <a href="/answer/{{ answer['id'] }}/delete">Delete answer</a></td>
