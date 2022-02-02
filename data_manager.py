@@ -49,6 +49,21 @@ def list_users(cursor):
 
 
 @connection.connection_handler
+def get_user_id(cursor, username):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            SELECT id
+            FROM users
+            WHERE username = {}
+            """).format(
+            psycopg2.sql.Literal(username)
+        )
+    )
+    return cursor.fetchone()
+
+
+@connection.connection_handler
 def add_tag_to_question(cursor, question_id, tag_id):
     cursor.execute(
         psycopg2.sql.SQL(
@@ -509,10 +524,10 @@ def a_vote_down(cursor, answer_id):
 def addquestion(cursor, data):
     query = """
     INSERT INTO question 
-    (submission_time, view_number, vote_number, title, message, image)
-    VALUES (%(submission_time)s, %(view_number)s, %(vote_number)s, %(title)s, %(message)s, %(image)s)
+    (submission_time, view_number, vote_number, title, message, image, user_id)
+    VALUES (%(submission_time)s, %(view_number)s, %(vote_number)s, %(title)s, %(message)s, %(image)s, %(user_id)s)
     RETURNING id"""
-    cursor.execute(query, {"submission_time": data[0], "view_number": data[1], "vote_number": data[2], "title": data[3], "message": data[4], "image": data[5]})
+    cursor.execute(query, {"submission_time": data[0], "view_number": data[1], "vote_number": data[2], "title": data[3], "message": data[4], "image": data[5], "user_id": data[6]})
     return cursor.fetchone()
 
 
