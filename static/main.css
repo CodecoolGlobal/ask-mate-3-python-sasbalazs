@@ -1,5 +1,8 @@
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css");
+<<<<<<< HEAD
 
+=======
+>>>>>>> add basic layout to user_page
 
 * {
     box-sizing: border-box;
@@ -211,6 +214,7 @@
     height: 6em;
     color: #ff0084;
 }
+<<<<<<< HEAD
 a {
    text-align: center;
     color: #792493;
@@ -218,6 +222,14 @@ a {
 
 }
 a:hover {
+=======
+.a {
+   text-align: center;
+    color: #33001b;
+
+}
+.a:hover {
+>>>>>>> add basic layout to user_page
     color: #ff0084;
 
 }
@@ -237,6 +249,10 @@ a:hover {
 
 h1{
     font-size: 1.5em;
+<<<<<<< HEAD
+=======
+
+>>>>>>> add basic layout to user_page
 }
 th{
     font-size: 16px;

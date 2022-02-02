@@ -15,6 +15,7 @@ def login():
     login_status = ''
     if request.method == 'POST':
         username = request.form['username']
+        session['id'] = data_manager.get_user_name_from_name(username)['id']
         valid_username = data_manager.check_username(username)
         if valid_username:
             plain_text_password = request.form['password']
