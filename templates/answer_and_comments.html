@@ -2,28 +2,32 @@
     {% block tab_title %}Answer{% endblock %}
     {% block page_header %}Answer{% endblock %}
     {% block content %}
-    <p>{% if answer['id'] %}<div style="width: 1000px">{{ answer['message'] }}</div>{% endif %}</p>
-        {% if answer['image'] %}
-        <img src="{{ url_for('static', filename='Image/'~answer['image']) }}" alt="Answer_image" width="300" >
-        {% endif %}
-    <br>
-        {% if comments_to_render %}
-        <h3>Comments</h3>
-        {% endif %}
-        <div> <a href="/answer/{{ answer['id'] }}/new-comment">Add comment to answer</a></div>
+        <section class="container">
+            <div class="card">
+            <p>{% if answer['id'] %}<div style="width: 1000px">{{ answer['message'] }}</div>{% endif %}</p>
+                {% if answer['image'] %}
+                <img src="{{ url_for('static', filename='Image/'~answer['image']) }}" alt="Answer_image" width="300" >
+                {% endif %}
+            <br>
+                {% if comments_to_render %}
+                <h3>Comments</h3>
+                {% endif %}
+                <div> <a href="/answer/{{ answer['id'] }}/new-comment">Add comment to answer</a></div>
 
-        {% for comment in comments_to_render %}
-        <div>
-            <table>
-                <tr>
-                    <td style="width:350px"> {% if comment['answer_id'] %}<div>{{ comment['message'] }}</div>{% endif %}</td>
-                    <td style="width:80px"> {% if comment['answer_id'] %}<div>Edited {{ comment['edited_count'] }}times</div>{% endif %}</td>
-                    <td style="width:80px"> <a href="/answer-comment/{{ comment['id'] }}/edit">Edit comment</a></td>
-                    <td style="width:80px"> <a href="/answer-comment/{{ comment['id'] }}/delete">Delete comment</a></td>
-                </tr>
-            </table>
-        </div>
-        {% endfor %}
-    <br>
+                {% for comment in comments_to_render %}
+                <div>
+                    <table>
+                        <tr>
+                            <td style="width:350px"> {% if comment['answer_id'] %}<div>{{ comment['message'] }}</div>{% endif %}</td>
+                            <td style="width:80px"> {% if comment['answer_id'] %}<div>Edited {{ comment['edited_count'] }}times</div>{% endif %}</td>
+                            <td style="width:80px"> <a href="/answer-comment/{{ comment['id'] }}/edit">Edit comment</a></td>
+                            <td style="width:80px"> <a href="/answer-comment/{{ comment['id'] }}/delete">Delete comment</a></td>
+                        </tr>
+                    </table>
+                </div>
+                {% endfor %}
+            <br>
+            </div>
+        </section>
     {% include 'footer.html' %}
 {%endblock%}

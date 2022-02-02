@@ -100,7 +100,7 @@ def check_username(cursor, username):
 
 
 @connection.connection_handler
-def check_password(cursor, username):
+def get_password(cursor, username):
     cursor.execute(
         psycopg2.sql.SQL(
             """
