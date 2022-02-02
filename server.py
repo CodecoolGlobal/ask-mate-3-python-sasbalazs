@@ -46,6 +46,15 @@ def registration_page():
     return render_template('registration.html')
 
 
+@app.route('/user/<user_id>')
+def user_page(user_id):
+    if 'username' in session:
+        username = data_manager.get_user_id_from_name(user_id)
+        if session['username'] == username:
+            pass
+    return render_template('user_page.html', user_id=user_id)
+
+
 @app.route("/answer/<answer_id>/commits")
 def render_answer_with_commits(answer_id):
     answer = data_manager.get_answer(answer_id)
