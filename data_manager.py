@@ -548,14 +548,27 @@ def display_question_after_adding(cursor, id):
     cursor.execute(query, value)
     return cursor.fetchone()
 
+
 @connection.connection_handler
 def post_answer(cursor, data):
     query = """
     INSERT INTO answer
-    (submission_time, vote_number, question_id, message, image)
-    VALUES (%(submission_time)s, %(vote_number)s, %(question)s, %(message)s, %(image)s)"""
+    (submission_time, vote_number, question_id, message, image, accepted)
+    VALUES (%(submission_time)s, %(vote_number)s, %(question)s, %(message)s, %(image)s, %(accepted)s)"""
     cursor.execute(query, {"submission_time": data[0], "vote_number": data[1], "question": data[2], "message": data[3],
-                           "image": data[4]})
+                           "image": data[4], "accepted": data[5]})
+
+
+@connection.connection_handler
+def accept_answer(cursor):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            UPDATE answer
+            SET accepted = NOT accepted
+            WHERE id = {}"""
+        ).format(psycopg2.sql.Literal(answer_id))
+    )
 
 
 @connection.connection_handler

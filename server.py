@@ -26,8 +26,6 @@ def login():
                 return redirect(url_for('main_page'))
             else:
                 login_status = "Wrong password or username given!"
-        else:
-            login_status = "Wrong password or username given!"
     return render_template('login.html', login_status=login_status)
 
 
@@ -148,7 +146,8 @@ def post_new_answer(question_id):
             image = file.filename
         else:
             image = None
-        data = [submission_time, vote_number, question_id, message, image]
+        accepted = False
+        data = [submission_time, vote_number, question_id, message, image, accepted]
         data_manager.post_answer(data)
         return redirect(url_for("question", question_id=question_id))
 
@@ -215,16 +214,22 @@ def add_comment_to_answer():
         return redirect(url_for("question", question_id=question_id))
 
 
-@app.route("/question/<question_id>")
+@app.route("/question/<question_id>", methods=['GET', 'POST'])
 def question(question_id):
     route = url_for("post_new_answer", question_id=question_id)
     question_to_render = data_manager.get_last_question(str(question_id))
     answers_to_render = data_manager.get_answers(question_id)
     tags_combined = data_manager.combine_tags_with_ids(question_id)
     comments_to_render = data_manager.get_comments(question_id)
+    if 'username' in session:
+        logged_in = True
+    else:
+        logged_in = False
+    if request.method == 'POST':
+        answer_accept = True
     return render_template('question.html', question_to_render=question_to_render,
                            answers_to_render=answers_to_render, route=route, tags=tags_combined,
-                           comments_to_render=comments_to_render)
+                           comments_to_render=comments_to_render, logged_in=logged_in)
 
 
 @app.route("/question/<question_id>/edit")
