@@ -69,7 +69,11 @@ CREATE TABLE users (
     id serial NOT NULL,
     username text,
     password text,
-    registration_time timestamp without time zone
+    registration_time timestamp without time zone,
+    questions integer,
+    answers integer,
+    comments integer,
+    reputation integer
 );
 
 

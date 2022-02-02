@@ -7,6 +7,7 @@ import calendar
 
 
 @connection.connection_handler
+<<<<<<< HEAD
 def get_user_data_from_id(cursor, user_id):
     cursor.execute(
         psycopg2.sql.SQL(
@@ -17,12 +18,25 @@ def get_user_data_from_id(cursor, user_id):
             """
         ).format(
         psycopg2.sql.Literal(user_id),
+=======
+def count_of_user_questions(cursor, user_id):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            SELECT COUNT(*)
+            FROM question
+            WHERE user_id = {} 
+            """
+        ).format(
+            psycopg2.sql.Literal(user_id)
+>>>>>>> add number of questions, answers, comments to the list_users page
         )
     )
     return cursor.fetchall()
 
 
 @connection.connection_handler
+<<<<<<< HEAD
 def get_user_name_from_name(cursor, username):
     cursor.execute(
         psycopg2.sql.SQL(
@@ -36,6 +50,52 @@ def get_user_name_from_name(cursor, username):
         )
     )
     return cursor.fetchone()
+=======
+def update_question_column_of_user(cursor, user, sum_question):
+    cursor.execute("UPDATE users SET questions = %s WHERE id = %s", (sum_question, user))
+
+
+@connection.connection_handler
+def count_of_user_answers(cursor, user_id):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            SELECT COUNT(*)
+            FROM answer
+            WHERE user_id = {} 
+            """
+        ).format(
+            psycopg2.sql.Literal(user_id)
+        )
+    )
+    return cursor.fetchall()
+
+
+@connection.connection_handler
+def update_answer_column_of_user(cursor, user, sum_answers):
+    cursor.execute("UPDATE users SET answers = %s WHERE id = %s", (sum_answers, user))
+
+
+@connection.connection_handler
+def count_of_user_comments(cursor, user_id):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            SELECT COUNT(*)
+            FROM comment
+            WHERE user_id = {} 
+            """
+        ).format(
+            psycopg2.sql.Literal(user_id)
+        )
+    )
+    return cursor.fetchall()
+
+
+@connection.connection_handler
+def update_comment_column_of_user(cursor, user, sum_comments):
+    cursor.execute("UPDATE users SET comments = %s WHERE id = %s", (sum_comments, user))
+>>>>>>> add number of questions, answers, comments to the list_users page
 
 
 def add_new_tag_all(tag_name, question_id):
@@ -54,8 +114,8 @@ def delete_tag(cursor, question_id, tag_id):
             WHERE question_id = {} AND tag_id={}
             """
         ).format(
-        psycopg2.sql.Literal(question_id),
-        psycopg2.sql.Literal(tag_id)
+            psycopg2.sql.Literal(question_id),
+            psycopg2.sql.Literal(tag_id)
         )
     )
 
@@ -620,4 +680,3 @@ def convert_to_date(timestamp):
     ts = int(timestamp)
     data = datetime.utcfromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
     return data
-
