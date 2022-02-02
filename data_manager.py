@@ -271,7 +271,7 @@ def get_answer_id(cursor, comment_id):
 
 
 @connection.connection_handler
-def get_question_id_to_delete_comment(cursor, comment_id):
+def get_question_id_from_comment_id(cursor, comment_id):
     query = """
             SELECT question_id
             FROM comment
@@ -440,20 +440,20 @@ def get_comments_to_answer(cursor, answer_id):
 def add_comments(cursor, data):
     query = """
             INSERT INTO comment 
-            (question_id, message, submission_time, edited_count)
-            VALUES (%(question_id)s, %(message)s, %(submission_time)s, %(edited_count)s)"""
+            (question_id, message, submission_time, edited_count, user_id)
+            VALUES (%(question_id)s, %(message)s, %(submission_time)s, %(edited_count)s, %(user_id)s)"""
     cursor.execute(query,
-                   {"question_id": data[0], "message": data[1], "submission_time": data[2], "edited_count": data[3]})
+                   {"question_id": data[0], "message": data[1], "submission_time": data[2], "edited_count": data[3], "user_id": data[4]})
 
 
 @connection.connection_handler
 def add_comment_answer(cursor, data):
     query = """
                 INSERT INTO comment 
-                (answer_id, message, submission_time, edited_count)
-                VALUES (%(answer_id)s, %(message)s, %(submission_time)s, %(edited_count)s)"""
+                (answer_id, message, submission_time, edited_count, user_id)
+                VALUES (%(answer_id)s, %(message)s, %(submission_time)s, %(edited_count)s, %(user_id)s)"""
     cursor.execute(query,
-                   {"answer_id": data[0], "message": data[1], "submission_time": data[2], "edited_count": data[3]})
+                   {"answer_id": data[0], "message": data[1], "submission_time": data[2], "edited_count": data[3], "user_id": data[4]})
 
 
 @connection.connection_handler

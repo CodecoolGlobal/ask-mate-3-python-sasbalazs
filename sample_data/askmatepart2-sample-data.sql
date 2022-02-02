@@ -144,14 +144,18 @@ Amúgy meg szerintem az emberi kapcsolatok elég fontosak. Inkább az tesz jóv�
 
 SELECT pg_catalog.setval('answer_id_seq', 2, true);
 
-INSERT INTO comment VALUES (2, NULL, 1, 'I think you could use my_list = list() as well.', '2017-05-02 16:55:00');
-INSERT INTO comment VALUES (4, NULL, 8, 'What''s with you? if you don''t like the topic can roll down!','2022-01-21 01:59:51', 0);
-INSERT INTO comment VALUES (5, NULL, 6, 'Switzerland is f*cking expensive! Don''t go there!', '2022-01-21 02:04:11', 0);
-INSERT INTO comment VALUES (6, NULL, 6, 'I really enjoyed the mountains, but yes, the first commentator has right, you''d better go to Austria, or North-Italy.','2022-01-21 02:08:05',1);
-INSERT INTO comment VALUES (7, 0, NULL, 'This is extremely short explanation...', '2022-01-21 02:19:21',0);
-INSERT INTO comment VALUES (8, NULL, 4, 'As a result of river regulations, many rivers have straightened out.', '2022-01-21 02:25:29',1);
-INSERT INTO comment VALUES (9, 7, NULL, 'helloooooooo', '2022-01-21 08:32:24',1);
-INSERT INTO comment VALUES (3, NULL, 8, 'Seriously?? Can''t we talk about other things???', '2022-01-21 08:58:07',1);
+INSERT INTO comment VALUES (2, NULL, 1, 'I think you could use my_list = list() as well.', '2017-05-02 16:55:00',0,4);
+INSERT INTO comment VALUES (4, NULL, 8, 'What''s with you? if you don''t like the topic can roll down!','2022-01-21 01:59:51', 0,5);
+INSERT INTO comment VALUES (5, NULL, 6, 'Switzerland is f*cking expensive! Don''t go there!', '2022-01-21 02:04:11', 0,4);
+INSERT INTO comment VALUES (6, NULL, 6, 'I really enjoyed the mountains, but yes, the first commentator has right, you''d better go to Austria, or North-Italy.','2022-01-21 02:08:05',1,5);
+INSERT INTO comment VALUES (7, 0, NULL, 'This is extremely short explanation...', '2022-01-21 02:19:21',0,5);
+INSERT INTO comment VALUES (8, NULL, 4, 'As a result of river regulations, many rivers have straightened out.', '2022-01-21 02:25:29',1,0);
+INSERT INTO comment VALUES (9, 7, NULL, 'helloooooooo', '2022-01-21 08:32:24',1,4);
+INSERT INTO comment VALUES (3, NULL, 8, 'Seriously?? Can''t we talk about other things???', '2022-01-21 08:58:07',1,4);
+INSERT INTO comment VALUES (11, 10, NULL,'I love Budapest! <3', '2022-02-02 17:42:25',0,0);
+INSERT INTO comment VALUES (13, NULL, 10, 'I love Budapest! <3', '2022-02-02 17:42:52',0,0);
+INSERT INTO comment VALUES (14, 10, NULL,'Hát kicsit koszos a belváros, de minden nagyváros egy bizonyos mértékben az...', '2022-02-02 17:45:14',0,4);
+INSERT INTO comment VALUES (15, NULL, 10, 'Me too! Such a colorful place! :D', '2022-02-02 17:45:46',0,4);
 SELECT pg_catalog.setval('comment_id_seq', 2, true);
 
 INSERT INTO tag VALUES (1, 'python');
