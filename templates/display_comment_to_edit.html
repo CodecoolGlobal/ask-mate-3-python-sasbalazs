@@ -2,13 +2,17 @@
     {% block tab_title %}Edit comment{% endblock %}
     {% block page_header %}Edit comment{% endblock %}
     {% block content %}
-    <form action="/rewrite_one_comment/{{ comment_to_edit.id }}" enctype="multipart/form-data" method="POST">
-        <input type="hidden" id="edited_count" name="edited_count" value={{ comment_to_edit.edited_count}}>
-        <input type="hidden" id="question_id" name="question_id" value={{ comment_to_edit.question_id}}>
-        <label for="message">Message:</label><br>
-        <textarea id="message" rows="4" cols="50" name="message" required>{{ comment_to_edit.message }}</textarea>
-        <br><br>
-        <input type="submit" value="Edit Commit">
-    </form>
+        <section class="container">
+        <div class="card">
+            <form action="/rewrite_one_comment/{{ comment_to_edit.id }}" enctype="multipart/form-data" method="POST">
+                <input type="hidden" id="edited_count" name="edited_count" value={{ comment_to_edit.edited_count}}>
+                <input type="hidden" id="question_id" name="question_id" value={{ comment_to_edit.question_id}}>
+                <label for="message">Message:</label><br>
+                <textarea id="message" rows="4" cols="50" name="message" required>{{ comment_to_edit.message }}</textarea>
+                <br><br>
+                <input type="submit" value="Edit Commit">
+            </form>
+            </div>
+        </section>
     {% include 'footer.html' %}
 {%endblock%}

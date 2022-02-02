@@ -2,21 +2,26 @@
 {% block tab_title %}Add new tag{% endblock %}
 {% block page_header %}The tags for this question are:{% endblock %}
 {% block content %}
-        <section>
-        {% if tags %}
-            {%  for tag in tags %}
-                {{ tag[0] }}
-            {% endfor %}
-        {% else %}
-        <div>No tags yet</div>
-        {% endif %}
-        <h1>Choose from our most popular tags:</h1>
-        <form action="/question/ {{ question_id }} /new-tag" method='POST'>
-              <input type="text" id="new_tag" name="new_tag" maxlength="20">
+    <section class="container">
+        <div class="card">
+            {% if tags %}
+                <h3>These are the tags already added to this question:</h3>
+                <br>
+                {%  for tag in tags %}
+                    {{ tag[0] }}
+                {% endfor %}
+            {% else %}
+            <div>No tags yet</div>
+            {% endif %}
             <br>
-              <input type="submit" value="Submit">
-        </form>
-        <br>
-        </section>
+            <h3>Type the new tag:</h3>
+            <form action="/question/ {{ question_id }} /new-tag" method='POST'>
+                  <input type="text" id="new_tag" name="new_tag" maxlength="20">
+                <br>
+                  <input type="submit" value="Submit">
+            </form>
+            <br>
+        </div>
+    </section>
     {% include 'footer.html' %}
 {%endblock%}

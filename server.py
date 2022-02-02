@@ -14,15 +14,18 @@ app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 def login():
     login_status = ''
     if request.method == 'POST':
-        session['username'] = request.form['username']
         username = request.form['username']
-        session['id'] = data_manager.get_user_name_from_name(username)['id']
         valid_username = data_manager.check_username(username)
-        plain_text_password = request.form['password']
-        valid_password = data_manager.check_password(valid_username['username'])
-        is_matching = data_manager.verify_password(plain_text_password, valid_password['password'])
-        if is_matching:
-            return redirect(url_for('main_page'))
+        if valid_username:
+            plain_text_password = request.form['password']
+            valid_password = data_manager.get_password(valid_username['username'])
+            is_matching = data_manager.verify_password(plain_text_password, valid_password['password'])
+            if is_matching:
+                session['username'] = request.form['username']
+                session['id'] = data_manager.get_user_name_from_name(username)['id']
+                return redirect(url_for('main_page'))
+            else:
+                login_status = "Wrong password or username given!"
         else:
             login_status = "Wrong password or username given!"
     return render_template('login.html', login_status=login_status)

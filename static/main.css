@@ -211,12 +211,13 @@
     height: 6em;
     color: #ff0084;
 }
-.a {
+a {
    text-align: center;
-    color: #33001b;
+    color: #792493;
+    text-decoration: none;
 
 }
-.a:hover {
+a:hover {
     color: #ff0084;
 
 }
