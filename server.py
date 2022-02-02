@@ -136,29 +136,34 @@ def vote_down_answer(answer_id):
 
 @app.route("/question/<question_id>/new-answer", methods=['GET', 'POST'])
 def post_new_answer(question_id):
-    if request.method == 'GET':
-        route = url_for("post_new_answer", question_id=question_id)
-        question_to_render = data_manager.get_last_question(question_id)
-        return render_template('new_answer.html', route=route, question_id=question_id,
-                                                 question_to_render=question_to_render)
-    elif request.method == 'POST':
-        if request.files['image']:
+    if "username" in session:
+        username = session['username']
+        if request.method == 'GET':
+            route = url_for("post_new_answer", question_id=question_id)
+            question_to_render = data_manager.get_last_question(question_id)
+            return render_template('new_answer.html', route=route, question_id=question_id,
+                                                     question_to_render=question_to_render)
+
+        elif request.method == 'POST':
+            if request.files['image']:
+                file = request.files['image']
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+            time = data_manager.get_unixtime()
+            submission_time = data_manager.convert_to_date(time)
+            vote_number = 0
+            question_id = question_id
+            message = request.form['new_answer']
             file = request.files['image']
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
-        time = data_manager.get_unixtime()
-        submission_time = data_manager.convert_to_date(time)
-        vote_number = 0
-        question_id = question_id
-        message = request.form['new_answer']
-        file = request.files['image']
-        if file.filename:
-            image = file.filename
-        else:
-            image = None
-        accepted = False
-        data = [submission_time, vote_number, question_id, message, image, accepted]
-        data_manager.post_answer(data)
-        return redirect(url_for("question", question_id=question_id))
+            if file.filename:
+                image = file.filename
+            else:
+                image = None
+            accepted = False
+            user_id = data_manager.get_user_id(username)
+            data = [submission_time, vote_number, question_id, message, image, accepted, user_id['id']]
+            data_manager.post_answer(data)
+            return redirect(url_for("question", question_id=question_id))
+    return redirect("/")
 
 
 @app.route("/add-question", methods=['GET', 'POST'])
@@ -185,7 +190,8 @@ def add_question():
             id = data_manager.addquestion(data)
             return redirect(url_for("display_question",id = id['id']))
         return render_template('add-question.html')
-    return render_template('add-question.html')
+    return redirect("/")
+
 
 @app.route("/question/<question_id>/new-comment", methods=['GET', 'POST'])
 def render_comment_template(question_id):

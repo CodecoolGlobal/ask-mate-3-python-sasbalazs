@@ -556,7 +556,8 @@ def addquestion(cursor, data):
     (submission_time, view_number, vote_number, title, message, image, user_id)
     VALUES (%(submission_time)s, %(view_number)s, %(vote_number)s, %(title)s, %(message)s, %(image)s, %(user_id)s)
     RETURNING id"""
-    cursor.execute(query, {"submission_time": data[0], "view_number": data[1], "vote_number": data[2], "title": data[3], "message": data[4], "image": data[5], "user_id": data[6]})
+    cursor.execute(query, {"submission_time": data[0], "view_number": data[1], "vote_number": data[2], "title": data[3],
+                           "message": data[4], "image": data[5], "user_id": data[6]})
     return cursor.fetchone()
 
 
@@ -575,10 +576,10 @@ def display_question_after_adding(cursor, id):
 def post_answer(cursor, data):
     query = """
     INSERT INTO answer
-    (submission_time, vote_number, question_id, message, image, accepted)
-    VALUES (%(submission_time)s, %(vote_number)s, %(question)s, %(message)s, %(image)s, %(accepted)s)"""
+    (submission_time, vote_number, question_id, message, image, accepted, user_id)
+    VALUES (%(submission_time)s, %(vote_number)s, %(question)s, %(message)s, %(image)s, %(accepted)s, %(user_id)s)"""
     cursor.execute(query, {"submission_time": data[0], "vote_number": data[1], "question": data[2], "message": data[3],
-                           "image": data[4], "accepted": data[5]})
+                           "image": data[4], "accepted": data[5], "user_id": data[6]})
 
 
 @connection.connection_handler
@@ -619,11 +620,4 @@ def convert_to_date(timestamp):
     ts = int(timestamp)
     data = datetime.utcfromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
     return data
-
-
-
-
-
-
-
 
