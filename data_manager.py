@@ -43,6 +43,12 @@ def verify_password(plain_text_password, hashed_password):
 
 
 @connection.connection_handler
+def list_users(cursor):
+    cursor.execute("""SELECT * FROM users""")
+    return cursor.fetchall()
+
+
+@connection.connection_handler
 def add_tag_to_question(cursor, question_id, tag_id):
     cursor.execute(
         psycopg2.sql.SQL(

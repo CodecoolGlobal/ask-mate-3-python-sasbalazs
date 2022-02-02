@@ -104,13 +104,10 @@ ALTER TABLE ONLY question_tag
 
 
 INSERT INTO users VALUES (0, 'jonh@doe.com', '$2b$12$oEu70hPGVeKwciKR03EIoe/Y/IK8fojMoACqGO0exGucSq.lIsbim', '2017-04-28 08:29:00');
-<<<<<<< HEAD
+INSERT INTO users VALUES (4,'magyarorszag@gmail.com', '$2b$12$6IxC.ov9aIlSUa/80m/ljeFvwM6x67p3GSrK7lWlmeUiDnAJFi9SW', '2022-02-02 11:41:55');
+INSERT INTO users VALUES (5, 'fightklub@freemail.hu', '$2b$12$EWW4mD6P..4R.6HMfbryLeQhThH/cAs68g153v2sBp/lbvurcaxSW', '2022-02-02 11:46:36');
 SELECT pg_catalog.setval('users_id_seq', 1, true);
 
-
-=======
-SELECT pg_catalog.setval('users_id_seq', 0, true);
->>>>>>> f86cffc299eb7488fb467b49c046d22f5bd51503
 INSERT INTO question VALUES (0, '2017-04-28 08:29:00', 29, 7, 'How to make lists in Python?', 'I am totally new to this, any hints?', NULL);
 INSERT INTO question VALUES (1, '2017-04-29 09:19:00', 15, 9, 'Wordpress loading multiple jQuery Versions', 'I developed a plugin that uses the jquery booklet plugin (http://builtbywill.com/booklet/#/) this plugin binds a function to $ so I cann call $(".myBook").booklet();
 

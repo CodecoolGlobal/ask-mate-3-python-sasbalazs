@@ -6,11 +6,15 @@
          <p>{{ login_status }}</p>
          {% if 'username' in session: %}
              <button class="button" id="test-link" type="button" onclick="location.href='/test'">Go to tests</button>
-             <br>
+             <br><br>
              <button class="button" id="logout-button" type="button" onclick="location.href='/logout'">Log out</button>
+             <br><br>
+             <a href="/list_users" class="list_users">Users</a>
+             <br><br>
          {% else %}
              <h1>Do you have an account?</h1>
              <button class="button" id="login-button" type="button" onclick="location.href='/login'">Log in</button>
+             <br><br>
              <a href="/register" class="register">Click here to register</a>
          {% endif %}
         </div>
