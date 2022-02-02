@@ -63,7 +63,6 @@ def get_user_id(cursor, username):
     return cursor.fetchone()
 
 
-
 @connection.connection_handler
 def add_tag_to_question(cursor, question_id, tag_id):
     cursor.execute(
@@ -456,6 +455,7 @@ def add_comment_answer(cursor, data):
     cursor.execute(query,
                    {"answer_id": data[0], "message": data[1], "submission_time": data[2], "edited_count": data[3]})
 
+
 @connection.connection_handler
 def get_sorted(cursor, order_by, order_direction):
     cursor.execute(
@@ -542,14 +542,29 @@ def display_question_after_adding(cursor, id):
     cursor.execute(query, value)
     return cursor.fetchone()
 
+
 @connection.connection_handler
 def post_answer(cursor, data):
     query = """
     INSERT INTO answer
-    (submission_time, vote_number, question_id, message, image, user_id)
-    VALUES (%(submission_time)s, %(vote_number)s, %(question)s, %(message)s, %(image)s, %(user_id)s)"""
+    (submission_time, vote_number, question_id, message, image, accepted, user_id)
+    VALUES (%(submission_time)s, %(vote_number)s, %(question)s, %(message)s, %(image)s, %(accepted)s, %(user_id)s)"""
     cursor.execute(query, {"submission_time": data[0], "vote_number": data[1], "question": data[2], "message": data[3],
-                           "image": data[4], "user_id": data[5]})
+                           "image": data[4], "accepted": data[5], "user_id": data[6]})
+
+
+
+@connection.connection_handler
+def accept_answer(cursor, answer_id):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            UPDATE answer
+            SET accepted = NOT accepted
+            WHERE id = {}"""
+        ).format(psycopg2.sql.Literal(answer_id))
+    )
+>>>>>>> 23a97b5fb7560d4ca8df3d63706f96e1cf94b0b6
 
 
 @connection.connection_handler

@@ -14,13 +14,13 @@ app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 def login():
     login_status = ''
     if request.method == 'POST':
-        session['username'] = request.form['username']
         username = request.form['username']
         valid_username = data_manager.check_username(username)
         plain_text_password = request.form['password']
         valid_password = data_manager.check_password(valid_username['username'])
         is_matching = data_manager.verify_password(plain_text_password, valid_password['password'])
         if is_matching:
+            session['username'] = username
             return redirect(url_for('main_page'))
         else:
             login_status = "Wrong password or username given!"
@@ -99,6 +99,7 @@ def delete_comment(comment_id):
     data_manager.delete_comment(comment_id)
     return redirect(url_for("question", question_id=question_id['question_id']))
 
+
 @app.route("/answer-comment/<comment_id>/delete")
 def delete_answer_comment(comment_id):
     answer_id = data_manager.get_answer_id_to_delete_comment(comment_id)
@@ -149,11 +150,13 @@ def post_new_answer(question_id):
                 image = file.filename
             else:
                 image = None
+            accepted = False
             user_id = data_manager.get_user_id(username)
-            data = [submission_time, vote_number, question_id, message, image, user_id['id']]
+            data = [submission_time, vote_number, question_id, message, image, accepted, user_id['id']]
             data_manager.post_answer(data)
             return redirect(url_for("question", question_id=question_id))
     return redirect("/")
+
 
 
 @app.route("/add-question", methods=['GET', 'POST'])
@@ -181,6 +184,7 @@ def add_question():
             return redirect(url_for("display_question",id = id['id']))
         return render_template('add-question.html')
     return redirect("/")
+
 
 @app.route("/question/<question_id>/new-comment", methods=['GET', 'POST'])
 def render_comment_template(question_id):
@@ -221,16 +225,23 @@ def add_comment_to_answer():
         return redirect(url_for("question", question_id=question_id))
 
 
-@app.route("/question/<question_id>")
+@app.route("/question/<question_id>", methods=['GET', 'POST'])
 def question(question_id):
     route = url_for("post_new_answer", question_id=question_id)
     question_to_render = data_manager.get_last_question(str(question_id))
     answers_to_render = data_manager.get_answers(question_id)
     tags_combined = data_manager.combine_tags_with_ids(question_id)
     comments_to_render = data_manager.get_comments(question_id)
+    if 'username' in session:
+        logged_in = True
+    else:
+        logged_in = False
+    if request.method == 'POST':
+        answer_id = request.form.get('answer_id')
+        data_manager.accept_answer(answer_id)
     return render_template('question.html', question_to_render=question_to_render,
                            answers_to_render=answers_to_render, route=route, tags=tags_combined,
-                           comments_to_render=comments_to_render)
+                           comments_to_render=comments_to_render, logged_in=logged_in)
 
 
 @app.route("/question/<question_id>/edit")

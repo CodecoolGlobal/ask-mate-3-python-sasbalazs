@@ -36,6 +36,7 @@ CREATE TABLE answer (
     question_id integer,
     message text,
     image text,
+    accepted boolean,
     user_id integer
 );
 
@@ -129,16 +130,18 @@ INSERT INTO question VALUES (10,'2022-02-02 13:29:26', 0, 0, 'Milyen az élet Bu
 
 SELECT pg_catalog.setval('question_id_seq', 10, true);
 
-INSERT INTO answer VALUES (1, '2017-04-28 16:49:00', 4, 1, 'You need to use brackets: my_list = []', NULL, 5);
-INSERT INTO answer VALUES (2, '2017-04-25 14:42:00', 35, 1, 'Look it up in the Python docs', 'images/image2.jpg',4);
-INSERT INTO answer VALUES (3, '2022-01-21 01:37:46', 0, 3, 'Avoid The 2006 Model Year! Produced by Ford Motor Company, an American multinational car corporation, the Ford Mustang is a series of cars manufactured since 1964.',  'Ford-Mustang_2005_Kupeja_162531904_7.jpg', 0);
-INSERT INTO answer VALUES (4, '2022-01-21 01:38:39', 0, 5, 'A meandering river is a great example of a phenomenon of water changing the shape of land. When it is surrounded by steep rock a river rarely curves but when it open up in large valleys it will weave back and forth. Water on the outside of the river will travel faster and erode the land more quickly. Eventually it will curve too much and lose speed. A stream table can be used to model a meandering river.', NULL,0);
-INSERT INTO answer VALUES (5, '2022-01-21 01:39:43', 0, 5, 'Are you kidding me? What kind of silly question is this? Did you not learn geography?', NULL,4);
-INSERT INTO answer VALUES (6, '2022-01-21 01:40:52', 0, 6, 'You should definitely visit Switzerland! I recommend you take a trip to Switzerland. It is also possible travel by train between mountains.', 'schweizerbahnen.jpeg',5);
-INSERT INTO answer VALUES (8, '2022-01-21 01:56:49', 0, 7, 'I think so... Do you think you can meet him?', 'momoa_single.jpg',4);
+
+INSERT INTO answer VALUES (1, '2017-04-28 16:49:00', 4, 1, 'You need to use brackets: my_list = []', NULL, False,5);
+INSERT INTO answer VALUES (2, '2017-04-25 14:42:00', 35, 1, 'Look it up in the Python docs', 'images/image2.jpg',False,4);
+INSERT INTO answer VALUES (3, '2022-01-21 01:37:46', 0, 3, 'Avoid The 2006 Model Year! Produced by Ford Motor Company, an American multinational car corporation, the Ford Mustang is a series of cars manufactured since 1964.',  'Ford-Mustang_2005_Kupeja_162531904_7.jpg',False, 0);
+INSERT INTO answer VALUES (4, '2022-01-21 01:38:39', 0, 5, 'A meandering river is a great example of a phenomenon of water changing the shape of land. When it is surrounded by steep rock a river rarely curves but when it open up in large valleys it will weave back and forth. Water on the outside of the river will travel faster and erode the land more quickly. Eventually it will curve too much and lose speed. A stream table can be used to model a meandering river.', NULL,False,0);
+INSERT INTO answer VALUES (5, '2022-01-21 01:39:43', 0, 5, 'Are you kidding me? What kind of silly question is this? Did you not learn geography?', NULL,False,4);
+INSERT INTO answer VALUES (6, '2022-01-21 01:40:52', 0, 6, 'You should definitely visit Switzerland! I recommend you take a trip to Switzerland. It is also possible travel by train between mountains.', 'schweizerbahnen.jpeg',False,5);
+INSERT INTO answer VALUES (8, '2022-01-21 01:56:49', 0, 7, 'I think so... Do you think you can meet him?', 'momoa_single.jpg',False,4);
 INSERT INTO answer VALUES (10,'2022-02-02 14:34:03', 0, 10,'Budapest egy sokszínű dolog. Más a mozgalmas belváros, mint a családi házas Zugló. Vannak szegény részek és jómódúak. Nem egy egységes valami. Nyilván rengeteg programlehetőség van, munkahely is több, mint máshol.
 Szóval, ha ide költöztök, akkor meg kell találnod a neked szimpatikus részt. Szintén kritikus, hogy mennyire van közel a lakás a munkahelyhez.
-Amúgy meg szerintem az emberi kapcsolatok elég fontosak. Inkább az tesz jóvá egy helyet, hogy ott vannak emberek, akiket kedvel az ember. Szóval szerintem a cél egy ilyen közeg megtalálása.',NULL,4);
+Amúgy meg szerintem az emberi kapcsolatok elég fontosak. Inkább az tesz jóvá egy helyet, hogy ott vannak emberek, akiket kedvel az ember. Szóval szerintem a cél egy ilyen közeg megtalálása.',NULL,False,4);
+
 SELECT pg_catalog.setval('answer_id_seq', 2, true);
 
 INSERT INTO comment VALUES (2, NULL, 1, 'I think you could use my_list = list() as well.', '2017-05-02 16:55:00');
