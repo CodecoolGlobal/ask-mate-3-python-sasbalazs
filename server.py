@@ -110,19 +110,27 @@ def delete_answer(answer_id):
 
 @app.route("/comment/<comment_id>/delete")
 def delete_comment(comment_id):
-    question_id = data_manager.get_question_id_to_delete_comment(comment_id)
-    data_manager.delete_comment(comment_id)
-    return redirect(url_for("question", question_id=question_id['question_id']))
+    if "username" in session:
+        question_id = data_manager.get_question_id_from_comment_id(comment_id)
+        data_manager.delete_comment(comment_id)
+        return redirect(url_for("question", question_id=question_id['question_id']))
+    else:
+        question_id = data_manager.get_question_id_from_comment_id(comment_id)
+        return redirect(url_for("question", question_id=question_id['question_id']))
 
 
 @app.route("/answer-comment/<comment_id>/delete")
 def delete_answer_comment(comment_id):
     answer_id = data_manager.get_answer_id_to_delete_comment(comment_id)
     answer_id = answer_id['answer_id']
-    data_manager.delete_comment(comment_id)
     answer = data_manager.get_answer(answer_id)
     comments_to_render = data_manager.get_comments_to_answer(answer_id)
-    return render_template('answer_and_comments.html', answer=answer, comments_to_render=comments_to_render)
+    if "username" in session:
+        data_manager.delete_comment(comment_id)
+        comments_to_render = data_manager.get_comments_to_answer(answer_id)
+        return render_template('answer_and_comments.html', answer=answer, comments_to_render=comments_to_render)
+    else:
+        return render_template('answer_and_comments.html', answer=answer, comments_to_render=comments_to_render)
 
 
 @app.route("/answer/<answer_id>/vote_up", methods=["GET"])
@@ -202,41 +210,59 @@ def add_question():
 
 @app.route("/question/<question_id>/new-comment", methods=['GET', 'POST'])
 def render_comment_template(question_id):
-    return render_template('add_comment.html', question_id=question_id)
+    if "username" in session:
+        return render_template('add_comment.html', question_id=question_id)
+    else:
+        return redirect(url_for("question", question_id=int(question_id)))
 
 
 @app.route("/answer/<answer_id>/new-comment")
 def render_comment_template_to_answer(answer_id):
-    question_id = data_manager.get_question_id(answer_id)
-    question_id = question_id['question_id']
-    return render_template('add_comment_to_answer.html', answer_id=answer_id, question_id=question_id)
+    if "username" in session:
+        question_id = data_manager.get_question_id(answer_id)
+        question_id = question_id['question_id']
+        return render_template('add_comment_to_answer.html', answer_id=answer_id, question_id=question_id)
+    else:
+        answer = data_manager.get_answer(answer_id)
+        comments_to_render = data_manager.get_comments_to_answer(answer_id)
+        return render_template('answer_and_comments.html', answer=answer, comments_to_render=comments_to_render)
 
 
 @app.route("/add_comment", methods=['GET', 'POST'])
 def add_comment():
-    if request.method == 'POST':
-        question_id = request.form['question_id']
-        message = request.form['message']
-        time = data_manager.get_unixtime()
-        submission_time = data_manager.convert_to_date(time)
-        edited_count = 0
-        data = [question_id, message, submission_time, edited_count]
-        data_manager.add_comments(data)
-        return redirect(url_for("question", question_id=question_id))
+    if "username" in session:
+        username = session['username']
+        if request.method == 'POST':
+            question_id = request.form['question_id']
+            message = request.form['message']
+            time = data_manager.get_unixtime()
+            submission_time = data_manager.convert_to_date(time)
+            edited_count = 0
+            user_id = data_manager.get_user_id(username)
+            data = [question_id, message, submission_time, edited_count, user_id['id']]
+            data_manager.add_comments(data)
+            return redirect(url_for("question", question_id=question_id))
+    else:
+        return redirect("/")
+
 
 
 @app.route("/add_comment_to_answer", methods=['GET', 'POST'])
 def add_comment_to_answer():
-    if request.method == 'POST':
-        question_id = request.form['question_id']
-        answer_id = request.form['answer_id']
-        message = request.form['message']
-        time = data_manager.get_unixtime()
-        submission_time = data_manager.convert_to_date(time)
-        edited_count = 0
-        data = [answer_id, message, submission_time, edited_count]
-        data_manager.add_comment_answer(data)
-        return redirect(url_for("question", question_id=question_id))
+    if "username" in session:
+        username = session['username']
+        if request.method == 'POST':
+            question_id = request.form['question_id']
+            answer_id = request.form['answer_id']
+            message = request.form['message']
+            time = data_manager.get_unixtime()
+            submission_time = data_manager.convert_to_date(time)
+            edited_count = 0
+            user_id = data_manager.get_user_id(username)
+            data = [answer_id, message, submission_time, edited_count, user_id['id']]
+            data_manager.add_comment_answer(data)
+            return redirect(url_for("question", question_id=question_id))
+    return redirect("/")
 
 
 @app.route("/question/<question_id>", methods=['GET', 'POST'])
@@ -269,7 +295,7 @@ def edit_question(question_id):
         question_to_edit = data_manager.get_last_question(question_id)
         return render_template('display_question_to_edit.html', question_to_edit=question_to_edit)
     else:
-        return redirect("/")
+        return redirect(url_for("question", question_id=int(question_id)))
 
 
 @app.route("/answer/<answer_id>/edit")
@@ -278,19 +304,31 @@ def edit_answer(answer_id):
         answer_to_edit = data_manager.get_answer_to_edit(answer_id)
         return render_template('display_answer_to_edit.html', answer_to_edit=answer_to_edit)
     else:
-        return redirect("/")
+        question_id = data_manager.get_question_id(answer_id)
+        return redirect(url_for("question", question_id=question_id['question_id']))
 
 
 @app.route("/comment/<comment_id>/edit")
 def edit_comment(comment_id):
-    comment_to_edit = data_manager.get_comment_to_edit(comment_id)
-    return render_template('display_comment_to_edit.html', comment_to_edit=comment_to_edit)
+    if "username" in session:
+        comment_to_edit = data_manager.get_comment_to_edit(comment_id)
+        return render_template('display_comment_to_edit.html', comment_to_edit=comment_to_edit)
+    else:
+        question_id = data_manager.get_question_id_from_comment_id(comment_id)
+        return redirect(url_for("question", question_id=question_id['question_id']))
 
 
 @app.route("/answer-comment/<comment_id>/edit")
 def edit_answer_comment(comment_id):
-    comment_to_edit = data_manager.get_comment_to_edit(comment_id)
-    return render_template('display_comment_to_edit_for_answer.html', comment_to_edit=comment_to_edit)
+    if "username" in session:
+        comment_to_edit = data_manager.get_comment_to_edit(comment_id)
+        return render_template('display_comment_to_edit_for_answer.html', comment_to_edit=comment_to_edit)
+    else:
+        answer_id = data_manager.get_answer_id_to_delete_comment(comment_id)
+        answer_id = answer_id['answer_id']
+        answer = data_manager.get_answer(answer_id)
+        comments_to_render = data_manager.get_comments_to_answer(answer_id)
+        return render_template('answer_and_comments.html', answer=answer, comments_to_render=comments_to_render)
 
 
 @app.route('/display_question/<id>', methods=['GET', 'POST'])
