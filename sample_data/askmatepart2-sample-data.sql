@@ -106,7 +106,7 @@ ALTER TABLE ONLY question_tag
 INSERT INTO users VALUES (0, 'jonh@doe.com', '$2b$12$oEu70hPGVeKwciKR03EIoe/Y/IK8fojMoACqGO0exGucSq.lIsbim', '2017-04-28 08:29:00');
 INSERT INTO users VALUES (4,'magyarorszag@gmail.com', '$2b$12$6IxC.ov9aIlSUa/80m/ljeFvwM6x67p3GSrK7lWlmeUiDnAJFi9SW', '2022-02-02 11:41:55');
 INSERT INTO users VALUES (5, 'fightklub@freemail.hu', '$2b$12$EWW4mD6P..4R.6HMfbryLeQhThH/cAs68g153v2sBp/lbvurcaxSW', '2022-02-02 11:46:36');
-SELECT pg_catalog.setval('users_id_seq', 1, true);
+SELECT pg_catalog.setval('users_id_seq', 4, true);
 
 INSERT INTO question VALUES (0, '2017-04-28 08:29:00', 29, 7, 'How to make lists in Python?', 'I am totally new to this, any hints?', NULL);
 INSERT INTO question VALUES (1, '2017-04-29 09:19:00', 15, 9, 'Wordpress loading multiple jQuery Versions', 'I developed a plugin that uses the jquery booklet plugin (http://builtbywill.com/booklet/#/) this plugin binds a function to $ so I cann call $(".myBook").booklet();
@@ -119,17 +119,15 @@ jquery
 booklet
 app.js (bundled file with webpack, including jquery)', 'images/image1.png');
 INSERT INTO question VALUES (2, '2017-05-01 10:41:00', 1364, 57, 'Drawing canvas with an image picked with Cordova Camera Plugin', 'I''m getting an image from device and drawing a canvas with filters using Pixi JS. It works all well using computer to get an image. But when I''m on IOS, it throws errors such as cross origin issue, or that I''m trying to use an unknown format.
-', 'canvas.png');
-INSERT INTO question VALUES (7, '2022-01-21 01:50:45', 0, 7, 'Is Jason Momoa really single?', 'Hey, girls, did you hear the news, that Jason Momoa will divorce? I can''t believe, they were a dream couple with his wife!!! Who is going to buy a plane_ticket to America? :D','momoa_look.jpg');
-INSERT INTO question VALUES (6, '2022-01-21 00:42:50', 0, 5, 'Hey guys, do you have any travel tips?','I have gotten two weeks of holiday, which destination should I choose? Is it a good idea to spend a vacation on the beach, or should I visit the mountains in the beautiful Switzerland?','beachandsun.jpg');
-INSERT INTO question VALUES (5, '2022-01-21 00:41:12', 0, 2, 'Why Do Rivers Curve?','Could somebody answer me, why rivers do not stream straight?','curvy_river.jpg');
-INSERT INTO question VALUES (4, '2022-01-21 00:36:21', 0, 1, 'Where is a gym in the city?','I am looking for a training center near to 5th Avenue, 78th street corner? Is there a spacious one?', 'happy_minion.jpeg');
-INSERT INTO question VALUES (3, '2022-01-21 00:30:32', 0, 3, 'What year Mustang should you avoid?','Do you have a question about Ford Mustang? Ask your question and get expert answers from our inhouse team of car-buffs as well as inputs from thousands of Autoportal readership!', 'mustang.jpg');
+', 'canvas.png',0);
+INSERT INTO question VALUES (7, '2022-01-21 01:50:45', 0, 7, 'Is Jason Momoa really single?', 'Hey, girls, did you hear the news, that Jason Momoa will divorce? I can''t believe, they were a dream couple with his wife!!! Who is going to buy a plane_ticket to America? :D','momoa_look.jpg',5);
+INSERT INTO question VALUES (6, '2022-01-21 00:42:50', 0, 5, 'Hey guys, do you have any travel tips?','I have gotten two weeks of holiday, which destination should I choose? Is it a good idea to spend a vacation on the beach, or should I visit the mountains in the beautiful Switzerland?','beachandsun.jpg',4);
+INSERT INTO question VALUES (5, '2022-01-21 00:41:12', 0, 2, 'Why Do Rivers Curve?','Could somebody answer me, why rivers do not stream straight?','curvy_river.jpg',4);
+INSERT INTO question VALUES (4, '2022-01-21 00:36:21', 0, 1, 'Where is a gym in the city?','I am looking for a training center near to 5th Avenue, 78th street corner? Is there a spacious one?', 'happy_minion.jpeg',4);
+INSERT INTO question VALUES (3, '2022-01-21 00:30:32', 0, 3, 'What year Mustang should you avoid?','Do you have a question about Ford Mustang? Ask your question and get expert answers from our inhouse team of car-buffs as well as inputs from thousands of Autoportal readership!', 'mustang.jpg',0);
+INSERT INTO question VALUES (10,'2022-02-02 13:29:26', 0, 0, 'Milyen az élet Budapesten?', 'Akik ott élnek szeretnek ott élni? Sokszor voltam már fent Pesten, de nem tudom felmérni a különbségeket a ""felmenni párszor"" és az ""ott élés között"". Szerintetek milyen az ottani élet? Mivel változhatnak a mindennapok, munka, iskola?','Budapest.jpg',5);
 
-
-
-
-SELECT pg_catalog.setval('question_id_seq', 2, true);
+SELECT pg_catalog.setval('question_id_seq', 10, true);
 
 INSERT INTO answer VALUES (1, '2017-04-28 16:49:00', 4, 1, 'You need to use brackets: my_list = []', NULL);
 INSERT INTO answer VALUES (2, '2017-04-25 14:42:00', 35, 1, 'Look it up in the Python docs', 'images/image2.jpg');
