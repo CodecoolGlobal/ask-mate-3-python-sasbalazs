@@ -13,7 +13,6 @@
                         <p class="card--item item5"> {{ line['message'] }}</p>
                         <p class="card--item item6"><img src="{{ url_for('static', filename='Image/'~line['image']) if line['image'] }}"</p>
                          <p class="card--item item8">{{ line['vote_number'] }} points</p>
-
                     </div>
                 </div>
             {% endfor %}
