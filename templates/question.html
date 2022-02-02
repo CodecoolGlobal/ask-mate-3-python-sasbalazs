@@ -42,21 +42,36 @@
                 </table>
             </div>
             {% endfor %}
-    <br>
-
+            <br>
         </div>
     </section>
     <section class="container">
         <div class="card">
 {#            <div class="grid__container">#}
+
             {% if answers_to_render %}
             <h2>Answers</h2>
             {% endif %}
             {% for answer in answers_to_render %}
             <div>
                 <table >
+                {% if answer['accepted'] == True %}
+                     <tr bgcolor="#00aa00">
+                {% else %}
                      <tr>
-                         <td style="width:350px"> {% if answer['question_id'] == question_to_render['id'] %}<div><a href="/answer/{{ answer['id'] }}/commits">{{ answer['message'] }}</a></div>{% endif %}</td>
+                {% endif %}
+                        {% if logged_in %}
+                             <td><form action="/question/{{ question_to_render['id'] }}" method="post">
+                                 {% if answer['accepted'] == True %}
+                                     <button type="submit" name="answer_id" value="{{ answer['id'] }}">Unaccept answer</button>
+                                 {% else %}
+                                     <button type="submit" name="answer_id" value="{{ answer['id'] }}">Accept answer</button>
+                                 {% endif %}
+                             </form></td>
+                             <td style="width:350px"> {% if answer['question_id'] == question_to_render['id'] %}<div><a href="/answer/{{ answer['id'] }}/commits">{{ answer['message'] }}</a></div>{% endif %}</td>
+                        {% else %}
+                             <td style="width:350px"> {% if answer['question_id'] == question_to_render['id'] %}<div><a href="/answer/{{ answer['id'] }}/commits">{{ answer['message'] }}</a></div>{% endif %}</td>
+                        {% endif %}
                          <td style="width:80px"> <a href="/answer/{{ answer['id'] }}/edit">Edit answer</a></td>
                          <td style="width:80px"> <a href="/answer/{{ answer['id'] }}/delete">Delete answer</a></td>
                          <td style="width:80px">Vote: {{ answer['vote_number'] }}</td>
@@ -69,13 +84,8 @@
                      </tr>
                 </table>
             </div>
-            {% endfor %}
-
-            <br>
-            <div> <a href="{{route}}">Post new answer</a></div>
-            <br>
-{#            </div>#}
-        </div>
+        {% endfor %}
+{#        </div>#}
     </section>
     {% include 'footer.html' %}
 {%endblock%}

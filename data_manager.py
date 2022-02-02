@@ -566,7 +566,7 @@ def post_answer(cursor, data):
 
 
 @connection.connection_handler
-def accept_answer(cursor):
+def accept_answer(cursor, answer_id):
     cursor.execute(
         psycopg2.sql.SQL(
             """
