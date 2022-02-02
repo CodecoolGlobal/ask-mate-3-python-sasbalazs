@@ -258,14 +258,20 @@ def question(question_id):
 
 @app.route("/question/<question_id>/edit")
 def edit_question(question_id):
-    question_to_edit = data_manager.get_last_question(question_id)
-    return render_template('display_question_to_edit.html', question_to_edit=question_to_edit)
+    if "username" in session:
+        question_to_edit = data_manager.get_last_question(question_id)
+        return render_template('display_question_to_edit.html', question_to_edit=question_to_edit)
+    else:
+        return redirect("/")
 
 
 @app.route("/answer/<answer_id>/edit")
 def edit_answer(answer_id):
-    answer_to_edit = data_manager.get_answer_to_edit(answer_id)
-    return render_template('display_answer_to_edit.html', answer_to_edit=answer_to_edit)
+    if "username" in session:
+        answer_to_edit = data_manager.get_answer_to_edit(answer_id)
+        return render_template('display_answer_to_edit.html', answer_to_edit=answer_to_edit)
+    else:
+        return redirect("/")
 
 
 @app.route("/comment/<comment_id>/edit")
@@ -288,37 +294,41 @@ def display_question(id):
 
 @app.route("/rewrite_one_question/<id>", methods=['GET', 'POST'])
 def rewrite_one_question(id):
-    if request.method == 'POST':
-        if request.files['image']:
+    if "username" in session:
+        if request.method == 'POST':
+            if request.files['image']:
+                file = request.files['image']
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+            title = request.form['title']
+            message = request.form['message']
             file = request.files['image']
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
-        title = request.form['title']
-        message = request.form['message']
-        file = request.files['image']
-        if file.filename:
-            image = file.filename
-        else:
-            image = None
-        data_manager.edit_question(title, message, image, id)
-        questions = data_manager.get_questions()
-        return render_template('list.html', questions=questions)
+            if file.filename:
+                image = file.filename
+            else:
+                image = None
+            data_manager.edit_question(title, message, image, id)
+            questions = data_manager.get_questions()
+            return render_template('list.html', questions=questions)
+    return redirect("/")
 
 
 @app.route("/rewrite_one_answer/<answer_id>", methods=['GET', 'POST'])
 def rewrite_one_answer(answer_id):
-    question_id = data_manager.get_question_id(answer_id)
-    if request.method == 'POST':
-        if request.files['image']:
+    if "username" in session:
+        question_id = data_manager.get_question_id(answer_id)
+        if request.method == 'POST':
+            if request.files['image']:
+                file = request.files['image']
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+            message = request.form['message']
             file = request.files['image']
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
-        message = request.form['message']
-        file = request.files['image']
-        if file.filename:
-            image = file.filename
-        else:
-            image = None
-        data_manager.edit_answer(message, image, answer_id)
-        return redirect(url_for("question", question_id=question_id['question_id']))
+            if file.filename:
+                image = file.filename
+            else:
+                image = None
+            data_manager.edit_answer(message, image, answer_id)
+            return redirect(url_for("question", question_id=question_id['question_id']))
+    return redirect("/")
 
 
 @app.route("/rewrite_one_comment/<comment_id>", methods=['GET', 'POST'])
