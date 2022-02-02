@@ -5,12 +5,13 @@ import connection
 from datetime import datetime
 import calendar
 
+
 @connection.connection_handler
-def get_user_id_from_name(cursor, user_id):
+def get_user_data_from_id(cursor, user_id):
     cursor.execute(
         psycopg2.sql.SQL(
             """
-            SELECT username
+            SELECT id, username, registration_time
             FROM users
             WHERE id={}
             """
@@ -18,6 +19,22 @@ def get_user_id_from_name(cursor, user_id):
         psycopg2.sql.Literal(user_id),
         )
     )
+    return cursor.fetchall()
+
+@connection.connection_handler
+def get_user_name_from_name(cursor, username):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            SELECT id
+            FROM users
+            WHERE username={}
+            """
+        ).format(
+        psycopg2.sql.Literal(username),
+        )
+    )
+    return cursor.fetchone()
 
 
 def add_new_tag_all(tag_name, question_id):

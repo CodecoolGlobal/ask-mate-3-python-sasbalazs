@@ -28,18 +28,20 @@
         <div class="content__btn"><a class="button-simple" href="/add-question">Add question</a></div>
     </section>
     <section class="container">
-
             {% for line in questions %}
                 <div class="card">
-                <p class="card--item">{{ line['id'] }}</p>
-                <h1 class="card--item"><a href="/question/{{ line['id'] }}">{{line['title']}}</a></h1>
-                <p class="card--item">{{ line['submission_time'] }}</p>
-                <p class="card--item">{{ line['view_number'] }}</p>
-                <p class="card--item">{{ line['vote_number'] }} points</p>
-                <p class="card--item"> {{ line['message'] }}</p>
-                <p class="card--item"><img src="{{ url_for('static', filename='Image/'~line['image']) if line['image'] }}" width="300"></p><p class="card--item"><a href="/question/{{ line['id'] }}/vote_up">Vote Up</a><br>
-                    <a href="/question/{{ line['id'] }}/vote_down">Vote Down</a></p>
-            </div>
+                     <div class="grid__container">
+                        <p class="card--item item1">{{ line['id'] }}</p>
+                        <p class="card--item item2">View:number: {{ line['view_number'] }}</p>
+                        <p class="card--item item3">Submission time: {{ line['submission_time'] }}</p>
+                        <h1 class="card--item item4"><a href="/question/{{ line['id'] }}">{{line['title']}}</a></h1>
+                        <p class="card--item item5"> {{ line['message'] }}</p>
+                        <p class="card--item item6"><img src="{{ url_for('static', filename='Image/'~line['image']) if line['image'] }}"</p>
+                        <p class="card--item item7"><a href="/question/{{ line['id'] }}/vote_up"><i class="bi bi-hand-thumbs-up"></i></a><br></p>
+                        <p class="card--item item8">{{ line['vote_number'] }} points</p>
+                        <p class="card--item item9"><a href="/question/{{ line['id'] }}/vote_down"><i class="bi bi-hand-thumbs-down"></i></a></p>
+                    </div>
+                </div>
             {% endfor %}
 
     </section>
