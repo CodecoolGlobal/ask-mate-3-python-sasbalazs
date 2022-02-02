@@ -31,6 +31,19 @@ def login():
 def list_users():
     if "username" in session:
         users = data_manager.list_users()
+        for user in users:
+            number_of_questions = data_manager.count_of_user_questions(user['id'])
+            number = number_of_questions[0]['count']
+            data_manager.update_question_column_of_user(user['id'], number)
+
+            number_of_answers = data_manager.count_of_user_answers(user['id'])
+            number2 = number_of_answers[0]['count']
+            data_manager.update_answer_column_of_user(user['id'], number2)
+
+            number_of_comments = data_manager.count_of_user_comments(user['id'])
+            number3 = number_of_comments[0]['count']
+            data_manager.update_comment_column_of_user(user['id'], number3)
+
         return render_template("users.html", users=users)
     else:
         return redirect("/")
