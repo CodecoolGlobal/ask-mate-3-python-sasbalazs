@@ -43,6 +43,12 @@ def verify_password(plain_text_password, hashed_password):
 
 
 @connection.connection_handler
+def list_users(cursor):
+    cursor.execute("""SELECT * FROM users""")
+    return cursor.fetchall()
+
+
+@connection.connection_handler
 def add_tag_to_question(cursor, question_id, tag_id):
     cursor.execute(
         psycopg2.sql.SQL(
@@ -433,6 +439,7 @@ def add_comment_answer(cursor, data):
                 VALUES (%(answer_id)s, %(message)s, %(submission_time)s, %(edited_count)s)"""
     cursor.execute(query,
                    {"answer_id": data[0], "message": data[1], "submission_time": data[2], "edited_count": data[3]})
+
 
 @connection.connection_handler
 def get_sorted(cursor, order_by, order_direction):

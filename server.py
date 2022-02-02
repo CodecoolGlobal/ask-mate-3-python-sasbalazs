@@ -1,11 +1,11 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 import data_manager
 import os
 
 dirname = os.path.dirname(__file__)
 UPLOAD_FOLDER = os.path.join(dirname, "static", "Image")
 app = Flask(__name__)
-app.secret_key = 'jhabljbasdjbkasdnbf'
+app.config['LOGIN_STATE'] = False
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
@@ -25,6 +25,15 @@ def login():
         else:
             login_status = "Wrong password or username given!"
     return render_template('login.html', login_status=login_status)
+
+
+@app.route("/list_users", methods=['GET', 'POST'])
+def list_users():
+    if "username" in session:
+        users = data_manager.list_users()
+        return render_template("users.html", users=users)
+    else:
+        return redirect("/")
 
 
 @app.route('/logout')
