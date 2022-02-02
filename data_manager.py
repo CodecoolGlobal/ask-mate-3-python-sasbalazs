@@ -21,6 +21,7 @@ def get_user_data_from_id(cursor, user_id):
     )
     return cursor.fetchall()
 
+
 @connection.connection_handler
 def get_user_name_from_name(cursor, username):
     cursor.execute(

@@ -56,7 +56,6 @@ def user_page(user_id):
     return render_template('user_page.html', user=user)
 
 
-
 @app.route("/answer/<answer_id>/commits")
 def render_answer_with_commits(answer_id):
     answer = data_manager.get_answer(answer_id)
