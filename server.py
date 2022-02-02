@@ -163,26 +163,29 @@ def post_new_answer(question_id):
 
 @app.route("/add-question", methods=['GET', 'POST'])
 def add_question():
-    if request.method == 'POST':
-        if request.files['image']:
+    if "username" in session:
+        username = session['username']
+        if request.method == 'POST':
+            if request.files['image']:
+                file = request.files['image']
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+            time = data_manager.get_unixtime()
+            submission_time = data_manager.convert_to_date(time)
+            view_number = 0
+            vote_number = 0
+            title = request.form['title']
+            message = request.form['message']
             file = request.files['image']
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
-        time = data_manager.get_unixtime()
-        submission_time = data_manager.convert_to_date(time)
-        view_number = 0
-        vote_number = 0
-        title = request.form['title']
-        message = request.form['message']
-        file = request.files['image']
-        if file.filename:
-            image = file.filename
-        else:
-            image = None
-        data = [submission_time, view_number,vote_number, title, message, image]
-        id = data_manager.addquestion(data)
-        return redirect(url_for("display_question",id = id['id']))
+            if file.filename:
+                image = file.filename
+            else:
+                image = None
+            user_id = data_manager.get_user_id(username)
+            data = [submission_time, view_number,vote_number, title, message, image, user_id['id']]
+            id = data_manager.addquestion(data)
+            return redirect(url_for("display_question",id = id['id']))
+        return render_template('add-question.html')
     return render_template('add-question.html')
-
 
 @app.route("/question/<question_id>/new-comment", methods=['GET', 'POST'])
 def render_comment_template(question_id):
