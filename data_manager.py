@@ -5,8 +5,19 @@ import connection
 from datetime import datetime
 import calendar
 
-users = {'john@doe.com': '$2b$12$/TYFvXOy9wDQUOn5SKgTzedwiqB6cm.UIfPewBnz0kUQeK9Eu4mSC',
-         'Barbi': '$2b$12$rg6d0DV7FhHjbbM13synJ.krMgFouIhf6Y8kNtsx1VKPGMumOxpQ6'}
+@connection.connection_handler
+def get_user_id_from_name(cursor, user_id):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            SELECT username
+            FROM users
+            WHERE id={}
+            """
+        ).format(
+        psycopg2.sql.Literal(user_id),
+        )
+    )
 
 
 def add_new_tag_all(tag_name, question_id):
