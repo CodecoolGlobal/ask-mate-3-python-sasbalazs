@@ -56,7 +56,6 @@ def user_page(user_id):
     return render_template('user_page.html', user=user)
 
 
-
 @app.route("/answer/<answer_id>/commits")
 def render_answer_with_commits(answer_id):
     answer = data_manager.get_answer(answer_id)
@@ -100,6 +99,7 @@ def delete_comment(comment_id):
     question_id = data_manager.get_question_id_to_delete_comment(comment_id)
     data_manager.delete_comment(comment_id)
     return redirect(url_for("question", question_id=question_id['question_id']))
+
 
 @app.route("/answer-comment/<comment_id>/delete")
 def delete_answer_comment(comment_id):
