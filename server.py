@@ -81,7 +81,11 @@ def registration_page():
 @app.route('/user/<user_id>')
 def user_page(user_id):
     user = data_manager.get_user_data_from_id(user_id)
-    return render_template('user_page.html', user=user)
+    questions = data_manager.get_questions_by_user(user_id)
+    answers = data_manager.get_answers_by_user(user_id)
+    comments = data_manager.get_comments_by_user(user_id)
+    return render_template('user_page.html', user=user, questions=questions,
+                           answers=answers, comments=comments)
 
 
 @app.route("/answer/<answer_id>/commits")

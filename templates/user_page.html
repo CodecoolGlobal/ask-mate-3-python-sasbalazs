@@ -15,27 +15,48 @@
     </div>
     <div class="container">
         <div class="card">
-            <div class=".card--item ">Questions created: </div>
+            <h2 class=".card--item ">Questions created: </h2>
+            <br>
             {% for question in questions %}
-                <div>question</div>
+                <div><a href="/question/{{ question['id'] }}">{{ question['title'] }}</a></div>
+                <br>
             {% endfor %}
 
         </div>
     </div>
     <div class="container">
         <div class="card">
-            <div class=".card--item ">Answers added:</div>
+            <h2>Answers added:</h2>
             {% for answer in answers %}
-                  <div>answer</div>
+               <div class="card">
+                   <h3>Answer:</h3>
+                   <div class=".card--item1">{{ answer['message'] }}</div>
+                   <br>
+                   <h4>To this question:</h4>
+                   <div class=".card--item2"><a href="/question/{{ answer['id'] }}">{{ answer['title'] }}</a></div>
+               </div>
             {% endfor %}
 
         </div>
     </div>
     <div class="container">
         <div class="card">
-            <div class=".card--item ">Comments added: </div>
+            <h2 >Comments added: </h2>
             {% for comment in comments %}
-                <div>comment</div>
+                <div class="card">
+                   <div>Comment:</div>
+                   <div class=".card--item1">{{ comment['comment_message'] }}</div>
+                   <br>
+                   {% if comment['title'] != None %}
+                   <div>To this question:</div>
+                       <div class=".card--item2"><a href="/question/{{ comment['question_id'] }}">{{ comment['title'] }}</a></div>
+                   {%  endif  %}
+                   <br>
+                   {% if comment['answer_message'] != None %}
+                   <div>To this answer:</div>
+                        <div class=".card--item2">{{ comment['answer_message'] }}</a></div>
+                   {%  endif  %}
+              </div>
             {% endfor %}
         </div>
     </div>

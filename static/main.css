@@ -276,6 +276,11 @@ img {
 
 #title {
     font-family: 'Rowdies', cursive;
+}
+
+.container__answer {
+    display: flex;
 
 }
 
+.card--item1

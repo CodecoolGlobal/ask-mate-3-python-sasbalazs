@@ -22,6 +22,62 @@ def get_user_data_from_id(cursor, user_id):
     return cursor.fetchall()
 
 
+@connection.connection_handler
+def get_questions_by_user(cursor, user_id):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            SELECT id, title
+            FROM question
+            WHERE user_id = {} 
+            """
+        ).format(
+            psycopg2.sql.Literal(user_id)
+        )
+    )
+    return cursor.fetchall()
+
+
+@connection.connection_handler
+def get_answers_by_user(cursor, user_id):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            SELECT answer.message, question.title, question.id
+            FROM answer
+            JOIN question
+            ON question.id=answer.question_id
+            WHERE answer.user_id={}
+            GROUP BY answer.message, question.title, question.id
+            """
+        ).format(
+            psycopg2.sql.Literal(user_id)
+        )
+    )
+    return cursor.fetchall()
+
+
+@connection.connection_handler
+def get_comments_by_user(cursor, user_id):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            SELECT comment.answer_id, comment.question_id, comment.message AS comment_message,
+                   question.title, question.id, answer.message AS answer_message
+            FROM comment
+            LEFT JOIN question
+            ON question.id=comment.question_id
+            LEFT JOIN answer
+            ON comment.answer_id=answer.id
+            WHERE comment.user_id={}
+            """
+        ).format(
+            psycopg2.sql.Literal(user_id)
+        )
+    )
+    return cursor.fetchall()
+
+
 def count_of_user_questions(cursor, user_id):
     cursor.execute(
         psycopg2.sql.SQL(
@@ -51,6 +107,7 @@ def get_user_name_from_name(cursor, username):
         )
     )
     return cursor.fetchone()
+
 def update_question_column_of_user(cursor, user, sum_question):
     cursor.execute("UPDATE users SET questions = %s WHERE id = %s", (sum_question, user))
 
