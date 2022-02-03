@@ -2,21 +2,25 @@
     {% block tab_title %}Add question{% endblock %}
     {% block page_header %}Add question{% endblock %}
     {% block content %}
-    <form action="/add-question" enctype="multipart/form-data" method="POST">
-        <label for="add-title">Title:<br>
-            <input id="add_title" type="text" minlength="5" name="title" required>
-        </label>
-        <br><br>
-        <label for="add-message">Message:<br>
-            <textarea id="add-message" rows="4" cols="50" name="message" required></textarea>
-        </label>
-        <br><br>
-        <label for="image">Upload an image</label><br>
-        <input id="image" type="file" name="image" accept="image/png, image/jpeg">
+        <section class="container">
+            <div class="card">
+                <form action="/add-question" enctype="multipart/form-data" method="POST">
+                    <label for="add-title">Title:<br>
+                        <input id="add_title" type="text" minlength="5" name="title" required>
+                    </label>
+                    <br><br>
+                    <label for="add-message">Message:<br>
+                        <textarea id="add-message" rows="4" cols="50" name="message" required></textarea>
+                    </label>
+                    <br><br>
+                    <label for="image">Upload an image</label><br>
+                    <input id="image" type="file" name="image" accept="image/png, image/jpeg">
 
-        <br><br>
-        <input type="submit" value="Add new Question">
-    </form>
-        <br>
+                    <br><br>
+                    <input type="submit" value="Add new Question">
+                </form>
+                    <br>
+                </div>
+        </section>
     {% include 'footer.html' %}
 {%endblock%}

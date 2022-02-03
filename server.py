@@ -16,14 +16,16 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         valid_username = data_manager.check_username(username)
-        plain_text_password = request.form['password']
-        valid_password = data_manager.check_password(valid_username['username'])
-        is_matching = data_manager.verify_password(plain_text_password, valid_password['password'])
-        if is_matching:
-            session['username'] = username
-            return redirect(url_for('main_page'))
-        else:
-            login_status = "Wrong password or username given!"
+        if valid_username:
+            plain_text_password = request.form['password']
+            valid_password = data_manager.get_password(valid_username['username'])
+            is_matching = data_manager.verify_password(plain_text_password, valid_password['password'])
+            if is_matching:
+                session['username'] = request.form['username']
+                session['id'] = data_manager.get_user_name_from_name(username)['id']
+                return redirect(url_for('main_page'))
+            else:
+                login_status = "Wrong password or username given!"
     return render_template('login.html', login_status=login_status)
 
 
@@ -66,6 +68,12 @@ def registration_page():
         data_manager.register_user(email, hashed_password, submission_time)
         return redirect(url_for('main_page'))
     return render_template('registration.html')
+
+
+@app.route('/user/<user_id>')
+def user_page(user_id):
+    user = data_manager.get_user_data_from_id(user_id)
+    return render_template('user_page.html', user=user)
 
 
 @app.route("/answer/<answer_id>/commits")
@@ -184,7 +192,6 @@ def post_new_answer(question_id):
             data_manager.post_answer(data)
             return redirect(url_for("question", question_id=question_id))
     return redirect("/")
-
 
 
 @app.route("/add-question", methods=['GET', 'POST'])

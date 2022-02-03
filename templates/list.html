@@ -5,52 +5,48 @@
     <div style="text-align: center; font-size: 40px; font-weight: bold"><a href="/add-question">Add question</a></div><br>
     <div style="text-align: center; font-size: 30px; font-weight: bold"><a href="/bonus-questions">Bonus questions</a></div>
 
-    <form action="/list">
-    <p>Sort by:</p>
-    <select name="order_by" id="order_by">
-    	<option>Submission time</option>
-    	<option>View number</option>
-    	<option>Vote number</option>
-    	<option>Title</option>
-    	<option>Message</option>
-    </select>
-    <br>
-    <select name="order_direction" id="order_direction">
-    	<option>ascending</option>
-    	<option>descending</option>
-    </select><br>
-    <button type="submit">Sort</button>
-    </form>
-    <form action="/search">
-        <input type="text" name="q" id="q" placeholder="Search...">
-        <button type="submit">Search</button>
-    </form>
-    <p>
-        <table>
-            <tr>
-                <th>ID</th>
-                <th>Submission time</th>
-                <th>View number</th>
-                <th>Vote number</th>
-                <th>Vote</th>
-                <th>Title</th>
-                <th>Message</th>
-                <th>Image</th>
-            </tr>
+
+    <section class="inline-container">
+        <p class="inline-item">Question list</p>
+        <form class="inline-item" action="/list">
+        <p>Sort by:</p>
+        <select name="order_by" id="order_by">
+            <option>Submission time</option>
+            <option>View number</option>
+            <option>Vote number</option>
+            <option>Title</option>
+            <option>Message</option>
+        </select>
+        <br>
+        <select name="order_direction" id="order_direction">
+            <option>ascending</option>
+            <option>descending</option>
+        </select><br>
+        <button type="submit">Sort</button>
+        </form>
+        <form action="/search">
+            <input type="text" name="q" id="q" placeholder="Search...">
+            <button type="submit">Search</button>
+        </form>
+        <div class="content__btn"><a class="button-simple" href="/add-question">Add question</a></div>
+    </section>
+    <section class="container">
             {% for line in questions %}
-                <tr>
-                    <td>{{ line['id'] }}</td>
-                    <td>{{ line['submission_time'] }}</td>
-                    <td>{{ line['view_number'] }}</td>
-                    <td>{{ line['vote_number'] }} points</td>
-                    <td style="width:100px"><a href="/question/{{ line['id'] }}/vote_up">Vote Up</a><br><a href="/question/{{ line['id'] }}/vote_down">Vote Down</a></td>
-                    <td><a href="/question/{{ line['id'] }}">{{line['title']}}</a></td>
-                    <td  style="width:500px">{{ line['message'] }}</td>
-                    <td><img src="{{ url_for('static', filename='Image/'~line['image']) if line['image'] }}" width="300"></td>
-                 </tr>
+                <div class="card">
+                     <div class="grid__container">
+                        <p class="card--item item1">{{ line['id'] }}</p>
+                        <p class="card--item item2">View:number: {{ line['view_number'] }}</p>
+                        <p class="card--item item3">Submission time: {{ line['submission_time'] }}</p>
+                        <h1 class="card--item item4"><a href="/question/{{ line['id'] }}">{{line['title']}}</a></h1>
+                        <p class="card--item item5"> {{ line['message'] }}</p>
+                        <p class="card--item item6"><img src="{{ url_for('static', filename='Image/'~line['image']) if line['image'] }}"</p>
+                        <p class="card--item item7"><a href="/question/{{ line['id'] }}/vote_up"><i class="bi bi-hand-thumbs-up"></i></a><br></p>
+                        <p class="card--item item8">{{ line['vote_number'] }} points</p>
+                        <p class="card--item item9"><a href="/question/{{ line['id'] }}/vote_down"><i class="bi bi-hand-thumbs-down"></i></a></p>
+                    </div>
+                </div>
             {% endfor %}
-        </table>
-    </p>
+    </section>
 
     {% include 'footer.html' %}
 {%endblock%}

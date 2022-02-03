@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+{% block tab_title %} {{ user['username'] }}{%  endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="card">
+            <div class="card--item ">User ID: {{ user[0]['id'] }}</div>
+            <div class="card--item ">Username: {{ user[0]['username'] }}</div>
+            <div class="card--item ">Registration date: {{ user[0]['registration_time'] }}</div>
+            <div class="card--item ">Number of asked questions: {{ user['username'] }}</div>
+            <div class="card--item ">Number of answers: {{ user['username'] }}</div>
+            <div class="card--item ">Number of comments: {{ user['username'] }}</div>
+            <div class="card--item ">Reputation: {{ user['username'] }}</div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="card">
+            <div class=".card--item ">Questions created: </div>
+            {% for question in questions %}
+                <div>question</div>
+            {% endfor %}
+
+        </div>
+    </div>
+    <div class="container">
+        <div class="card">
+            <div class=".card--item ">Answers added:</div>
+            {% for answer in answers %}
+                  <div>answer</div>
+            {% endfor %}
+
+        </div>
+    </div>
+    <div class="container">
+        <div class="card">
+            <div class=".card--item ">Comments added: </div>
+            {% for comment in comments %}
+                <div>comment</div>
+            {% endfor %}
+        </div>
+    </div>
+
+{%  endblock %}

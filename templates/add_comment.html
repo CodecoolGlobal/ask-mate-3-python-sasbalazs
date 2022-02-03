@@ -2,14 +2,18 @@
     {% block tab_title %}Add comment{% endblock %}
     {% block page_header %}Add comment{% endblock %}
     {% block content %}
-    <br>
-    <form action="/add_comment" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="question_id" value={{ question_id }}>
-        <br><br>
-        <label>Message:<br>
-            <textarea rows="4" cols="50" name="message" required></textarea>
-        </label>
-        <br><br>
-        <input type="submit" value="Add new Comment">
-    </form>
+        <div class="container">
+             <div class="card">
+                <br>
+                <form action="/add_comment" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="question_id" value={{ question_id }}>
+                    <br><br>
+                    <label>Message:<br>
+                        <textarea rows="4" cols="50" name="message" required></textarea>
+                    </label>
+                    <br><br>
+                    <input type="submit" value="Add new Comment">
+                </form>
+            </div>
+        </div>
 {%endblock%}

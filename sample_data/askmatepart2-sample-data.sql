@@ -145,7 +145,6 @@ booklet
 
 app.js (bundled file with webpack, including jquery)', 'images/image1.png', 0);
 
--- app.js (bundled file with webpack, including jquery)', 'images/image1.png',5);
 
 INSERT INTO question VALUES (2, '2017-05-01 10:41:00', 1364, 57, 'Drawing canvas with an image picked with Cordova Camera Plugin', 'I''m getting an image from device and drawing a canvas with filters using Pixi JS. It works all well using computer to get an image. But when I''m on IOS, it throws errors such as cross origin issue, or that I''m trying to use an unknown format.
 ', 'canvas.png',0);

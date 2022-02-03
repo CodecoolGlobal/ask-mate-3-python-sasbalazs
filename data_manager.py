@@ -7,6 +7,21 @@ import calendar
 
 
 @connection.connection_handler
+def get_user_data_from_id(cursor, user_id):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            SELECT id, username, registration_time
+            FROM users
+            WHERE id={}
+            """
+        ).format(
+            psycopg2.sql.Literal(user_id),
+        )
+    )
+    return cursor.fetchall()
+
+
 def count_of_user_questions(cursor, user_id):
     cursor.execute(
         psycopg2.sql.SQL(
@@ -23,6 +38,19 @@ def count_of_user_questions(cursor, user_id):
 
 
 @connection.connection_handler
+def get_user_name_from_name(cursor, username):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            SELECT id
+            FROM users
+            WHERE username={}
+            """
+        ).format(
+        psycopg2.sql.Literal(username),
+        )
+    )
+    return cursor.fetchone()
 def update_question_column_of_user(cursor, user, sum_question):
     cursor.execute("UPDATE users SET questions = %s WHERE id = %s", (sum_question, user))
 
@@ -153,7 +181,7 @@ def check_username(cursor, username):
 
 
 @connection.connection_handler
-def check_password(cursor, username):
+def get_password(cursor, username):
     cursor.execute(
         psycopg2.sql.SQL(
             """

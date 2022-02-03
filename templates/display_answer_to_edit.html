@@ -2,14 +2,18 @@
     {% block tab_title %}Edit answer{% endblock %}
     {% block page_header %}Edit answer{% endblock %}
     {% block content %}
-    <form action="/rewrite_one_answer/{{ answer_to_edit.id }}" enctype="multipart/form-data" method="post">
-        <label for="message">Message:</label><br>
-        <textarea id="message" rows="4" cols="50" name="message" required>{{ answer_to_edit.message }}</textarea>
-        <br><br>
-        <label for="image">Edit with click on image</label><br>
-        <input id="image" type="file" name="image" accept="image/png, image/jpeg">
-        <br><br>
-        <input type="submit" value="Edit Answer">
-    </form>
+        <section class="container">
+            <div class="card">
+            <form action="/rewrite_one_answer/{{ answer_to_edit.id }}" enctype="multipart/form-data" method="post">
+                <label for="message">Message:</label><br>
+                <textarea id="message" rows="4" cols="50" name="message" required>{{ answer_to_edit.message }}</textarea>
+                <br><br>
+                <label for="image">Edit with click on image</label><br>
+                <input id="image" type="file" name="image" accept="image/png, image/jpeg">
+                <br><br>
+                <input type="submit" value="Edit Answer">
+            </form>
+            </div>
+        </section>
     {% include 'footer.html' %}
 {%endblock%}
