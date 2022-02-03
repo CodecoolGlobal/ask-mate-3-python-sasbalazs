@@ -131,7 +131,7 @@ INSERT INTO bonus_question VALUES (10, 9, 23, 'What do you call a male lady bug?
 INSERT INTO users VALUES (0, 'jonh@doe.com', '$2b$12$oEu70hPGVeKwciKR03EIoe/Y/IK8fojMoACqGO0exGucSq.lIsbim', '2017-04-28 08:29:00');
 INSERT INTO users VALUES (4,'magyarorszag@gmail.com', '$2b$12$6IxC.ov9aIlSUa/80m/ljeFvwM6x67p3GSrK7lWlmeUiDnAJFi9SW', '2022-02-02 11:41:55');
 INSERT INTO users VALUES (5, 'fightklub@freemail.hu', '$2b$12$EWW4mD6P..4R.6HMfbryLeQhThH/cAs68g153v2sBp/lbvurcaxSW', '2022-02-02 11:46:36');
-SELECT pg_catalog.setval('users_id_seq', 4, true);
+SELECT pg_catalog.setval('users_id_seq', 5, true);
 
 
 INSERT INTO question VALUES (1, '2017-04-29 09:19:00', 15, 9, 'Wordpress loading multiple jQuery Versions', 'I developed a plugin that uses the jquery booklet plugin (http://builtbywill.com/booklet/#/) this plugin binds a function to $ so I cann call $(".myBook").booklet();
@@ -170,7 +170,7 @@ INSERT INTO answer VALUES (10,'2022-02-02 14:34:03', 0, 10,'Budapest egy sokszí
 Szóval, ha ide költöztök, akkor meg kell találnod a neked szimpatikus részt. Szintén kritikus, hogy mennyire van közel a lakás a munkahelyhez.
 Amúgy meg szerintem az emberi kapcsolatok elég fontosak. Inkább az tesz jóvá egy helyet, hogy ott vannak emberek, akiket kedvel az ember. Szóval szerintem a cél egy ilyen közeg megtalálása.',NULL,False,4);
 
-SELECT pg_catalog.setval('answer_id_seq', 2, true);
+SELECT pg_catalog.setval('answer_id_seq', 10, true);
 
 INSERT INTO comment VALUES (2, NULL, 1, 'I think you could use my_list = list() as well.', '2017-05-02 16:55:00',0,4);
 INSERT INTO comment VALUES (4, NULL, 8, 'What''s with you? if you don''t like the topic can roll down!','2022-01-21 01:59:51', 0,5);
@@ -184,16 +184,16 @@ INSERT INTO comment VALUES (11, 10, NULL,'I love Budapest! <3', '2022-02-02 17:4
 INSERT INTO comment VALUES (13, NULL, 10, 'I love Budapest! <3', '2022-02-02 17:42:52',0,0);
 INSERT INTO comment VALUES (14, 10, NULL,'Hát kicsit koszos a belváros, de minden nagyváros egy bizonyos mértékben az...', '2022-02-02 17:45:14',0,4);
 INSERT INTO comment VALUES (15, NULL, 10, 'Me too! Such a colorful place! :D', '2022-02-02 17:45:46',0,4);
-SELECT pg_catalog.setval('comment_id_seq', 2, true);
+SELECT pg_catalog.setval('comment_id_seq', 15, true);
 
 INSERT INTO tag VALUES (1, 'python');
 INSERT INTO tag VALUES (2, 'sql');
 INSERT INTO tag VALUES (3, 'css');
 INSERT INTO tag VAlUES (4, 'momoa');
 INSERT INTO tag VAlUES (5, 'single');
-INSERT INTO tag VAlUES (6, 'single');
+INSERT INTO tag VAlUES (6, 'male');
 
-SELECT pg_catalog.setval('tag_id_seq', 3, true);
+SELECT pg_catalog.setval('tag_id_seq', 6, true);
 
 INSERT INTO question_tag VALUES (11, 1);
 INSERT INTO question_tag VALUES (1, 3);

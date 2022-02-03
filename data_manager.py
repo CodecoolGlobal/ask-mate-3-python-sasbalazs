@@ -63,13 +63,15 @@ def get_comments_by_user(cursor, user_id):
         psycopg2.sql.SQL(
             """
             SELECT comment.answer_id, comment.question_id, comment.message AS comment_message,
-                   question.title, question.id AS question_id, answer.message AS answer_message,
-                   answer.question_id AS question_link
+                   q1.title AS title, q1.id AS question_id, answer.message AS answer_message,
+                   q2.id AS id, q2.title AS q2_title
             FROM comment
-            LEFT JOIN question
-            ON question.id=comment.question_id
+            LEFT JOIN question Q1
+            ON q1.id=comment.question_id
             LEFT JOIN answer
             ON comment.answer_id=answer.id
+            LEFT JOIN question q2
+            ON answer.question_id=q2.id
             WHERE comment.user_id={}
             """
         ).format(

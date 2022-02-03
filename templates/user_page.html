@@ -34,7 +34,6 @@
                    <br>
                    <h4>To this question:</h4>
                    <div class=".card--item2"><a href="/question/{{ answer['id'] }}">{{ answer['title'] }}</a></div>
-                   <div class=".card--item2"><a href="/question/{{ comment['question_link'] }}">{{ comment['answer_message'] }}</a></div>
                </div>
             {% endfor %}
 
@@ -54,8 +53,15 @@
                    {%  endif  %}
                    <br>
                    {% if comment['answer_message'] != None %}
+
                    <div>To this answer:</div>
-                        <div class=".card--item2"><a href="/question/{{ comment['question_link'] }}">{{ comment['answer_message'] }}</a></div>
+                        <div class=".card--item2">{{ comment['answer_message'] }}</div>
+                         <br>
+                        <div>Of this question:</div>
+                       <div class=".card--item2"><a href="/question/{{ comment['id'] }}" >{{ comment['q2_title'] }}</a></div>
+
+
+
                    {%  endif  %}
               </div>
             {% endfor %}

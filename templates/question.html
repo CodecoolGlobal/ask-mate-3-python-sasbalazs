@@ -47,7 +47,6 @@
     </section>
     <section class="container">
         <div class="card">
-{#            <div class="grid__container">#}
          {% if answers_to_render %}
             <h2>Answers</h2>
             {% endif %}
@@ -84,7 +83,7 @@
                 </table>
             </div>
             {% endfor %}
-{#        </div>#}
+            <h3><a href="/question/{{ question_to_render['id'] }}/new-answer">Add new answer</a></h3>
     </section>
     {% include 'footer.html' %}
 {%endblock%}
