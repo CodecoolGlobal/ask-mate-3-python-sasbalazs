@@ -497,7 +497,7 @@ def search():
                            all_answers=all_answers, all_question=all_question)
 
 
-@app.route("/bonus-questions", methods=['GET'])
+@app.route("/bonus-questions", methods=['GET', 'POST'])
 def filter_bonus_questions():
     bonus_questions = data_manager.get_bonus_questions()
     if request.method == 'GET':
@@ -535,7 +535,14 @@ def filter_bonus_questions():
                     for i in bonus_questions:
                         filter_by = i[column]
                     bonus_questions = data_manager.not_bonus_extra_q_search(filter_by, column)
-
+    if request.method == 'POST':
+        sort = request.form.get('sort')
+        data_manager.counter += 1
+        if data_manager.counter % 2 == 1:
+            order_direction = 'DESC'
+        else:
+            order_direction = 'ASC'
+        bonus_questions = data_manager.get_bonus_sorted(sort, order_direction)
     return render_template('bonus-questions.html', bonus_questions=bonus_questions)
 
 
