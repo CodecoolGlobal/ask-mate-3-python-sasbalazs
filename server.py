@@ -84,9 +84,9 @@ def user_page(user_id):
     questions = data_manager.get_questions_by_user(user_id)
     answers = data_manager.get_answers_by_user(user_id)
     comments = data_manager.get_comments_by_user(user_id)
-    print(comments)
+    number_of_questions = data_manager.count_of_user_questions(user_id)
     return render_template('user_page.html', user=user, questions=questions,
-                           answers=answers, comments=comments)
+                           answers=answers, comments=comments, number_of_questions=number_of_questions)
 
 
 @app.route("/answer/<answer_id>/commits")

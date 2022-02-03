@@ -11,7 +11,7 @@ def get_user_data_from_id(cursor, user_id):
     cursor.execute(
         psycopg2.sql.SQL(
             """
-            SELECT id, username, registration_time
+            SELECT id, username, registration_time, questions, answers, comments, reputation
             FROM users
             WHERE id={}
             """
