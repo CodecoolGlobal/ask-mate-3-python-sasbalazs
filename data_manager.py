@@ -651,3 +651,71 @@ def convert_to_date(timestamp):
     ts = int(timestamp)
     data = datetime.utcfromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
     return data
+
+
+@connection.connection_handler
+def get_userid_from_question(cursor, question_id):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """SELECT user_id
+                FROM question
+                WHERE question.id = {}"""
+        ).format(psycopg2.sql.Literal(question_id)))
+    return cursor.fetchone()
+
+
+@connection.connection_handler
+def update_reputation_up_by_question(cursor, user_id):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            UPDATE users
+            SET reputation = reputation + 5
+            WHERE id = {}"""
+        ).format(psycopg2.sql.Literal(user_id))
+    )
+
+@connection.connection_handler
+def update_reputation_down_by_question(cursor, user_id):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            UPDATE users
+            SET reputation = reputation - 2
+            WHERE id = {}"""
+        ).format(psycopg2.sql.Literal(user_id))
+    )
+
+
+@connection.connection_handler
+def get_userid_from_answer(cursor, answer_id):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """SELECT user_id
+                FROM answer
+                WHERE answer.id = {}"""
+        ).format(psycopg2.sql.Literal(answer_id)))
+    return cursor.fetchone()
+
+
+@connection.connection_handler
+def update_reputation_up_by_answer(cursor, user_id):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            UPDATE users
+            SET reputation = reputation + 10
+            WHERE id = {}"""
+        ).format(psycopg2.sql.Literal(user_id))
+    )
+
+@connection.connection_handler
+def update_reputation_down_by_answer(cursor, user_id):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            UPDATE users
+            SET reputation = reputation - 2
+            WHERE id = {}"""
+        ).format(psycopg2.sql.Literal(user_id))
+    )

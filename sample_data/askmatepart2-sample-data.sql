@@ -73,7 +73,7 @@ CREATE TABLE users (
     questions integer,
     answers integer,
     comments integer,
-    reputation integer
+    reputation integer DEFAULT 0
 );
 
 
