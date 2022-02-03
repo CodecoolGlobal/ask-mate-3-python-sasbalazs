@@ -5,8 +5,68 @@ import connection
 from datetime import datetime
 import calendar
 
-users = {'john@doe.com': '$2b$12$/TYFvXOy9wDQUOn5SKgTzedwiqB6cm.UIfPewBnz0kUQeK9Eu4mSC',
-         'Barbi': '$2b$12$rg6d0DV7FhHjbbM13synJ.krMgFouIhf6Y8kNtsx1VKPGMumOxpQ6'}
+
+@connection.connection_handler
+def count_of_user_questions(cursor, user_id):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            SELECT COUNT(*)
+            FROM question
+            WHERE user_id = {} 
+            """
+        ).format(
+            psycopg2.sql.Literal(user_id)
+        )
+    )
+    return cursor.fetchall()
+
+
+@connection.connection_handler
+def update_question_column_of_user(cursor, user, sum_question):
+    cursor.execute("UPDATE users SET questions = %s WHERE id = %s", (sum_question, user))
+
+
+@connection.connection_handler
+def count_of_user_answers(cursor, user_id):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            SELECT COUNT(*)
+            FROM answer
+            WHERE user_id = {} 
+            """
+        ).format(
+            psycopg2.sql.Literal(user_id)
+        )
+    )
+    return cursor.fetchall()
+
+
+@connection.connection_handler
+def update_answer_column_of_user(cursor, user, sum_answers):
+    cursor.execute("UPDATE users SET answers = %s WHERE id = %s", (sum_answers, user))
+
+
+@connection.connection_handler
+def count_of_user_comments(cursor, user_id):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            SELECT COUNT(*)
+            FROM comment
+            WHERE user_id = {} 
+            """
+        ).format(
+            psycopg2.sql.Literal(user_id)
+        )
+    )
+    return cursor.fetchall()
+
+
+@connection.connection_handler
+def update_comment_column_of_user(cursor, user, sum_comments):
+    cursor.execute("UPDATE users SET comments = %s WHERE id = %s", (sum_comments, user))
 
 
 def add_new_tag_all(tag_name, question_id):
@@ -25,8 +85,8 @@ def delete_tag(cursor, question_id, tag_id):
             WHERE question_id = {} AND tag_id={}
             """
         ).format(
-        psycopg2.sql.Literal(question_id),
-        psycopg2.sql.Literal(tag_id)
+            psycopg2.sql.Literal(question_id),
+            psycopg2.sql.Literal(tag_id)
         )
     )
 
@@ -271,7 +331,7 @@ def get_answer_id(cursor, comment_id):
 
 
 @connection.connection_handler
-def get_question_id_to_delete_comment(cursor, comment_id):
+def get_question_id_from_comment_id(cursor, comment_id):
     query = """
             SELECT question_id
             FROM comment
@@ -440,20 +500,20 @@ def get_comments_to_answer(cursor, answer_id):
 def add_comments(cursor, data):
     query = """
             INSERT INTO comment 
-            (question_id, message, submission_time, edited_count)
-            VALUES (%(question_id)s, %(message)s, %(submission_time)s, %(edited_count)s)"""
+            (question_id, message, submission_time, edited_count, user_id)
+            VALUES (%(question_id)s, %(message)s, %(submission_time)s, %(edited_count)s, %(user_id)s)"""
     cursor.execute(query,
-                   {"question_id": data[0], "message": data[1], "submission_time": data[2], "edited_count": data[3]})
+                   {"question_id": data[0], "message": data[1], "submission_time": data[2], "edited_count": data[3], "user_id": data[4]})
 
 
 @connection.connection_handler
 def add_comment_answer(cursor, data):
     query = """
                 INSERT INTO comment 
-                (answer_id, message, submission_time, edited_count)
-                VALUES (%(answer_id)s, %(message)s, %(submission_time)s, %(edited_count)s)"""
+                (answer_id, message, submission_time, edited_count, user_id)
+                VALUES (%(answer_id)s, %(message)s, %(submission_time)s, %(edited_count)s, %(user_id)s)"""
     cursor.execute(query,
-                   {"answer_id": data[0], "message": data[1], "submission_time": data[2], "edited_count": data[3]})
+                   {"answer_id": data[0], "message": data[1], "submission_time": data[2], "edited_count": data[3], "user_id": data[4]})
 
 
 @connection.connection_handler
@@ -527,7 +587,8 @@ def addquestion(cursor, data):
     (submission_time, view_number, vote_number, title, message, image, user_id)
     VALUES (%(submission_time)s, %(view_number)s, %(vote_number)s, %(title)s, %(message)s, %(image)s, %(user_id)s)
     RETURNING id"""
-    cursor.execute(query, {"submission_time": data[0], "view_number": data[1], "vote_number": data[2], "title": data[3], "message": data[4], "image": data[5], "user_id": data[6]})
+    cursor.execute(query, {"submission_time": data[0], "view_number": data[1], "vote_number": data[2], "title": data[3],
+                           "message": data[4], "image": data[5], "user_id": data[6]})
     return cursor.fetchone()
 
 
@@ -546,10 +607,10 @@ def display_question_after_adding(cursor, id):
 def post_answer(cursor, data):
     query = """
     INSERT INTO answer
-    (submission_time, vote_number, question_id, message, image, accepted)
-    VALUES (%(submission_time)s, %(vote_number)s, %(question)s, %(message)s, %(image)s, %(accepted)s)"""
+    (submission_time, vote_number, question_id, message, image, accepted, user_id)
+    VALUES (%(submission_time)s, %(vote_number)s, %(question)s, %(message)s, %(image)s, %(accepted)s, %(user_id)s)"""
     cursor.execute(query, {"submission_time": data[0], "vote_number": data[1], "question": data[2], "message": data[3],
-                           "image": data[4], "accepted": data[5]})
+                           "image": data[4], "accepted": data[5], "user_id": data[6]})
 
 
 @connection.connection_handler
@@ -590,11 +651,3 @@ def convert_to_date(timestamp):
     ts = int(timestamp)
     data = datetime.utcfromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
     return data
-
-
-
-
-
-
-
-
