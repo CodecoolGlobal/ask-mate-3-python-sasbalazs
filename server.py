@@ -151,6 +151,9 @@ def vote_up_answer(answer_id):
     question_id = data_manager.get_question_id(answer_id)
     if request.method == 'GET':
         data_manager.a_vote_up(answer_id)
+        user_id = data_manager.get_userid_from_answer(answer_id)
+        user_id = user_id['user_id']
+        data_manager.update_reputation_up_by_answer(user_id)
     return redirect(url_for("question", question_id=question_id['question_id']))
 
 
@@ -159,6 +162,9 @@ def vote_down_answer(answer_id):
     question_id = data_manager.get_question_id(answer_id)
     if request.method == "GET":
         data_manager.a_vote_down(answer_id)
+        user_id = data_manager.get_userid_from_answer(answer_id)
+        user_id = user_id['user_id']
+        data_manager.update_reputation_down_by_answer(user_id)
     return redirect(url_for("question", question_id=question_id['question_id']))
 
 
@@ -450,6 +456,9 @@ def main_page():
 def vote_up(question_id):
     if request.method == 'GET':
         data_manager.q_vote_up(question_id)
+        user_id = data_manager.get_userid_from_question(question_id)
+        user_id = user_id['user_id']
+        data_manager.update_reputation_up_by_question(user_id)
     return redirect('/list')
 
 
@@ -457,6 +466,9 @@ def vote_up(question_id):
 def vote_down(question_id):
     if request.method == 'GET':
         data_manager.q_vote_down(question_id)
+        user_id = data_manager.get_userid_from_question(question_id)
+        user_id = user_id['user_id']
+        data_manager.update_reputation_down_by_question(user_id)
     return redirect('/list')
 
 
