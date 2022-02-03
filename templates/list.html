@@ -2,10 +2,6 @@
 {% block tab_title %}Question list{% endblock %}
 {% block page_header %}Question list{% endblock %}
 {% block content %}
-    <div style="text-align: center; font-size: 40px; font-weight: bold"><a href="/add-question">Add question</a></div><br>
-    <div style="text-align: center; font-size: 30px; font-weight: bold"><a href="/bonus-questions">Bonus questions</a></div>
-
-
     <section class="inline-container">
         <p class="inline-item">Question list</p>
         <form class="inline-item" action="/list">
@@ -29,6 +25,7 @@
             <button type="submit">Search</button>
         </form>
         <div class="content__btn"><a class="button-simple" href="/add-question">Add question</a></div>
+        <div class="content__btn"><a class="button-simple" href="/bonus-questions">Bonus questions</a></div>
     </section>
     <section class="container">
             {% for line in questions %}
