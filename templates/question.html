@@ -7,7 +7,7 @@
      <h2>{% if question_to_render['id'] %}<div>{{ question_to_render['title'] }}</div>{% endif %}</h2>
     <p>{% if question_to_render['id'] %}<div>{{ question_to_render['message'] }}</div>{% endif %}</p>
         {% if question_to_render['image'] %}
-        <img src="{{ url_for('static', filename='Image/'~question_to_render['image']) }}" alt="Question_image" width="300" >
+        <img src="{{ url_for('static', filename='Image/'~question_to_render['image']) }}" alt="Question_image" max-height="500" >
         {% endif %}
     <br>
     <div>

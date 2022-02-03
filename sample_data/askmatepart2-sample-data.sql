@@ -133,7 +133,7 @@ INSERT INTO users VALUES (4,'magyarorszag@gmail.com', '$2b$12$6IxC.ov9aIlSUa/80m
 INSERT INTO users VALUES (5, 'fightklub@freemail.hu', '$2b$12$EWW4mD6P..4R.6HMfbryLeQhThH/cAs68g153v2sBp/lbvurcaxSW', '2022-02-02 11:46:36');
 SELECT pg_catalog.setval('users_id_seq', 4, true);
 
-INSERT INTO question VALUES (0, '2017-04-28 08:29:00', 29, 7, 'How to make lists in Python?', 'I am totally new to this, any hints?', NULL, 0);
+
 INSERT INTO question VALUES (1, '2017-04-29 09:19:00', 15, 9, 'Wordpress loading multiple jQuery Versions', 'I developed a plugin that uses the jquery booklet plugin (http://builtbywill.com/booklet/#/) this plugin binds a function to $ so I cann call $(".myBook").booklet();
 
 I could easy managing the loading order with wp_enqueue_script so first I load jquery then I load booklet so everything is fine.
@@ -143,7 +143,7 @@ BUT in my theme i also using jquery via webpack so the loading order is now foll
 jquery
 booklet
 
-app.js (bundled file with webpack, including jquery)', 'images/image1.png', 0);
+app.js (bundled file with webpack, including jquery)', NULL, 0);
 
 
 INSERT INTO question VALUES (2, '2017-05-01 10:41:00', 1364, 57, 'Drawing canvas with an image picked with Cordova Camera Plugin', 'I''m getting an image from device and drawing a canvas with filters using Pixi JS. It works all well using computer to get an image. But when I''m on IOS, it throws errors such as cross origin issue, or that I''m trying to use an unknown format.
@@ -154,8 +154,9 @@ INSERT INTO question VALUES (5, '2022-01-21 00:41:12', 0, 2, 'Why Do Rivers Curv
 INSERT INTO question VALUES (4, '2022-01-21 00:36:21', 0, 1, 'Where is a gym in the city?','I am looking for a training center near to 5th Avenue, 78th street corner? Is there a spacious one?', 'happy_minion.jpeg',4);
 INSERT INTO question VALUES (3, '2022-01-21 00:30:32', 0, 3, 'What year Mustang should you avoid?','Do you have a question about Ford Mustang? Ask your question and get expert answers from our inhouse team of car-buffs as well as inputs from thousands of Autoportal readership!', 'mustang.jpg',0);
 INSERT INTO question VALUES (10,'2022-02-02 13:29:26', 0, 0, 'Milyen az élet Budapesten?', 'Akik ott élnek szeretnek ott élni? Sokszor voltam már fent Pesten, de nem tudom felmérni a különbségeket a ""felmenni párszor"" és az ""ott élés között"". Szerintetek milyen az ottani élet? Mivel változhatnak a mindennapok, munka, iskola?','Budapest.jpg',5);
+INSERT INTO question VALUES (11, '2017-04-28 08:29:00', 29, 7, 'How to make lists in Python?', 'I am totally new to this, any hints?', NULL, 0);
 
-SELECT pg_catalog.setval('question_id_seq', 10, true);
+SELECT pg_catalog.setval('question_id_seq', 11, true);
 
 
 INSERT INTO answer VALUES (1, '2017-04-28 16:49:00', 4, 1, 'You need to use brackets: my_list = []', NULL, False,5);
@@ -175,7 +176,7 @@ INSERT INTO comment VALUES (2, NULL, 1, 'I think you could use my_list = list() 
 INSERT INTO comment VALUES (4, NULL, 8, 'What''s with you? if you don''t like the topic can roll down!','2022-01-21 01:59:51', 0,5);
 INSERT INTO comment VALUES (5, NULL, 6, 'Switzerland is f*cking expensive! Don''t go there!', '2022-01-21 02:04:11', 0,4);
 INSERT INTO comment VALUES (6, NULL, 6, 'I really enjoyed the mountains, but yes, the first commentator has right, you''d better go to Austria, or North-Italy.','2022-01-21 02:08:05',1,5);
-INSERT INTO comment VALUES (7, 0, NULL, 'This is extremely short explanation...', '2022-01-21 02:19:21',0,5);
+INSERT INTO comment VALUES (7, 11, NULL, 'This is extremely short explanation...', '2022-01-21 02:19:21',0,5);
 INSERT INTO comment VALUES (8, NULL, 4, 'As a result of river regulations, many rivers have straightened out.', '2022-01-21 02:25:29',1,0);
 INSERT INTO comment VALUES (9, 7, NULL, 'helloooooooo', '2022-01-21 08:32:24',1,4);
 INSERT INTO comment VALUES (3, NULL, 8, 'Seriously?? Can''t we talk about other things???', '2022-01-21 08:58:07',1,4);
@@ -194,7 +195,7 @@ INSERT INTO tag VAlUES (6, 'single');
 
 SELECT pg_catalog.setval('tag_id_seq', 3, true);
 
-INSERT INTO question_tag VALUES (0, 1);
+INSERT INTO question_tag VALUES (11, 1);
 INSERT INTO question_tag VALUES (1, 3);
 INSERT INTO question_tag VALUES (2, 3);
 INSERT INTO question_tag VALUES (7, 4);
