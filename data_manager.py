@@ -653,6 +653,56 @@ def get_bonus_questions(cursor):
     return cursor.fetchall()
 
 
+@connection.connection_handler
+def bonus_q_search(cursor, search_phrase):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            SELECT * 
+            FROM bonus_question
+            WHERE message LIKE {}
+            OR title LIKE {}"""
+        ).format(
+            psycopg2.sql.Literal('%' + search_phrase + '%'),
+            psycopg2.sql.Literal('%' + search_phrase + '%')
+        )
+    )
+    return cursor.fetchall()
+
+
+@connection.connection_handler
+def not_bonus_q_search(cursor, title, message):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            SELECT * 
+            FROM bonus_question
+            WHERE message != {}
+            OR title != {}"""
+        ).format(
+            psycopg2.sql.Literal(message),
+            psycopg2.sql.Literal(title)
+        )
+    )
+    return cursor.fetchall()
+
+
+@connection.connection_handler
+def bonus_extra_q_search(cursor, filter_by, column):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            SELECT * 
+            FROM bonus_question
+            WHERE {} LIKE {}"""
+        ).format(
+            psycopg2.sql.Identifier(column),
+            psycopg2.sql.Literal('%' + filter_by + '%')
+        )
+    )
+    return cursor.fetchall()
+
+
 def get_unixtime():
     d = datetime.utcnow()
     unixtime = calendar.timegm(d.utctimetuple())

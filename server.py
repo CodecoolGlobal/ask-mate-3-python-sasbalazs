@@ -473,6 +473,32 @@ def search():
 @app.route("/bonus-questions", methods=['GET'])
 def filter_bonus_questions():
     bonus_questions = data_manager.get_bonus_questions()
+    if request.method == 'GET':
+        filter_by = request.args.get('q')
+        if filter_by is not None:
+            if '!' not in filter_by:
+                bonus_questions = data_manager.bonus_q_search(filter_by)
+            if '!' in filter_by:
+                filter_by = filter_by[1:]
+                filtered_questions = data_manager.bonus_q_search(filter_by)
+                for line in filtered_questions:
+                    title = line['title']
+                    message = line['message']
+                bonus_questions = data_manager.not_bonus_q_search(title, message)
+            if ':' in filter_by:
+                filter_by = filter_by.split(':')
+                column = filter_by[0].lower()
+                filter_by = filter_by[1]
+                if column == 'description':
+                    column = 'message'
+                if column == 'title':
+                    column = 'title'
+                if column == 'vote count':
+                    column = 'vote_number'
+                if column == 'view number':
+                    column = 'view_number'
+                print(column, filter_by)
+                bonus_questions = data_manager.bonus_extra_q_search(filter_by, column)
     return render_template('bonus-questions.html', bonus_questions=bonus_questions)
 
 
