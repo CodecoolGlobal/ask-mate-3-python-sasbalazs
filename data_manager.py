@@ -703,6 +703,22 @@ def bonus_extra_q_search(cursor, filter_by, column):
     return cursor.fetchall()
 
 
+@connection.connection_handler
+def not_bonus_extra_q_search(cursor, filter_by, column):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            SELECT * 
+            FROM bonus_question
+            WHERE {} != {}"""
+        ).format(
+            psycopg2.sql.Identifier(column),
+            psycopg2.sql.Literal(filter_by)
+        )
+    )
+    return cursor.fetchall()
+
+
 def get_unixtime():
     d = datetime.utcnow()
     unixtime = calendar.timegm(d.utctimetuple())
