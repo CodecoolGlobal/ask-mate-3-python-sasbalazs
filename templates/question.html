@@ -52,7 +52,7 @@
             {% else %}
                  <tr>
             {% endif %}
-                    {% if logged_in %}
+                    {% if logged_in and question_to_render['user_id'] == user_id %}
                          <td><form action="/question/{{ question_to_render['id'] }}" method="post">
                              {% if answer['accepted'] == True %}
                                  <button type="submit" name="answer_id" value="{{ answer['id'] }}">Unaccept answer</button>
