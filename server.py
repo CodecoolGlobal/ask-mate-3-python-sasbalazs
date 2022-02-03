@@ -233,7 +233,10 @@ def question(question_id):
     answers_to_render = data_manager.get_answers(question_id)
     tags_combined = data_manager.combine_tags_with_ids(question_id)
     comments_to_render = data_manager.get_comments(question_id)
+    user_id = None
     if 'username' in session:
+        dictrow_user_id = data_manager.get_user_id(session['username'])
+        user_id = dictrow_user_id['id']
         logged_in = True
     else:
         logged_in = False
@@ -243,7 +246,8 @@ def question(question_id):
         data_manager.accept_answer(answer_id)
     return render_template('question.html', question_to_render=question_to_render,
                            answers_to_render=answers_to_render, route=route, tags=tags_combined,
-                           comments_to_render=comments_to_render, logged_in=logged_in)
+                           comments_to_render=comments_to_render, logged_in=logged_in,
+                           user_id=user_id)
 
 
 @app.route("/question/<question_id>/edit")

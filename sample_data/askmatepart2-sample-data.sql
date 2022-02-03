@@ -117,7 +117,7 @@ BUT in my theme i also using jquery via webpack so the loading order is now foll
 
 jquery
 booklet
-app.js (bundled file with webpack, including jquery)', 'images/image1.png');
+app.js (bundled file with webpack, including jquery)', 'images/image1.png', 0);
 INSERT INTO question VALUES (2, '2017-05-01 10:41:00', 1364, 57, 'Drawing canvas with an image picked with Cordova Camera Plugin', 'I''m getting an image from device and drawing a canvas with filters using Pixi JS. It works all well using computer to get an image. But when I''m on IOS, it throws errors such as cross origin issue, or that I''m trying to use an unknown format.
 ', 'canvas.png',0);
 INSERT INTO question VALUES (7, '2022-01-21 01:50:45', 0, 7, 'Is Jason Momoa really single?', 'Hey, girls, did you hear the news, that Jason Momoa will divorce? I can''t believe, they were a dream couple with his wife!!! Who is going to buy a plane_ticket to America? :D','momoa_look.jpg',5);
