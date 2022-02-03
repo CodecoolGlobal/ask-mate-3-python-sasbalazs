@@ -4,51 +4,51 @@
 {% block content %}
     <section class="container">
         <div class="card">
-        <h2>{% if question_to_render['id'] %}<div>{{ question_to_render['title'] }}</div>{% endif %}</h2>
-        <div>{% if question_to_render['id'] %}<div>{{ question_to_render['message'] }}</div>{% endif %}</div>
-            {% if question_to_render['image'] %}
-            <img src="{{ url_for('static', filename='Image/'~question_to_render['image']) }}" alt="Question_image" width="300" >
-            {% endif %}
-        <br>
-        <div>
-            {% if tags %}
-                {% for tag in tags %}
-                        {{ tag[0] }}
-                              <a href="/question/{{ question_to_render['id'] }}/tag/{{ tag[1] }}/delete"><i class="bi bi-trash"></i></a>
-                {% endfor %}
-            {% else %}
-                <p>No tags yet.</p>
-            {% endif %}
-        </div>
-        <br>
-        <div> <a href="/question/{{ question_to_render['id'] }}/new-tag">Add tag</a></div>
-        <div> <a href="/question/{{ question_to_render['id'] }}/edit">Edit question</a></div>
-        <div> <a href="/question/{{ question_to_render['id'] }}/delete">Delete question</a></div>
-        <br>
-            {% if comments_to_render %}
-            <h3>Comments</h3>
-            {% endif %}
-            <div> <a href="/question/{{ question_to_render['id'] }}/new-comment">Add comment to question</a></div>
-
-            {% for comment in comments_to_render %}
-            <div>
-                <table>
-                    <tr>
-                        <td style="width:350px"> {% if comment['question_id'] %}<div>{{ comment['message'] }}</div>{% endif %}</td>
-                        <td style="width:80px"> {% if comment['question_id'] %}<div>Edited {{ comment['edited_count'] }}times</div>{% endif %}</td>
-                         <td style="width:80px"> <a href="/comment/{{ comment['id'] }}/edit">Edit comment</a></td>
-                         <td style="width:80px"> <a href="/comment/{{ comment['id'] }}/delete">Delete comment</a></td>
-                    </tr>
-                </table>
-            </div>
+     <h2>{% if question_to_render['id'] %}<div>{{ question_to_render['title'] }}</div>{% endif %}</h2>
+    <p>{% if question_to_render['id'] %}<div>{{ question_to_render['message'] }}</div>{% endif %}</p>
+        {% if question_to_render['image'] %}
+        <img src="{{ url_for('static', filename='Image/'~question_to_render['image']) }}" alt="Question_image" width="300" >
+        {% endif %}
+    <br>
+    <div>
+        {% if tags %}
+            {% for tag in tags %}
+                    {{ tag[0] }}
+                          <a href="/question/{{ question_to_render['id'] }}/tag/{{ tag[1] }}/delete">X</a>
             {% endfor %}
+        {% else %}
+            <p>No tags yet.</p>
+        {% endif %}
+    </div>
+    <br>
+    <div> <a href="/question/{{ question_to_render['id'] }}/new-tag">Add tag</a></div>
+    <div> <a href="/question/{{ question_to_render['id'] }}/edit">Edit question</a></div>
+    <div> <a href="/question/{{ question_to_render['id'] }}/delete">Delete question</a></div>
+    <br>
+        {% if comments_to_render %}
+        <h3>Comments</h3>
+        {% endif %}
+        <div> <a href="/question/{{ question_to_render['id'] }}/new-comment">Add comment to question</a></div>
+
+        {% for comment in comments_to_render %}
+        <div>
+            <table>
+                <tr>
+                    <td style="width:350px"> {% if comment['question_id'] %}<div>{{ comment['message'] }}</div>{% endif %}</td>
+                    <td style="width:80px"> {% if comment['question_id'] %}<div>Edited {{ comment['edited_count'] }}times</div>{% endif %}</td>
+                     <td style="width:80px"> <a href="/comment/{{ comment['id'] }}/edit">Edit comment</a></td>
+                     <td style="width:80px"> <a href="/comment/{{ comment['id'] }}/delete">Delete comment</a></td>
+                </tr>
+            </table>
+        </div>
+        {% endfor %}
             <br>
         </div>
     </section>
     <section class="container">
         <div class="card">
 {#            <div class="grid__container">#}
-            {% if answers_to_render %}
+         {% if answers_to_render %}
             <h2>Answers</h2>
             {% endif %}
             {% for answer in answers_to_render %}
@@ -59,31 +59,31 @@
                 {% else %}
                      <tr>
                 {% endif %}
-                    {% if logged_in and question_to_render['user_id'] == user_id %}
-                         <td><form action="/question/{{ question_to_render['id'] }}" method="post">
-                             {% if answer['accepted'] == True %}
-                                 <button type="submit" name="answer_id" value="{{ answer['id'] }}">Unaccept answer</button>
-                             {% else %}
-                                 <button type="submit" name="answer_id" value="{{ answer['id'] }}">Accept answer</button>
-                             {% endif %}
-                         </form></td>
-                         <td style="width:350px"> {% if answer['question_id'] == question_to_render['id'] %}<div><a href="/answer/{{ answer['id'] }}/commits">{{ answer['message'] }}</a></div>{% endif %}</td>
-                    {% else %}
-                         <td style="width:350px"> {% if answer['question_id'] == question_to_render['id'] %}<div><a href="/answer/{{ answer['id'] }}/commits">{{ answer['message'] }}</a></div>{% endif %}</td>
-                    {% endif %}
-                     <td style="width:80px"> <a href="/answer/{{ answer['id'] }}/edit">Edit answer</a></td>
-                     <td style="width:80px"> <a href="/answer/{{ answer['id'] }}/delete">Delete answer</a></td>
-                     <td style="width:80px">Vote: {{ answer['vote_number'] }}</td>
-                     <td style="width:100px"> <a href="/answer/{{answer.id}}/vote_up">Vote Up</a></td>
-                     <td style="width:100px">  <a href="/answer/{{answer.id}}/vote_down">Vote Down</a></td>
-                     <td> {% if answer['image'] %}
-                         <img src="{{ url_for('static', filename='Image/'~answer['image']) }}" alt="image" width="300">
-                            {% endif %}
-                     </td>
-                 </tr>
-            </table>
+                        {% if logged_in and question_to_render['user_id'] == user_id %}
+                             <td><form action="/question/{{ question_to_render['id'] }}" method="post">
+                                 {% if answer['accepted'] == True %}
+                                     <button type="submit" name="answer_id" value="{{ answer['id'] }}">Unaccept answer</button>
+                                 {% else %}
+                                     <button type="submit" name="answer_id" value="{{ answer['id'] }}">Accept answer</button>
+                                 {% endif %}
+                             </form></td>
+                             <td style="width:350px"> {% if answer['question_id'] == question_to_render['id'] %}<div><a href="/answer/{{ answer['id'] }}/commits">{{ answer['message'] }}</a></div>{% endif %}</td>
+                        {% else %}
+                             <td style="width:350px"> {% if answer['question_id'] == question_to_render['id'] %}<div><a href="/answer/{{ answer['id'] }}/commits">{{ answer['message'] }}</a></div>{% endif %}</td>
+                        {% endif %}
+                         <td style="width:80px"> <a href="/answer/{{ answer['id'] }}/edit">Edit answer</a></td>
+                         <td style="width:80px"> <a href="/answer/{{ answer['id'] }}/delete">Delete answer</a></td>
+                         <td style="width:80px">Vote: {{ answer['vote_number'] }}</td>
+                         <td style="width:100px"> <a href="/answer/{{answer.id}}/vote_up">Vote Up</a></td>
+                         <td style="width:100px">  <a href="/answer/{{answer.id}}/vote_down">Vote Down</a></td>
+                         <td> {% if answer['image'] %}
+                             <img src="{{ url_for('static', filename='Image/'~answer['image']) }}" alt="image" width="300">
+                                {% endif %}
+                         </td>
+                     </tr>
+                </table>
             </div>
-        {% endfor %}
+            {% endfor %}
 {#        </div>#}
     </section>
     {% include 'footer.html' %}

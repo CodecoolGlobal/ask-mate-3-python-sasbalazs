@@ -294,7 +294,6 @@ def question(question_id):
         logged_in = False
     if request.method == 'POST':
         answer_id = request.form.get('answer_id')
-        print(answer_id)
         data_manager.accept_answer(answer_id)
     return render_template('question.html', question_to_render=question_to_render,
                            answers_to_render=answers_to_render, route=route, tags=tags_combined,

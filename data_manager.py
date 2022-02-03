@@ -7,7 +7,6 @@ import calendar
 
 
 @connection.connection_handler
-<<<<<<< HEAD
 def get_user_data_from_id(cursor, user_id):
     cursor.execute(
         psycopg2.sql.SQL(
@@ -17,8 +16,12 @@ def get_user_data_from_id(cursor, user_id):
             WHERE id={}
             """
         ).format(
-        psycopg2.sql.Literal(user_id),
-=======
+            psycopg2.sql.Literal(user_id),
+        )
+    )
+    return cursor.fetchall()
+
+
 def count_of_user_questions(cursor, user_id):
     cursor.execute(
         psycopg2.sql.SQL(
@@ -29,14 +32,12 @@ def count_of_user_questions(cursor, user_id):
             """
         ).format(
             psycopg2.sql.Literal(user_id)
->>>>>>> add number of questions, answers, comments to the list_users page
         )
     )
     return cursor.fetchall()
 
 
 @connection.connection_handler
-<<<<<<< HEAD
 def get_user_name_from_name(cursor, username):
     cursor.execute(
         psycopg2.sql.SQL(
@@ -50,7 +51,6 @@ def get_user_name_from_name(cursor, username):
         )
     )
     return cursor.fetchone()
-=======
 def update_question_column_of_user(cursor, user, sum_question):
     cursor.execute("UPDATE users SET questions = %s WHERE id = %s", (sum_question, user))
 
@@ -95,7 +95,6 @@ def count_of_user_comments(cursor, user_id):
 @connection.connection_handler
 def update_comment_column_of_user(cursor, user, sum_comments):
     cursor.execute("UPDATE users SET comments = %s WHERE id = %s", (sum_comments, user))
->>>>>>> add number of questions, answers, comments to the list_users page
 
 
 def add_new_tag_all(tag_name, question_id):
@@ -150,7 +149,6 @@ def get_user_id(cursor, username):
         )
     )
     return cursor.fetchone()
-
 
 
 @connection.connection_handler
@@ -544,6 +542,7 @@ def add_comment_answer(cursor, data):
                 VALUES (%(answer_id)s, %(message)s, %(submission_time)s, %(edited_count)s, %(user_id)s)"""
     cursor.execute(query,
                    {"answer_id": data[0], "message": data[1], "submission_time": data[2], "edited_count": data[3], "user_id": data[4]})
+
 
 @connection.connection_handler
 def get_sorted(cursor, order_by, order_direction):
