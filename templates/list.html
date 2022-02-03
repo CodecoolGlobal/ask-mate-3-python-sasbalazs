@@ -23,8 +23,8 @@
             <input type="text" name="q" id="q" placeholder="Search...">
             <button type="submit">Search</button>
         </form>
-        <div class="content__btn"><a class="button-simple" href="/add-question">Add question</a></div>
-        <div class="content__btn"><a class="button-simple" href="/bonus-questions">Bonus questions</a></div>
+        <div class="content__btn"><a class="button-simple title" href="/add-question">Add question</a></div>
+        <div class="content__btn"><a class="button-simple title" href="/bonus-questions">Bonus questions</a></div>
     </section>
     <section class="container">
             {% for line in questions %}
@@ -33,7 +33,7 @@
                         <p class="card--item item1">{{ line['id'] }}</p>
                         <p class="card--item item2">View:number: {{ line['view_number'] }}</p>
                         <p class="card--item item3">Submission time: {{ line['submission_time'] }}</p>
-                        <h1 class="card--item item4"><a href="/question/{{ line['id'] }}">{{line['title']}}</a></h1>
+                        <h1 class="card--item item4 title"><a id="title" href="/question/{{ line['id'] }}">{{line['title']}}</a></h1>
                         <p class="card--item item5"> {{ line['message'] }}</p>
                         <p class="card--item item6"><img src="{{ url_for('static', filename='Image/'~line['image']) if line['image'] }}"</p>
                         <p class="card--item item7"><a href="/question/{{ line['id'] }}/vote_up"><i class="bi bi-hand-thumbs-up"></i></a><br></p>
