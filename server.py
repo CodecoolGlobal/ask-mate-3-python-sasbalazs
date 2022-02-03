@@ -26,7 +26,15 @@ def login():
                 return redirect(url_for('main_page'))
             else:
                 login_status = "Wrong password or username given!"
+        else:
+            login_status = "Wrong password or username given!"
     return render_template('login.html', login_status=login_status)
+
+
+@app.route("/tags")
+def tag_page():
+    tags = data_manager.get_all_tags_and_usage()
+    return render_template('tags.html', tags=tags)
 
 
 @app.route("/list_users", methods=['GET', 'POST'])

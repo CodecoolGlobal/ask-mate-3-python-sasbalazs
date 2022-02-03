@@ -93,6 +93,26 @@ def count_of_user_comments(cursor, user_id):
 
 
 @connection.connection_handler
+def get_all_tags_and_usage(cursor):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            SELECT tag.id, tag.name, question.title, question.id AS question_id
+            FROM tag
+            JOIN question_tag
+            ON tag.id=question_tag.tag_id
+            JOIN question
+            ON question.id=question_tag.question_id
+            GROUP BY tag.id, question.title, question.id
+            ORDER BY tag.id
+            """
+        ).format(
+        )
+    )
+    return cursor.fetchall()
+
+
+@connection.connection_handler
 def update_comment_column_of_user(cursor, user, sum_comments):
     cursor.execute("UPDATE users SET comments = %s WHERE id = %s", (sum_comments, user))
 

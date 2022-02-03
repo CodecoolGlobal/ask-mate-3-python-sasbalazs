@@ -1,0 +1,16 @@
+{% extends 'layout.html' %}
+{% block tab_title %}Tags{% endblock %}
+{% block page_header %}Tags{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="card">
+            <h1>The tags already in use are:</h1>
+                {% for tag in tags %}
+                    <div class="card">
+                      <div>{{ tag['name'] }}</div>
+                      <h1><a href="/question/{{ tag['question_id'] }} ">{{ tag['title'] }}</a></h1>
+                    </div>
+                {% endfor %}
+        </div>
+    </div>
+{% endblock %}
