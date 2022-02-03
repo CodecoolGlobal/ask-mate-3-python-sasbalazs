@@ -1,10 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "layout.html" %}
+{% block tab_title %}Bonus question list{% endblock %}
+{% block page_header %}Bonus question list{% endblock %}
+{% block content %}
 
-</body>
-</html>
+    <form action="/search">
+        <label>Filter questions by keywords
+            <input type="text" name="q" id="q" placeholder="Filter...">
+        </label>
+        <button type="submit">Filter</button>
+    </form>
+    <p>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>View number</th>
+                <th>Vote number</th>
+                <th>Title</th>
+                <th>Message</th>
+            </tr>
+            {% for line in bonus_questions %}
+                <tr>
+                    <td>{{ line['id'] }}</td>
+                    <td>{{ line['view_number'] }}</td>
+                    <td>{{ line['vote_number'] }} points</td>
+                    <td>{{ line['title'] }}</td>
+                    <td  style="width:500px">{{ line['message'] }}</td>
+                 </tr>
+            {% endfor %}
+        </table>
+    </p>
+
+    {% include 'footer.html' %}
+{%endblock%}

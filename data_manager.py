@@ -641,6 +641,18 @@ def edit_comment(cursor, message, submission_time, edited_count, id):
                    (message, submission_time, edited_count, id))
 
 
+@connection.connection_handler
+def get_bonus_questions(cursor):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            SELECT *
+            FROM bonus_question"""
+        )
+    )
+    return cursor.fetchall()
+
+
 def get_unixtime():
     d = datetime.utcnow()
     unixtime = calendar.timegm(d.utctimetuple())

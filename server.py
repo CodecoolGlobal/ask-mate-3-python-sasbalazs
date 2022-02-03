@@ -470,6 +470,12 @@ def search():
                            all_answers=all_answers, all_question=all_question)
 
 
+@app.route("/bonus-questions", methods=['GET'])
+def filter_bonus_questions():
+    bonus_questions = data_manager.get_bonus_questions()
+    return render_template('bonus-questions.html', bonus_questions=bonus_questions)
+
+
 if __name__ == "__main__":
     app.run(
         host='0.0.0.0',
