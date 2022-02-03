@@ -100,6 +100,7 @@ def delete_comment(comment_id):
     data_manager.delete_comment(comment_id)
     return redirect(url_for("question", question_id=question_id['question_id']))
 
+
 @app.route("/answer-comment/<comment_id>/delete")
 def delete_answer_comment(comment_id):
     answer_id = data_manager.get_answer_id_to_delete_comment(comment_id)
