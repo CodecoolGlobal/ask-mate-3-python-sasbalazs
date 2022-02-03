@@ -1,11 +1,11 @@
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css");
-
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans&family=Lato:wght@300&family=Righteous&display=swap');
 
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: 'Arial';
+    font-family: 'DM Sans', sans-serif;
     scroll-behavior: smooth;
 }
 
@@ -111,7 +111,7 @@
     height: 50px;
     position : relative;
 	max-width: 900px;
-	margin : 20px auto;
+	margin : 5px auto;
     align-content: center;
 }
 
