@@ -81,6 +81,7 @@ def get_comments_by_user(cursor, user_id):
     return cursor.fetchall()
 
 
+@connection.connection_handler
 def count_of_user_questions(cursor, user_id):
     cursor.execute(
         psycopg2.sql.SQL(
@@ -111,6 +112,8 @@ def get_user_name_from_name(cursor, username):
     )
     return cursor.fetchone()
 
+
+@connection.connection_handler
 def update_question_column_of_user(cursor, user, sum_question):
     cursor.execute("UPDATE users SET questions = %s WHERE id = %s", (sum_question, user))
 
@@ -924,3 +927,24 @@ def update_reputation_down_by_answer(cursor, user_id):
             WHERE id = {}"""
         ).format(psycopg2.sql.Literal(user_id))
     )
+
+@connection.connection_handler
+def update_reputation_by_accepted_answer(cursor, user_id):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            UPDATE users
+            SET reputation = reputation + 15
+            WHERE id = {}"""
+        ).format(psycopg2.sql.Literal(user_id))
+    )
+
+@connection.connection_handler
+def ask_accept_status_of_answer(cursor, answer_id):
+    query = """
+            SELECT accepted
+            FROM answer
+            WHERE id = %(id)s"""
+    value = {'id': answer_id}
+    cursor.execute(query, value)
+    return cursor.fetchone()

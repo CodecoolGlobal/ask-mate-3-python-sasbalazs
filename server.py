@@ -304,20 +304,31 @@ def question(question_id):
     answers_to_render = data_manager.get_answers(question_id)
     tags_combined = data_manager.combine_tags_with_ids(question_id)
     comments_to_render = data_manager.get_comments(question_id)
-    user_id = None
     if 'username' in session:
-        dictrow_user_id = data_manager.get_user_id(session['username'])
-        user_id = dictrow_user_id['id']
+        username = session['username']
+        user_id = data_manager.get_user_id(username)
+        user_id = user_id['id']
         logged_in = True
+        if request.method == 'POST':
+            answer_id = request.form.get('answer_id')
+            data_manager.accept_answer(answer_id)
+            user_id_for_reputation = data_manager.get_userid_from_answer(answer_id)
+            user_id_for_reputation = user_id_for_reputation['user_id']
+            status_of_accepted = data_manager.ask_accept_status_of_answer(answer_id)
+
+            if status_of_accepted['accepted']:
+                data_manager.update_reputation_by_accepted_answer(user_id_for_reputation)
+            return redirect(url_for("question", question_id=question_id))
+
+        return render_template('question.html', question_to_render=question_to_render,
+                                   answers_to_render=answers_to_render, route=route, tags=tags_combined,
+                                   comments_to_render=comments_to_render, logged_in=logged_in, user_id=user_id)
     else:
         logged_in = False
-    if request.method == 'POST':
-        answer_id = request.form.get('answer_id')
-        data_manager.accept_answer(answer_id)
+
     return render_template('question.html', question_to_render=question_to_render,
                            answers_to_render=answers_to_render, route=route, tags=tags_combined,
-                           comments_to_render=comments_to_render, logged_in=logged_in,
-                           user_id=user_id)
+                           comments_to_render=comments_to_render, logged_in=logged_in)
 
 
 @app.route("/question/<question_id>/edit")
