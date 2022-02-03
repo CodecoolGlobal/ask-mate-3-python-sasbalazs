@@ -2,40 +2,44 @@
 {% block tab_title %}Search results{% endblock %}
 {% block page_header %}Search results{% endblock %}
 {% block content %}
-    {% for line in question_to_render %}
-        <h2>{% if line['id'] %}<div>{{ line['title'] | safe}}</div>{% endif %}</h2>
-        <p>{% if line['id'] %}<div>{{ line['message'] | safe }}</div>{% endif %}</p>
-            {% if line['image'] %}
-            <img src="{{ url_for('static', filename='Image/'~line['image']) }}" alt="Question_image" width="300" >
-            {% endif %}
+    <section class="container">
+        <div class="card">
+            {% for line in question_to_render %}
+                <h2>{% if line['id'] %}<div>{{ line['title'] | safe}}</div>{% endif %}</h2>
+                <p>{% if line['id'] %}<div>{{ line['message'] | safe }}</div>{% endif %}</p>
+                    {% if line['image'] %}
+                    <img src="{{ url_for('static', filename='Image/'~line['image']) }}" alt="Question_image" width="300" >
+                    {% endif %}
 
 
-        {% for answer in all_answers %}
-        <h2>{% if answer['question_id'] == line['id'] %}<div>{{ answer['message'] | safe}}</div></h2>
-        <p>Vote: {{ answer['vote_number'] }}</p>
-            {% if answer['image'] %}
-             <img src="{{ url_for('static', filename='Image/'~answer['image']) }}" alt="image" width="200">
-            {% endif %}
-        {% endif %}
-        {% endfor %}
-    {% endfor %}
-
-
-    {% for answer in answers_to_render %}
-        {% for question in all_question %}
-        <h2>{% if answer['question_id'] == question['id'] %}<div>{{ question['title'] | safe}}</div>{% endif %}</h2>
-        <p>{% if answer['question_id'] == question['id'] %}<div>{{ question['message'] | safe}}</div>{% endif %}</p>
-            {% if answer['question_id'] == question['id'] %}
-            <img src="{{ url_for('static', filename='Image/'~question['image']) }}" alt="Question_image" width="300" >
-            {% endif %}
+                {% for answer in all_answers %}
+                <h2>{% if answer['question_id'] == line['id'] %}<div>{{ answer['message'] | safe}}</div></h2>
+                <p>Vote: {{ answer['vote_number'] }}</p>
+                    {% if answer['image'] %}
+                     <img src="{{ url_for('static', filename='Image/'~answer['image']) }}" alt="image" width="200">
+                    {% endif %}
+                {% endif %}
+                {% endfor %}
             {% endfor %}
-        <h2>{% if answer['question_id'] %}<div>{{ answer['message'] | safe}}</div></h2>
-        <p>Vote: {{ answer['vote_number'] }}</p>
-            {% if answer['image'] %}
-             <img src="{{ url_for('static', filename='Image/'~answer['image']) }}" alt="image" width="200">
-            {% endif %}
-        {% endif %}
-    {% endfor %}
-    <br>
+
+
+            {% for answer in answers_to_render %}
+                {% for question in all_question %}
+                <h2>{% if answer['question_id'] == question['id'] %}<div>{{ question['title'] | safe}}</div>{% endif %}</h2>
+                <p>{% if answer['question_id'] == question['id'] %}<div>{{ question['message'] | safe}}</div>{% endif %}</p>
+                    {% if answer['question_id'] == question['id'] %}
+                    <img src="{{ url_for('static', filename='Image/'~question['image']) }}" alt="Question_image" width="300" >
+                    {% endif %}
+                    {% endfor %}
+                <h2>{% if answer['question_id'] %}<div>{{ answer['message'] | safe}}</div></h2>
+                <p>Vote: {{ answer['vote_number'] }}</p>
+                    {% if answer['image'] %}
+                     <img src="{{ url_for('static', filename='Image/'~answer['image']) }}" alt="image" width="200">
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            <br>
+        </div>
+    </section>
     {% include 'footer.html' %}
 {%endblock%}

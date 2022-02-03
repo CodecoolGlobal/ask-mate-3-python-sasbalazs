@@ -16,14 +16,16 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         valid_username = data_manager.check_username(username)
-        plain_text_password = request.form['password']
-        valid_password = data_manager.check_password(valid_username['username'])
-        is_matching = data_manager.verify_password(plain_text_password, valid_password['password'])
-        if is_matching:
-            session['username'] = username
-            return redirect(url_for('main_page'))
-        else:
-            login_status = "Wrong password or username given!"
+        if valid_username:
+            plain_text_password = request.form['password']
+            valid_password = data_manager.get_password(valid_username['username'])
+            is_matching = data_manager.verify_password(plain_text_password, valid_password['password'])
+            if is_matching:
+                session['username'] = request.form['username']
+                session['id'] = data_manager.get_user_name_from_name(username)['id']
+                return redirect(url_for('main_page'))
+            else:
+                login_status = "Wrong password or username given!"
     return render_template('login.html', login_status=login_status)
 
 
@@ -66,6 +68,12 @@ def registration_page():
         data_manager.register_user(email, hashed_password, submission_time)
         return redirect(url_for('main_page'))
     return render_template('registration.html')
+
+
+@app.route('/user/<user_id>')
+def user_page(user_id):
+    user = data_manager.get_user_data_from_id(user_id)
+    return render_template('user_page.html', user=user)
 
 
 @app.route("/answer/<answer_id>/commits")
@@ -192,7 +200,6 @@ def post_new_answer(question_id):
     return redirect("/")
 
 
-
 @app.route("/add-question", methods=['GET', 'POST'])
 def add_question():
     if "username" in session:
@@ -284,7 +291,10 @@ def question(question_id):
     answers_to_render = data_manager.get_answers(question_id)
     tags_combined = data_manager.combine_tags_with_ids(question_id)
     comments_to_render = data_manager.get_comments(question_id)
+    user_id = None
     if 'username' in session:
+        dictrow_user_id = data_manager.get_user_id(session['username'])
+        user_id = dictrow_user_id['id']
         logged_in = True
     else:
         logged_in = False
@@ -293,7 +303,8 @@ def question(question_id):
         data_manager.accept_answer(answer_id)
     return render_template('question.html', question_to_render=question_to_render,
                            answers_to_render=answers_to_render, route=route, tags=tags_combined,
-                           comments_to_render=comments_to_render, logged_in=logged_in)
+                           comments_to_render=comments_to_render, logged_in=logged_in,
+                           user_id=user_id)
 
 
 @app.route("/question/<question_id>/edit")
@@ -476,6 +487,48 @@ def search():
 
     return render_template('search.html', question_to_render=message_search, answers_to_render=answers,
                            all_answers=all_answers, all_question=all_question)
+
+
+@app.route("/bonus-questions", methods=['GET'])
+def filter_bonus_questions():
+    bonus_questions = data_manager.get_bonus_questions()
+    if request.method == 'GET':
+        filter_by = request.args.get('q')
+        if filter_by is not None:
+            if '!' not in filter_by:
+                bonus_questions = data_manager.bonus_q_search(filter_by)
+            if '!' in filter_by and ':' not in filter_by:
+                filter_by = filter_by[1:]
+                filtered_questions = data_manager.bonus_q_search(filter_by)
+                for line in filtered_questions:
+                    title = line['title']
+                    message = line['message']
+                bonus_questions = data_manager.not_bonus_q_search(title, message)
+            if ':' in filter_by:
+                sign = ''
+                if '!' in filter_by:
+                    filter_by = filter_by[1:]
+                    sign = '!'
+                filter_by = filter_by.split(':')
+                column = filter_by[0].lower()
+                filter_by = filter_by[1]
+                if column == 'description':
+                    column = 'message'
+                if column == 'title':
+                    column = 'title'
+                if column == 'vote count':
+                    column = 'vote_number'
+                if column == 'view number':
+                    column = 'view_number'
+                if sign != '!':
+                    bonus_questions = data_manager.bonus_extra_q_search(filter_by, column)
+                if sign == '!':
+                    bonus_questions = data_manager.bonus_extra_q_search(filter_by, column)
+                    for i in bonus_questions:
+                        filter_by = i[column]
+                    bonus_questions = data_manager.not_bonus_extra_q_search(filter_by, column)
+
+    return render_template('bonus-questions.html', bonus_questions=bonus_questions)
 
 
 if __name__ == "__main__":

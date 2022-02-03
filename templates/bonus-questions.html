@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block tab_title %}Bonus question list{% endblock %}
+{% block page_header %}Bonus question list{% endblock %}
+{% block content %}
+
+    <form action="/bonus-questions">
+        <label>Filter questions by keywords
+            <input type="text" name="q" id="q" placeholder="Filter by...">
+        </label>
+        <button type="submit">Filter</button>
+    </form>
+    <p>
+        <table>
+            <tr>
+                <td>Title</td>
+                <td>Description</td>
+                <td>Vote Count</td>
+                <td>View Number</td>
+            </tr>
+            {% for question in bonus_questions %}
+                    <tr>
+                        <td>{{ question['title'] }}</td>
+                        <td>{{ question['message'] }}</td>
+                        <td>{{ question['vote_number'] }}</td>
+                        <td>{{ question['view_number'] }}</td>
+                    </tr>
+                {% endfor %}
+        </table>
+    </p>
+
+    {% include 'footer.html' %}
+{%endblock%}

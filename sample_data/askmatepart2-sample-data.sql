@@ -76,6 +76,15 @@ CREATE TABLE users (
     reputation integer DEFAULT 0
 );
 
+DROP TABLE IF EXISTS public.bonus_question;
+CREATE TABLE bonus_question (
+    id serial NOT NULL,
+    view_number integer,
+    vote_number integer,
+    title text,
+    message text
+);
+
 
 ALTER TABLE ONLY answer
     ADD CONSTRAINT pk_answer_id PRIMARY KEY (id);
@@ -108,6 +117,17 @@ ALTER TABLE ONLY question_tag
     ADD CONSTRAINT fk_tag_id FOREIGN KEY (tag_id) REFERENCES tag(id)  ON DELETE CASCADE ;
 
 
+INSERT INTO bonus_question VALUES (0, 1, 3, 'What is the meaning of life ?', 'From ancient times the humans and ducks where asking this question...');
+INSERT INTO bonus_question VALUES (1, 5, 7, 'Why did the chicken cross the road ?', 'The questions which ponders every chicken''s mind...');
+INSERT INTO bonus_question VALUES (3, 5, 67, 'Who came first, the egg or the chicken ?', 'To this day the question remains un-answered');
+INSERT INTO bonus_question VALUES (4, 8, 12, 'How many programmers do you need to change a light bulb ?', 'That darn refrigerator light is out again');
+INSERT INTO bonus_question VALUES (5, 42, 3, 'How many screws does the Eiffel Tower have ?', 'Take from last night''s pub quiz');
+INSERT INTO bonus_question VALUES (6, 23, 47, 'What are the winning lottery numbers for tonight''s grand prize ?', 'The prize is 1e234 euros !');
+INSERT INTO bonus_question VALUES (7, 82, 33, 'If a man talks when he is alone, is he still wrong ?', 'Adapted from the question "if a tree falls and no one is there to hear, does it still make a sound ?"');
+INSERT INTO bonus_question VALUES (8, 72, 0, 'How many chickens would it take to be able to kill a lion?', 'In case a lion attacks you while you are walking your dog in the park');
+INSERT INTO bonus_question VALUES (9, 2, 8, 'If roses are red, why are violets blue?', 'Was asked today by my son and did not know what to answer');
+INSERT INTO bonus_question VALUES (10, 9, 23, 'What do you call a male lady bug?', 'I did not find anything on wikipedia');
+
 INSERT INTO users VALUES (0, 'jonh@doe.com', '$2b$12$oEu70hPGVeKwciKR03EIoe/Y/IK8fojMoACqGO0exGucSq.lIsbim', '2017-04-28 08:29:00');
 INSERT INTO users VALUES (4,'magyarorszag@gmail.com', '$2b$12$6IxC.ov9aIlSUa/80m/ljeFvwM6x67p3GSrK7lWlmeUiDnAJFi9SW', '2022-02-02 11:41:55');
 INSERT INTO users VALUES (5, 'fightklub@freemail.hu', '$2b$12$EWW4mD6P..4R.6HMfbryLeQhThH/cAs68g153v2sBp/lbvurcaxSW', '2022-02-02 11:46:36');
@@ -122,7 +142,10 @@ BUT in my theme i also using jquery via webpack so the loading order is now foll
 
 jquery
 booklet
-app.js (bundled file with webpack, including jquery)', 'images/image1.png',5);
+
+app.js (bundled file with webpack, including jquery)', 'images/image1.png', 0);
+
+
 INSERT INTO question VALUES (2, '2017-05-01 10:41:00', 1364, 57, 'Drawing canvas with an image picked with Cordova Camera Plugin', 'I''m getting an image from device and drawing a canvas with filters using Pixi JS. It works all well using computer to get an image. But when I''m on IOS, it throws errors such as cross origin issue, or that I''m trying to use an unknown format.
 ', 'canvas.png',0);
 INSERT INTO question VALUES (7, '2022-01-21 01:50:45', 0, 7, 'Is Jason Momoa really single?', 'Hey, girls, did you hear the news, that Jason Momoa will divorce? I can''t believe, they were a dream couple with his wife!!! Who is going to buy a plane_ticket to America? :D','momoa_look.jpg',5);

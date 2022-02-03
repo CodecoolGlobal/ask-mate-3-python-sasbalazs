@@ -7,6 +7,21 @@ import calendar
 
 
 @connection.connection_handler
+def get_user_data_from_id(cursor, user_id):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            SELECT id, username, registration_time
+            FROM users
+            WHERE id={}
+            """
+        ).format(
+            psycopg2.sql.Literal(user_id),
+        )
+    )
+    return cursor.fetchall()
+
+
 def count_of_user_questions(cursor, user_id):
     cursor.execute(
         psycopg2.sql.SQL(
@@ -23,6 +38,19 @@ def count_of_user_questions(cursor, user_id):
 
 
 @connection.connection_handler
+def get_user_name_from_name(cursor, username):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            SELECT id
+            FROM users
+            WHERE username={}
+            """
+        ).format(
+        psycopg2.sql.Literal(username),
+        )
+    )
+    return cursor.fetchone()
 def update_question_column_of_user(cursor, user, sum_question):
     cursor.execute("UPDATE users SET questions = %s WHERE id = %s", (sum_question, user))
 
@@ -153,7 +181,7 @@ def check_username(cursor, username):
 
 
 @connection.connection_handler
-def check_password(cursor, username):
+def get_password(cursor, username):
     cursor.execute(
         psycopg2.sql.SQL(
             """
@@ -639,6 +667,84 @@ def edit_answer(cursor, message, image, id):
 def edit_comment(cursor, message, submission_time, edited_count, id):
     cursor.execute("UPDATE comment SET message = %s, submission_time = %s, edited_count = %s WHERE id = %s",
                    (message, submission_time, edited_count, id))
+
+
+@connection.connection_handler
+def get_bonus_questions(cursor):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            SELECT *
+            FROM bonus_question"""
+        )
+    )
+    return cursor.fetchall()
+
+
+@connection.connection_handler
+def bonus_q_search(cursor, search_phrase):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            SELECT * 
+            FROM bonus_question
+            WHERE message LIKE {}
+            OR title LIKE {}"""
+        ).format(
+            psycopg2.sql.Literal('%' + search_phrase + '%'),
+            psycopg2.sql.Literal('%' + search_phrase + '%')
+        )
+    )
+    return cursor.fetchall()
+
+
+@connection.connection_handler
+def not_bonus_q_search(cursor, title, message):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            SELECT * 
+            FROM bonus_question
+            WHERE message != {}
+            OR title != {}"""
+        ).format(
+            psycopg2.sql.Literal(message),
+            psycopg2.sql.Literal(title)
+        )
+    )
+    return cursor.fetchall()
+
+
+@connection.connection_handler
+def bonus_extra_q_search(cursor, filter_by, column):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            SELECT * 
+            FROM bonus_question
+            WHERE {} LIKE {}"""
+        ).format(
+            psycopg2.sql.Identifier(column),
+            psycopg2.sql.Literal('%' + filter_by + '%')
+        )
+    )
+    return cursor.fetchall()
+
+
+@connection.connection_handler
+def not_bonus_extra_q_search(cursor, filter_by, column):
+    cursor.execute(
+        psycopg2.sql.SQL(
+            """
+            SELECT * 
+            FROM bonus_question
+            WHERE {} != {}"""
+        ).format(
+            psycopg2.sql.Identifier(column),
+            psycopg2.sql.Literal(filter_by)
+        )
+    )
+    return cursor.fetchall()
 
 
 def get_unixtime():
