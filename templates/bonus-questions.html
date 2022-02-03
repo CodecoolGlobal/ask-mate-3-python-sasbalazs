@@ -13,10 +13,26 @@
             <p>
                 <table>
                     <tr>
-                        <td>Title</td>
-                        <td>Description</td>
-                        <td>Vote Count</td>
-                        <td>View Number</td>
+                        <th>
+                            <form action="/bonus-questions" method="post">
+                                <button type="submit" name="sort" value="title">Title</button>
+                            </form>
+                        </th>
+                        <th>
+                            <form action="/bonus-questions" method="post">
+                                <button type="submit" name="sort" value="message">Description</button>
+                            </form>
+                        </th>
+                        <th>
+                            <form action="/bonus-questions" method="post">
+                                <button type="submit" name="sort" value="vote_number">Vote Count</button>
+                            </form>
+                        </th>
+                        <th>
+                            <form action="/bonus-questions" method="post">
+                                <button type="submit" name="sort" value="view_number">View Number</button>
+                            </form>
+                        </th>
                     </tr>
                     {% for question in bonus_questions %}
                             <tr>
