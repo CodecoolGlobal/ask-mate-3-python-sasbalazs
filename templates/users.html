@@ -2,28 +2,32 @@
     {% block tab_title %}Main page{% endblock %}
     {% block page_header %}Users{% endblock %}
     {% block content %}
-    {% if session.username %}
-        <table>
-            <tr>
-                <th>Username</th>
-                <th>Submission time</th>
-                <th>Number of questions</th>
-                <th>Number of answers</th>
-                <th>Number of comments</th>
-                <th>Reputation</th>
-            </tr>
-            {% for user in users %}
-                <tr>
-                    <td>{{ user.username }}</td>
-                    <td>{{ user.registration_time }}</td>
-                    <td>{{ user.questions }}</td>
-                    <td>{{ user.answers }}</td>
-                    <td>{{ user.comments }}</td>
-                    <td>{{ user.reputation }}</td>
-                </tr>
-            {% endfor %}
-        </table>
-    {% endif %}
+        <div class="container">
+            <div class="card">
+                {% if session.username %}
+                    <table>
+                        <tr>
+                            <th>Username</th>
+                            <th>Submission time</th>
+                            <th>Number of questions</th>
+                            <th>Number of answers</th>
+                            <th>Number of comments</th>
+                            <th>Reputation</th>
+                        </tr>
+                        {% for user in users %}
+                            <tr>
+                                <td>{{ user.username }}</td>
+                                <td>{{ user.registration_time }}</td>
+                                <td>{{ user.questions }}</td>
+                                <td>{{ user.answers }}</td>
+                                <td>{{ user.comments }}</td>
+                                <td>{{ user.reputation }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                {% endif %}
+            </div>
+        </div>
         <br><br>
     {% include 'footer.html' %}
 {%endblock%}
